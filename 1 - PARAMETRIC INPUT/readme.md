@@ -12,7 +12,7 @@ and the reference notebook in [`2 - ALGORITHM DESCRIPTION`](../2%20-%20ALGORITHM
 | [`1.1 - Car-Following`](1.1%20-%20Car-Following/readme.md) | Longitudinal (car-following) | IDM, Prospect Theory (PT) |
 | [`1.2 - Lane Changing`](1.2%20-%20Lane%20Changing/readme.md) | Lane-change decisions | MOBIL, Drift Diffusion Model (DDM) |
 | [`1.3 - Lateral Calibration`](1.3%20-%20Lateral%20Calibration/readme.md) | Lateral motion during lane changes | Curvilinear transform + polynomial shape models |
-| [`1.4.2 - VRU Parametric Analysis`](1.4.2%20-%20VRU%20Parametric%20Analysis/readme.md) | Pedestrians & bicycles (VRU) | Social Force (SF), Prospect Theory (PT), PPO RL fine-tuning |
+| [`1.4.2 - VRU Parametric Analysis`](1.4.2%20-%20VRU%20Parametric%20Analysis/readme.md) | Pedestrians & bicycles (VRU) | Social Force (SF), Prospect Theory (PT) |
 
 ## Conventions
 

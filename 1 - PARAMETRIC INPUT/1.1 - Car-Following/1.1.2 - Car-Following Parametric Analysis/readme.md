@@ -10,13 +10,14 @@ parameters, simulated trajectories, and validation plots.
 | File | Description |
 |------|-------------|
 | `IDM_CF_Calibration.py` | Reference **IDM** GA calibration over predefined vehicle groups across the TGSIM datasets. Outputs `IDM_Params_{group}.csv`, `IDM_Simulated_{group}.csv`, and per-event PNGs. |
-| `IDM_CF_Calibration.ipynb` | Notebook version of the IDM workflow with hard-coded vehicle-group lists and local dataset paths, plus extra cells for stop-and-go analysis, trajectory export, and batch plotting. |
+| `IDM_CF_Calibration.ipynb` | Notebook version of the IDM workflow (same `ngm_paths` inputs as the `.py` file), with extra cells for stop-and-go analysis, trajectory export, and batch plotting to `Results/idm_batch_plots/`. |
 | `PT_CF_Calibration.py` | **Prospect Theory** car-following calibration (Talebpour-style). GA fits `(Tmax, Alpha, Beta, Wc, Gamma1, Gamma2, Wm)` per event. Outputs `PT_Params_{group}.csv`, `PT_Simulated_{group}.csv`, plots. |
-| `PT_CF_Calibration.ipynb` | Notebook mirror of the PT calibration using the same groups and inputs. |
+| `PT_CF_Calibration.ipynb` | Notebook mirror of the PT calibration; batch plots go to `Results/pt_batch_plots/`. |
 
-> Expected input columns (TGSIM): `time`, `ID`, `run-index`, `xloc-kf`/`yloc-kf`, `speed-kf`,
-> `lane-kf`, `type-most-common`, and an `ACC`/`AV` flag. Dataset paths in the scripts are placeholders;
-> point them at your local TGSIM CSVs.
+> TGSIM inputs are loaded via `calibration_dataset_paths()` and `load_tgsim_csv()` from
+> [`ngm_paths.py`](../../../ngm_paths.py) (`0 - Datasets/`). Expected columns after normalization:
+> `time`, `ID`, `run-index`, `xloc-kf`/`yloc-kf`, `speed-kf`, `lane-kf`, `type-most-common`, and an
+> `ACC`/`AV` flag.
 
 ## Results (`Results/`)
 

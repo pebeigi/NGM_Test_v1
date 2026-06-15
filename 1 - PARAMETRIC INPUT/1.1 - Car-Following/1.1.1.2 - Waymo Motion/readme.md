@@ -17,8 +17,8 @@ IDM car-following calibration and scenario visualization using the **Waymo Open 
 > These raw Waymo CSVs are large (~800 MB total, individual files exceed GitHub's size limit) and are
 > **not versioned**. Download them from the
 > [NGM Datasets Kaggle page](https://www.kaggle.com/datasets/pedrambeigi/ngm-datasets) and place them in
-> [`0 - Datasets/`](../../../../0%20-%20Datasets/readme.md) at the repo root. `Waymo_IDM_CF_Calibration.py`
-> reads from that folder by default.
+> [`0 - Datasets/`](../../../0%20-%20Datasets/readme.md) at the repo root. Both scripts import
+> `DATASETS_DIR` from [`ngm_paths.py`](../../../ngm_paths.py).
 
 | File pattern (in `0 - Datasets/`) | Description |
 |-----------------------------------|-------------|
@@ -32,5 +32,5 @@ IDM car-following calibration and scenario visualization using the **Waymo Open 
 | `IDM_Params_Waymo_{S,L,A}.csv` | Per-event calibrated IDM parameters and fit metrics by follower/leader type. |
 | `IDM_Simulated_Waymo_{S,L,A}.csv` | Simulated follower trajectories matched to observed time windows. |
 | `IDM_Summary_Waymo.csv` | Mean IDM parameters and RMSE aggregated by follower–leader type. |
-| `plots/IDM_Params_Waymo_*_FID_*_LID_*_sc_*.png` | Per-event validation plots (observed vs simulated position/speed). |
-| `plots_scenarios/{scenario_id}_{map,nomap}.png` | Scenario trajectory plots from `Waymo_vis_scenarios.py`. |
+| `plots/IDM_Params_Waymo_*_FID_*_LID_*_sc_*.png` | Per-event validation plots (observed vs simulated position/speed). Generated locally; not versioned. |
+| `plots_scenarios/{scenario_id}_{map,nomap}.png` | Scenario trajectory plots from `Waymo_vis_scenarios.py`. Generated locally; not versioned. |

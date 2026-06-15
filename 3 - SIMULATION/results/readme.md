@@ -14,8 +14,7 @@ scripts, baseline configuration snapshots, and batch/grid outputs.
 
 | File | Description |
 |------|-------------|
-| `Results_Processing.ipynb` | Original post-processing for Case Studies 1–3: discovers run CSVs, plots logical-lane trajectories and EDIE-style flow–density curves, and computes CS3 TTC distributions. Writes `processed_outputs/analysis_summary.csv`. |
-| `Results_Processingv2.ipynb` | Current superset: adds a `CASE_STUDIES` selector, CS4 shockwave scenarios, refined freeway flow–density naming, 10 repeats per scenario, and a CS1 HDV baseline. |
+| `Results_Processing.ipynb` | Post-processing for Case Studies 1–4: discovers run CSVs under `simulation_results_dir()`, plots logical-lane trajectories and EDIE-style flow–density curves, and computes TTC distributions. Writes `processed_outputs/analysis_summary.csv`. Uses [`ngm_paths.py`](../../ngm_paths.py). |
 
 ## Baseline snapshots (`*.pkl`)
 

@@ -13,7 +13,7 @@ extracted files directly in this folder (`0 - Datasets/`).
 | Dataset bundle | Used by |
 |----------------|---------|
 | **TGSIM freeway trajectories** (I-395, I-90/94, I-294) | Car-following calibration, lane-changing preprocessing, lateral calibration |
-| **TGSIM Foggy Bottom VRU trajectories** | VRU Social Force / PT calibration, RL fine-tuning |
+| **TGSIM Foggy Bottom VRU trajectories** | VRU Social Force / PT calibration |
 | **Waymo Open Motion** (pre-processed leader–follower + map CSVs) | Waymo IDM calibration, scenario visualization |
 | **Lane-change / DDM organized data** (`organized_data.pkl`, lane-change CSVs) | Drift Diffusion Model lane-change calibration |
 
@@ -21,8 +21,8 @@ extracted files directly in this folder (`0 - Datasets/`).
 
 ## Expected layout
 
-After downloading, your folder should look like this (exact filenames may vary — update paths in
-each script/notebook to match):
+After downloading, your folder should look like this (filenames match those expected by
+[`ngm_paths.py`](../ngm_paths.py) — no per-script path edits needed):
 
 ```
 0 - Datasets/
@@ -47,8 +47,10 @@ each script/notebook to match):
 
 ## Notes
 
-- Scripts under `1 - PARAMETRIC INPUT` often use **hard-coded absolute paths**. Point them at files
-  under this folder (or copy/symlink data next to the script if that is easier).
-- `Waymo_IDM_CF_Calibration.py` reads the pre-processed Waymo CSVs from this folder by default.
-- If you add new datasets, document them in the table above so others know where to download and
-  where to put files.
+- Stage 1 scripts resolve paths through **`ngm_paths.py`** at the repo root (`dataset_path()`,
+  `calibration_dataset_paths()`, `load_tgsim_csv()`, etc.). Place downloaded files here using the
+  filenames in the layout above.
+- `Waymo_IDM_CF_Calibration.py` and `Waymo_vis_scenarios.py` read the pre-processed Waymo CSVs from
+  this folder via `DATASETS_DIR`.
+- Raw data files are **git-ignored** (see root `.gitignore`). Only this `readme.md` is versioned.
+- If you add new datasets, document them in the table above and add constants/helpers to `ngm_paths.py`.

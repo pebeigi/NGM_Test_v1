@@ -13,9 +13,10 @@ Calibration of a **Drift Diffusion Model (DDM)** for discrete **left / right lan
 
 ## Input
 
-`organized_data.pkl` — a nested dictionary of vehicle trajectories with lane labels, derived from
-TGSIM / I-94 lane-change preprocessing. Not stored in the repo; set its path in the script.
-(`organized_data_I94_AV.pkl` in this folder is a related AV-subset data file.)
+`organized_data.pkl` — a nested dictionary of vehicle trajectories with lane labels, from
+[`0 - Datasets/`](../../../0%20-%20Datasets/readme.md) (resolved by `dataset_path()` in
+[`ngm_paths.py`](../../../ngm_paths.py)). Download from the Kaggle bundle or build from TGSIM
+preprocessing. (`organized_data_I94_AV.pkl` in this folder, if present, is a related AV-subset file.)
 
 ## Running
 

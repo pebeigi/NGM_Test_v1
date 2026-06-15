@@ -4,6 +4,11 @@ Calibrated **car-following parameter pools** produced in
 [`1 - PARAMETRIC INPUT`](../../1%20-%20PARAMETRIC%20INPUT/readme.md) and sampled at runtime by
 [`Simulate_Freeway.ipynb`](../readme.md). Each file holds one calibrated fit per row (follower / run).
 
+Copy or symlink the `merged_IDM_*.csv` and `merged_PT_*.csv` files from
+[`3 - SIMULATION/models/model_params/`](../../3%20-%20SIMULATION/models/model_params/readme.md)
+(or regenerate them in Stage 1) before running the notebook. CSV files are **git-ignored** in this
+repository.
+
 ## Vehicle-class suffix
 
 | Suffix | Meaning | Notebook type index | Length |

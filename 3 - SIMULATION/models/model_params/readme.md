@@ -5,6 +5,9 @@ Calibrated parameter libraries sampled at runtime by the scenario runners in
 [`1 - PARAMETRIC INPUT`](../../../1%20-%20PARAMETRIC%20INPUT/readme.md). When "Default Parameters" is
 selected in the GUI, per-class Mean/Std defaults are derived from these files.
 
+> `merged_*.csv`, `MOBIL_results.csv`, and ATM parameter files are **git-ignored** (`*.csv` in the root
+> `.gitignore`). Copy them from Stage 1 calibration outputs or regenerate before running simulations.
+
 ## Car-following pools — `merged_IDM_*.csv`, `merged_PT_*.csv`
 
 One calibrated fit per row. The suffix encodes the vehicle class:

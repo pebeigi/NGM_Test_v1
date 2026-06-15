@@ -11,8 +11,9 @@ Calibration of the **MOBIL** lane-change model.
 ## Input
 
 `Dis-surrounding_info_with_event_id.csv` — lane-change events with surrounding-vehicle information,
-derived from the lane-change preprocessing in [`1.2.1 - Data Processing.py`](../readme.md). This file is
-external (not stored in the repo); set its path in the script.
+from [`0 - Datasets/`](../../../0%20-%20Datasets/readme.md) (resolved by `dataset_path()` in
+[`ngm_paths.py`](../../../ngm_paths.py)). Produced by lane-change preprocessing or supplied from
+the Kaggle bundle.
 
 ## Output
 

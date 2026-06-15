@@ -17,7 +17,6 @@ communication-based experiments. For full narrative detail, see the *Algorithm D
 | [`configs/`](configs/readme.md) | SUMO network, trip, and lane-connectivity files for the three freeway corridors. |
 | [`model_params/`](model_params/readme.md) | Calibrated IDM and Prospect Theory parameter pools for SV / AV / HV. |
 | [`result/`](result/readme.md) | Output location for post-simulation trajectory files. |
-| [`2.5.3 Data Analysis/`](2.5.3%20Data%20Analysis/readme.md) | Placeholder for the data-analysis subsection. |
 
 ## `Simulate_Freeway.ipynb`
 

@@ -50,7 +50,9 @@ The repository is organized into three numbered stages that mirror this workflow
 NGM_Test_v1/
 ├── README.md                     # This file
 ├── LICENSE
+├── ngm_paths.py                  # Shared dataset/output path helpers (repo root)
 ├── main.py                       # Placeholder entry point
+├── .gitignore                    # Ignores raw datasets and large generated CSVs/plots
 │
 ├── 0 - Datasets/                 # Raw datasets — download links & layout (see readme)
 │
@@ -58,7 +60,7 @@ NGM_Test_v1/
 │   ├── 1.1 - Car-Following/      #   IDM / PT calibration (Waymo + TGSIM)
 │   ├── 1.2 - Lane Changing/      #   MOBIL + DDM calibration
 │   ├── 1.3 - Lateral Calibration/#   Curvilinear transform + lateral LC shape
-│   └── 1.4.2 - VRU Parametric Analysis/  # Social Force / PT + RL fine-tuning
+│   └── 1.4.2 - VRU Parametric Analysis/  # Social Force / PT VRU calibration
 │
 ├── 2 - ALGORITHM DESCRIPTION/    # Reference SUMO freeway implementation  →  see readme.md
 │   ├── Simulate_Freeway.ipynb
@@ -87,8 +89,7 @@ Data preprocessing and behavioral-model calibration across four domains:
 - **[Lateral calibration](1%20-%20PARAMETRIC%20INPUT/1.3%20-%20Lateral%20Calibration/readme.md)** —
   curvilinear coordinate transforms and polynomial models of lateral lane-change shape.
 - **[VRU parametric analysis](1%20-%20PARAMETRIC%20INPUT/1.4.2%20-%20VRU%20Parametric%20Analysis/readme.md)** —
-  Social Force and Prospect Theory models for pedestrians/bicycles, with PPO reinforcement-learning
-  fine-tuning.
+  Social Force and Prospect Theory models for pedestrians/bicycles.
 
 ### [2 — Algorithm Description](2%20-%20ALGORITHM%20DESCRIPTION/readme.md)
 
@@ -118,10 +119,12 @@ subfolder guides:
 
 Download all raw datasets from the
 [NGM Datasets Kaggle page](https://www.kaggle.com/datasets/pedrambeigi/ngm-datasets) into
-[`0 - Datasets/`](0%20-%20Datasets/readme.md) before running calibration scripts. Most calibration
-code (Stage 1) and the reference notebook (Stage 2) may still use machine-specific paths for some
-inputs; update those at the top of each script if needed. The simulator (Stage 3) is the most
-turn-key component.
+[`0 - Datasets/`](0%20-%20Datasets/readme.md) before running calibration scripts.
+
+**Stage 1** scripts and notebooks resolve dataset paths through [`ngm_paths.py`](ngm_paths.py) at the
+repo root — no machine-specific paths need to be edited after the data is in place. **Stage 2** uses
+repo-relative paths under `2 - ALGORITHM DESCRIPTION/` (e.g. `model_params/`, `configs/`). **Stage 3**
+(the simulator) is the most turn-key component.
 
 To run the simulator:
 

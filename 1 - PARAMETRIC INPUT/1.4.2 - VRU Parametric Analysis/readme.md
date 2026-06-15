@@ -1,14 +1,15 @@
 # 1.4.2 — VRU Parametric Analysis
 
 Calibration of **vulnerable-road-user (VRU)** behavior — pedestrians and bicycles — using a mixed
-**Social Force (SF)** model and a **Prospect Theory (PT)** model, followed by optional reinforcement-
-learning fine-tuning.
+**Social Force (SF)** model and a **Prospect Theory (PT)** model.
 
 ## Shared input
 
-`Third_Generation_Simulation_Data__TGSIM__Foggy_Bottom_Trajectories.csv` — TGSIM Foggy Bottom
-trajectories (pedestrians `type_most_common = 0`, bicycles `= 1`), filtered to lanes `[1, 39, 40, 41]`,
-coordinates in meters. Not stored in the repo; set the path in each script.
+`Third_Generation_Simulation_Data__TGSIM__Foggy_Bottom_Trajectories.csv` in
+[`0 - Datasets/`](../../0%20-%20Datasets/readme.md) — TGSIM Foggy Bottom trajectories (pedestrians
+`type_most_common = 0`, bicycles `= 1`), filtered to lanes `[1, 39, 40, 41]`, coordinates in meters.
+Both calibration scripts resolve this path via `dataset_path(FOGGY_BOTTOM_CSV)` in
+[`ngm_paths.py`](../../ngm_paths.py).
 
 ## Code
 
@@ -19,7 +20,6 @@ coordinates in meters. Not stored in the repo; set the path in each script.
 | `corr_plot.py` | Post-calibration **parameter correlation** analysis (pairwise KDE/histogram grids and heatmaps) from the SF results. |
 | `err_plot.py` | **Error-metric distributions** (RMSE, MAE, R²) from the SF calibration, by VRU type. |
 | `plot_code.py` | Overlays **observed vs. predicted** x/y/vx/vy time series for the highest-presence agent of each VRU type. |
-| [`RL_finetuning/`](RL_finetuning/readme.md) | PPO reinforcement-learning fine-tuning of the GA-calibrated SF/PT parameters. |
 
 ## Data / results (in this folder)
 
@@ -29,3 +29,6 @@ coordinates in meters. Not stored in the repo; set the path in each script.
 | `SF_calibration_predictions.csv` | Timestep-level observed vs. predicted positions/velocities for calibrated SF agents. |
 | `PT_calibrated_params.csv` | Per-ID PT calibration (14 params + fit metrics). |
 | `pt_expanded_collision_calib.csv` | Primary PT GA output with collision weights and PT mode parameters. |
+
+> Large calibration CSVs and plot folders are git-ignored by the root `.gitignore` (`*.csv`). Re-run the
+> calibration scripts after cloning, or copy results from a prior run.

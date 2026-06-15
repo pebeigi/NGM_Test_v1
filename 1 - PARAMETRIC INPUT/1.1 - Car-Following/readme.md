@@ -21,3 +21,6 @@ both per event and aggregated by follower–leader type combination (S-S, S-L, �
 
 Per-event calibrated parameters, simulated trajectories, fit metrics (MSE/RMSE/R²/…), validation plots,
 and aggregate summary tables. The summary parameters become the IDM/PT pools used by the simulator.
+
+> TGSIM and Waymo inputs are read from [`0 - Datasets/`](../../0%20-%20Datasets/readme.md) via
+> [`ngm_paths.py`](../../ngm_paths.py).
