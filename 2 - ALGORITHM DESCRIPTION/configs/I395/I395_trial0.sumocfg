@@ -1,0 +1,18 @@
+<configuration>
+    <input>
+        <net-file value="I395.net.xml"/>
+        <route-files value="I395_trial0.trips.xml"/>
+    </input>
+
+    <time>
+        <begin value="0" />
+        <end value="3600"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <additional>
+        <lanechange.duration value="2.0"/>
+    </additional>
+
+
+</configuration>

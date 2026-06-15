@@ -1,0 +1,8 @@
+# Ignore all large CSVs everywhere
+*.csv
+
+# Ignore everything inside the Datasets folder
+0 - Datasets/*
+
+# EXCEPT for the readme.md inside the Datasets folder
+!0 - Datasets/readme.md

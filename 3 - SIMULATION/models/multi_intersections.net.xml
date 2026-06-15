@@ -1,0 +1,649 @@
+<?xml version='1.0' encoding='utf-8'?>
+<net xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" avoidOverlap="0" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="0.00,-300.00,2200.00,300.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!" />
+
+    <edge id=":Intersection1_0" function="internal">
+        <lane id=":Intersection1_0_0" index="0" speed="6.51" length="9.03" shape="292.00,13.60 291.65,11.15 290.60,9.40 288.85,8.35 286.40,8.00" />
+    </edge>
+    <edge id=":Intersection1_1" function="internal">
+        <lane id=":Intersection1_1_0" index="0" speed="13.89" length="27.20" shape="292.00,13.60 292.00,-13.60" />
+        <lane id=":Intersection1_1_1" index="1" speed="13.89" length="27.20" shape="295.20,13.60 295.20,-13.60" />
+        <lane id=":Intersection1_1_2" index="2" speed="13.89" length="27.20" shape="298.40,13.60 298.40,-13.60" />
+    </edge>
+    <edge id=":Intersection1_4" function="internal">
+        <lane id=":Intersection1_4_0" index="0" speed="10.36" length="5.01" shape="298.40,13.60 299.11,8.64" />
+    </edge>
+    <edge id=":Intersection1_5" function="internal">
+        <lane id=":Intersection1_5_0" index="0" speed="3.65" length="1.44" shape="298.40,13.60 299.20,12.40" />
+    </edge>
+    <edge id=":Intersection1_24" function="internal">
+        <lane id=":Intersection1_24_0" index="0" speed="10.36" length="19.50" shape="299.11,8.64 299.35,6.95 302.20,2.20 306.95,-0.65 313.60,-1.60" />
+    </edge>
+    <edge id=":Intersection1_25" function="internal">
+        <lane id=":Intersection1_25_0" index="0" speed="3.65" length="3.23" shape="299.20,12.40 300.00,12.00 300.80,12.40 301.60,13.60" />
+    </edge>
+    <edge id=":Intersection1_6" function="internal">
+        <lane id=":Intersection1_6_0" index="0" speed="6.51" length="9.03" shape="313.60,8.00 311.15,8.35 309.40,9.40 308.35,11.15 308.00,13.60" />
+    </edge>
+    <edge id=":Intersection1_7" function="internal">
+        <lane id=":Intersection1_7_0" index="0" speed="13.89" length="27.20" shape="313.60,8.00 286.40,8.00" />
+        <lane id=":Intersection1_7_1" index="1" speed="13.89" length="27.20" shape="313.60,4.80 286.40,4.80" />
+        <lane id=":Intersection1_7_2" index="2" speed="13.89" length="27.20" shape="313.60,1.60 286.40,1.60" />
+    </edge>
+    <edge id=":Intersection1_10" function="internal">
+        <lane id=":Intersection1_10_0" index="0" speed="10.36" length="5.01" shape="313.60,1.60 308.64,0.89" />
+    </edge>
+    <edge id=":Intersection1_11" function="internal">
+        <lane id=":Intersection1_11_0" index="0" speed="3.65" length="1.44" shape="313.60,1.60 312.40,0.80" />
+    </edge>
+    <edge id=":Intersection1_26" function="internal">
+        <lane id=":Intersection1_26_0" index="0" speed="10.36" length="19.50" shape="308.64,0.89 306.95,0.65 302.20,-2.20 299.35,-6.95 298.40,-13.60" />
+    </edge>
+    <edge id=":Intersection1_27" function="internal">
+        <lane id=":Intersection1_27_0" index="0" speed="3.65" length="3.23" shape="312.40,0.80 312.00,0.00 312.40,-0.80 313.60,-1.60" />
+    </edge>
+    <edge id=":Intersection1_12" function="internal">
+        <lane id=":Intersection1_12_0" index="0" speed="6.51" length="9.03" shape="308.00,-13.60 308.35,-11.15 309.40,-9.40 311.15,-8.35 313.60,-8.00" />
+    </edge>
+    <edge id=":Intersection1_13" function="internal">
+        <lane id=":Intersection1_13_0" index="0" speed="13.89" length="27.20" shape="308.00,-13.60 308.00,13.60" />
+        <lane id=":Intersection1_13_1" index="1" speed="13.89" length="27.20" shape="304.80,-13.60 304.80,13.60" />
+        <lane id=":Intersection1_13_2" index="2" speed="13.89" length="27.20" shape="301.60,-13.60 301.60,13.60" />
+    </edge>
+    <edge id=":Intersection1_16" function="internal">
+        <lane id=":Intersection1_16_0" index="0" speed="10.36" length="5.01" shape="301.60,-13.60 300.89,-8.64" />
+    </edge>
+    <edge id=":Intersection1_17" function="internal">
+        <lane id=":Intersection1_17_0" index="0" speed="3.65" length="1.44" shape="301.60,-13.60 300.80,-12.40" />
+    </edge>
+    <edge id=":Intersection1_28" function="internal">
+        <lane id=":Intersection1_28_0" index="0" speed="10.36" length="19.50" shape="300.89,-8.64 300.65,-6.95 297.80,-2.20 293.05,0.65 286.40,1.60" />
+    </edge>
+    <edge id=":Intersection1_29" function="internal">
+        <lane id=":Intersection1_29_0" index="0" speed="3.65" length="3.23" shape="300.80,-12.40 300.00,-12.00 299.20,-12.40 298.40,-13.60" />
+    </edge>
+    <edge id=":Intersection1_18" function="internal">
+        <lane id=":Intersection1_18_0" index="0" speed="6.51" length="9.03" shape="286.40,-8.00 288.85,-8.35 290.60,-9.40 291.65,-11.15 292.00,-13.60" />
+    </edge>
+    <edge id=":Intersection1_19" function="internal">
+        <lane id=":Intersection1_19_0" index="0" speed="13.89" length="27.20" shape="286.40,-8.00 313.60,-8.00" />
+        <lane id=":Intersection1_19_1" index="1" speed="13.89" length="27.20" shape="286.40,-4.80 313.60,-4.80" />
+        <lane id=":Intersection1_19_2" index="2" speed="13.89" length="27.20" shape="286.40,-1.60 313.60,-1.60" />
+    </edge>
+    <edge id=":Intersection1_22" function="internal">
+        <lane id=":Intersection1_22_0" index="0" speed="10.36" length="5.01" shape="286.40,-1.60 291.36,-0.89" />
+    </edge>
+    <edge id=":Intersection1_23" function="internal">
+        <lane id=":Intersection1_23_0" index="0" speed="3.65" length="1.44" shape="286.40,-1.60 287.60,-0.80" />
+    </edge>
+    <edge id=":Intersection1_30" function="internal">
+        <lane id=":Intersection1_30_0" index="0" speed="10.36" length="19.50" shape="291.36,-0.89 293.05,-0.65 297.80,2.20 300.65,6.95 301.60,13.60" />
+    </edge>
+    <edge id=":Intersection1_31" function="internal">
+        <lane id=":Intersection1_31_0" index="0" speed="3.65" length="3.23" shape="287.60,-0.80 288.00,0.00 287.60,0.80 286.40,1.60" />
+    </edge>
+    <edge id=":Intersection2_0" function="internal">
+        <lane id=":Intersection2_0_0" index="0" speed="6.51" length="9.03" shape="1092.00,13.60 1091.65,11.15 1090.60,9.40 1088.85,8.35 1086.40,8.00" />
+    </edge>
+    <edge id=":Intersection2_1" function="internal">
+        <lane id=":Intersection2_1_0" index="0" speed="13.89" length="27.20" shape="1092.00,13.60 1092.00,-13.60" />
+        <lane id=":Intersection2_1_1" index="1" speed="13.89" length="27.20" shape="1095.20,13.60 1095.20,-13.60" />
+        <lane id=":Intersection2_1_2" index="2" speed="13.89" length="27.20" shape="1098.40,13.60 1098.40,-13.60" />
+    </edge>
+    <edge id=":Intersection2_4" function="internal">
+        <lane id=":Intersection2_4_0" index="0" speed="10.36" length="5.01" shape="1098.40,13.60 1099.11,8.64" />
+    </edge>
+    <edge id=":Intersection2_5" function="internal">
+        <lane id=":Intersection2_5_0" index="0" speed="3.65" length="1.44" shape="1098.40,13.60 1099.20,12.40" />
+    </edge>
+    <edge id=":Intersection2_24" function="internal">
+        <lane id=":Intersection2_24_0" index="0" speed="10.36" length="19.50" shape="1099.11,8.64 1099.35,6.95 1102.20,2.20 1106.95,-0.65 1113.60,-1.60" />
+    </edge>
+    <edge id=":Intersection2_25" function="internal">
+        <lane id=":Intersection2_25_0" index="0" speed="3.65" length="3.23" shape="1099.20,12.40 1100.00,12.00 1100.80,12.40 1101.60,13.60" />
+    </edge>
+    <edge id=":Intersection2_6" function="internal">
+        <lane id=":Intersection2_6_0" index="0" speed="6.51" length="9.03" shape="1113.60,8.00 1111.15,8.35 1109.40,9.40 1108.35,11.15 1108.00,13.60" />
+    </edge>
+    <edge id=":Intersection2_7" function="internal">
+        <lane id=":Intersection2_7_0" index="0" speed="13.89" length="27.20" shape="1113.60,8.00 1086.40,8.00" />
+        <lane id=":Intersection2_7_1" index="1" speed="13.89" length="27.20" shape="1113.60,4.80 1086.40,4.80" />
+        <lane id=":Intersection2_7_2" index="2" speed="13.89" length="27.20" shape="1113.60,1.60 1086.40,1.60" />
+    </edge>
+    <edge id=":Intersection2_10" function="internal">
+        <lane id=":Intersection2_10_0" index="0" speed="10.36" length="5.01" shape="1113.60,1.60 1108.64,0.89" />
+    </edge>
+    <edge id=":Intersection2_11" function="internal">
+        <lane id=":Intersection2_11_0" index="0" speed="3.65" length="1.44" shape="1113.60,1.60 1112.40,0.80" />
+    </edge>
+    <edge id=":Intersection2_26" function="internal">
+        <lane id=":Intersection2_26_0" index="0" speed="10.36" length="19.50" shape="1108.64,0.89 1106.95,0.65 1102.20,-2.20 1099.35,-6.95 1098.40,-13.60" />
+    </edge>
+    <edge id=":Intersection2_27" function="internal">
+        <lane id=":Intersection2_27_0" index="0" speed="3.65" length="3.23" shape="1112.40,0.80 1112.00,0.00 1112.40,-0.80 1113.60,-1.60" />
+    </edge>
+    <edge id=":Intersection2_12" function="internal">
+        <lane id=":Intersection2_12_0" index="0" speed="6.51" length="9.03" shape="1108.00,-13.60 1108.35,-11.15 1109.40,-9.40 1111.15,-8.35 1113.60,-8.00" />
+    </edge>
+    <edge id=":Intersection2_13" function="internal">
+        <lane id=":Intersection2_13_0" index="0" speed="13.89" length="27.20" shape="1108.00,-13.60 1108.00,13.60" />
+        <lane id=":Intersection2_13_1" index="1" speed="13.89" length="27.20" shape="1104.80,-13.60 1104.80,13.60" />
+        <lane id=":Intersection2_13_2" index="2" speed="13.89" length="27.20" shape="1101.60,-13.60 1101.60,13.60" />
+    </edge>
+    <edge id=":Intersection2_16" function="internal">
+        <lane id=":Intersection2_16_0" index="0" speed="10.36" length="5.01" shape="1101.60,-13.60 1100.89,-8.64" />
+    </edge>
+    <edge id=":Intersection2_17" function="internal">
+        <lane id=":Intersection2_17_0" index="0" speed="3.65" length="1.44" shape="1101.60,-13.60 1100.80,-12.40" />
+    </edge>
+    <edge id=":Intersection2_28" function="internal">
+        <lane id=":Intersection2_28_0" index="0" speed="10.36" length="19.50" shape="1100.89,-8.64 1100.65,-6.95 1097.80,-2.20 1093.05,0.65 1086.40,1.60" />
+    </edge>
+    <edge id=":Intersection2_29" function="internal">
+        <lane id=":Intersection2_29_0" index="0" speed="3.65" length="3.23" shape="1100.80,-12.40 1100.00,-12.00 1099.20,-12.40 1098.40,-13.60" />
+    </edge>
+    <edge id=":Intersection2_18" function="internal">
+        <lane id=":Intersection2_18_0" index="0" speed="6.51" length="9.03" shape="1086.40,-8.00 1088.85,-8.35 1090.60,-9.40 1091.65,-11.15 1092.00,-13.60" />
+    </edge>
+    <edge id=":Intersection2_19" function="internal">
+        <lane id=":Intersection2_19_0" index="0" speed="13.89" length="27.20" shape="1086.40,-8.00 1113.60,-8.00" />
+        <lane id=":Intersection2_19_1" index="1" speed="13.89" length="27.20" shape="1086.40,-4.80 1113.60,-4.80" />
+        <lane id=":Intersection2_19_2" index="2" speed="13.89" length="27.20" shape="1086.40,-1.60 1113.60,-1.60" />
+    </edge>
+    <edge id=":Intersection2_22" function="internal">
+        <lane id=":Intersection2_22_0" index="0" speed="10.36" length="5.01" shape="1086.40,-1.60 1091.36,-0.89" />
+    </edge>
+    <edge id=":Intersection2_23" function="internal">
+        <lane id=":Intersection2_23_0" index="0" speed="3.65" length="1.44" shape="1086.40,-1.60 1087.60,-0.80" />
+    </edge>
+    <edge id=":Intersection2_30" function="internal">
+        <lane id=":Intersection2_30_0" index="0" speed="10.36" length="19.50" shape="1091.36,-0.89 1093.05,-0.65 1097.80,2.20 1100.65,6.95 1101.60,13.60" />
+    </edge>
+    <edge id=":Intersection2_31" function="internal">
+        <lane id=":Intersection2_31_0" index="0" speed="3.65" length="3.23" shape="1087.60,-0.80 1088.00,0.00 1087.60,0.80 1086.40,1.60" />
+    </edge>
+    <edge id=":Intersection3_0" function="internal">
+        <lane id=":Intersection3_0_0" index="0" speed="6.51" length="9.03" shape="1892.00,13.60 1891.65,11.15 1890.60,9.40 1888.85,8.35 1886.40,8.00" />
+    </edge>
+    <edge id=":Intersection3_1" function="internal">
+        <lane id=":Intersection3_1_0" index="0" speed="13.89" length="27.20" shape="1892.00,13.60 1892.00,-13.60" />
+        <lane id=":Intersection3_1_1" index="1" speed="13.89" length="27.20" shape="1895.20,13.60 1895.20,-13.60" />
+        <lane id=":Intersection3_1_2" index="2" speed="13.89" length="27.20" shape="1898.40,13.60 1898.40,-13.60" />
+    </edge>
+    <edge id=":Intersection3_4" function="internal">
+        <lane id=":Intersection3_4_0" index="0" speed="10.36" length="5.01" shape="1898.40,13.60 1899.11,8.64" />
+    </edge>
+    <edge id=":Intersection3_5" function="internal">
+        <lane id=":Intersection3_5_0" index="0" speed="3.65" length="1.44" shape="1898.40,13.60 1899.20,12.40" />
+    </edge>
+    <edge id=":Intersection3_24" function="internal">
+        <lane id=":Intersection3_24_0" index="0" speed="10.36" length="19.50" shape="1899.11,8.64 1899.35,6.95 1902.20,2.20 1906.95,-0.65 1913.60,-1.60" />
+    </edge>
+    <edge id=":Intersection3_25" function="internal">
+        <lane id=":Intersection3_25_0" index="0" speed="3.65" length="3.23" shape="1899.20,12.40 1900.00,12.00 1900.80,12.40 1901.60,13.60" />
+    </edge>
+    <edge id=":Intersection3_6" function="internal">
+        <lane id=":Intersection3_6_0" index="0" speed="6.51" length="9.03" shape="1913.60,8.00 1911.15,8.35 1909.40,9.40 1908.35,11.15 1908.00,13.60" />
+    </edge>
+    <edge id=":Intersection3_7" function="internal">
+        <lane id=":Intersection3_7_0" index="0" speed="13.89" length="27.20" shape="1913.60,8.00 1886.40,8.00" />
+        <lane id=":Intersection3_7_1" index="1" speed="13.89" length="27.20" shape="1913.60,4.80 1886.40,4.80" />
+        <lane id=":Intersection3_7_2" index="2" speed="13.89" length="27.20" shape="1913.60,1.60 1886.40,1.60" />
+    </edge>
+    <edge id=":Intersection3_10" function="internal">
+        <lane id=":Intersection3_10_0" index="0" speed="10.36" length="5.01" shape="1913.60,1.60 1908.64,0.89" />
+    </edge>
+    <edge id=":Intersection3_11" function="internal">
+        <lane id=":Intersection3_11_0" index="0" speed="3.65" length="1.44" shape="1913.60,1.60 1912.40,0.80" />
+    </edge>
+    <edge id=":Intersection3_26" function="internal">
+        <lane id=":Intersection3_26_0" index="0" speed="10.36" length="19.50" shape="1908.64,0.89 1906.95,0.65 1902.20,-2.20 1899.35,-6.95 1898.40,-13.60" />
+    </edge>
+    <edge id=":Intersection3_27" function="internal">
+        <lane id=":Intersection3_27_0" index="0" speed="3.65" length="3.23" shape="1912.40,0.80 1912.00,0.00 1912.40,-0.80 1913.60,-1.60" />
+    </edge>
+    <edge id=":Intersection3_12" function="internal">
+        <lane id=":Intersection3_12_0" index="0" speed="6.51" length="9.03" shape="1908.00,-13.60 1908.35,-11.15 1909.40,-9.40 1911.15,-8.35 1913.60,-8.00" />
+    </edge>
+    <edge id=":Intersection3_13" function="internal">
+        <lane id=":Intersection3_13_0" index="0" speed="13.89" length="27.20" shape="1908.00,-13.60 1908.00,13.60" />
+        <lane id=":Intersection3_13_1" index="1" speed="13.89" length="27.20" shape="1904.80,-13.60 1904.80,13.60" />
+        <lane id=":Intersection3_13_2" index="2" speed="13.89" length="27.20" shape="1901.60,-13.60 1901.60,13.60" />
+    </edge>
+    <edge id=":Intersection3_16" function="internal">
+        <lane id=":Intersection3_16_0" index="0" speed="10.36" length="5.01" shape="1901.60,-13.60 1900.89,-8.64" />
+    </edge>
+    <edge id=":Intersection3_17" function="internal">
+        <lane id=":Intersection3_17_0" index="0" speed="3.65" length="1.44" shape="1901.60,-13.60 1900.80,-12.40" />
+    </edge>
+    <edge id=":Intersection3_28" function="internal">
+        <lane id=":Intersection3_28_0" index="0" speed="10.36" length="19.50" shape="1900.89,-8.64 1900.65,-6.95 1897.80,-2.20 1893.05,0.65 1886.40,1.60" />
+    </edge>
+    <edge id=":Intersection3_29" function="internal">
+        <lane id=":Intersection3_29_0" index="0" speed="3.65" length="3.23" shape="1900.80,-12.40 1900.00,-12.00 1899.20,-12.40 1898.40,-13.60" />
+    </edge>
+    <edge id=":Intersection3_18" function="internal">
+        <lane id=":Intersection3_18_0" index="0" speed="6.51" length="9.03" shape="1886.40,-8.00 1888.85,-8.35 1890.60,-9.40 1891.65,-11.15 1892.00,-13.60" />
+    </edge>
+    <edge id=":Intersection3_19" function="internal">
+        <lane id=":Intersection3_19_0" index="0" speed="13.89" length="27.20" shape="1886.40,-8.00 1913.60,-8.00" />
+        <lane id=":Intersection3_19_1" index="1" speed="13.89" length="27.20" shape="1886.40,-4.80 1913.60,-4.80" />
+        <lane id=":Intersection3_19_2" index="2" speed="13.89" length="27.20" shape="1886.40,-1.60 1913.60,-1.60" />
+    </edge>
+    <edge id=":Intersection3_22" function="internal">
+        <lane id=":Intersection3_22_0" index="0" speed="10.36" length="5.01" shape="1886.40,-1.60 1891.36,-0.89" />
+    </edge>
+    <edge id=":Intersection3_23" function="internal">
+        <lane id=":Intersection3_23_0" index="0" speed="3.65" length="1.44" shape="1886.40,-1.60 1887.60,-0.80" />
+    </edge>
+    <edge id=":Intersection3_30" function="internal">
+        <lane id=":Intersection3_30_0" index="0" speed="10.36" length="19.50" shape="1891.36,-0.89 1893.05,-0.65 1897.80,2.20 1900.65,6.95 1901.60,13.60" />
+    </edge>
+    <edge id=":Intersection3_31" function="internal">
+        <lane id=":Intersection3_31_0" index="0" speed="3.65" length="3.23" shape="1887.60,-0.80 1888.00,0.00 1887.60,0.80 1886.40,1.60" />
+    </edge>
+
+    <edge id="EB01" from="West_Most" to="Intersection1" priority="-1">
+        <lane id="EB01_0" index="0" speed="13.89" length="286.40" shape="0.00,-8.00 286.40,-8.00" />
+        <lane id="EB01_1" index="1" speed="13.89" length="286.40" shape="0.00,-4.80 286.40,-4.80" />
+        <lane id="EB01_2" index="2" speed="13.89" length="286.40" shape="0.00,-1.60 286.40,-1.60" />
+    </edge>
+    <edge id="EB12" from="Intersection1" to="Intersection2" priority="-1">
+        <lane id="EB12_0" index="0" speed="13.89" length="772.80" shape="313.60,-8.00 1086.40,-8.00" />
+        <lane id="EB12_1" index="1" speed="13.89" length="772.80" shape="313.60,-4.80 1086.40,-4.80" />
+        <lane id="EB12_2" index="2" speed="13.89" length="772.80" shape="313.60,-1.60 1086.40,-1.60" />
+    </edge>
+    <edge id="EB23" from="Intersection2" to="Intersection3" priority="-1">
+        <lane id="EB23_0" index="0" speed="13.89" length="772.80" shape="1113.60,-8.00 1886.40,-8.00" />
+        <lane id="EB23_1" index="1" speed="13.89" length="772.80" shape="1113.60,-4.80 1886.40,-4.80" />
+        <lane id="EB23_2" index="2" speed="13.89" length="772.80" shape="1113.60,-1.60 1886.40,-1.60" />
+    </edge>
+    <edge id="EB34" from="Intersection3" to="East_Most" priority="-1">
+        <lane id="EB34_0" index="0" speed="13.89" length="286.40" shape="1913.60,-8.00 2200.00,-8.00" />
+        <lane id="EB34_1" index="1" speed="13.89" length="286.40" shape="1913.60,-4.80 2200.00,-4.80" />
+        <lane id="EB34_2" index="2" speed="13.89" length="286.40" shape="1913.60,-1.60 2200.00,-1.60" />
+    </edge>
+    <edge id="NB1_North" from="Intersection1" to="North_Most1" priority="-1">
+        <lane id="NB1_North_0" index="0" speed="13.89" length="286.40" shape="308.00,13.60 308.00,300.00" />
+        <lane id="NB1_North_1" index="1" speed="13.89" length="286.40" shape="304.80,13.60 304.80,300.00" />
+        <lane id="NB1_North_2" index="2" speed="13.89" length="286.40" shape="301.60,13.60 301.60,300.00" />
+    </edge>
+    <edge id="NB1_South" from="South_Most1" to="Intersection1" priority="-1">
+        <lane id="NB1_South_0" index="0" speed="13.89" length="286.40" shape="308.00,-300.00 308.00,-13.60" />
+        <lane id="NB1_South_1" index="1" speed="13.89" length="286.40" shape="304.80,-300.00 304.80,-13.60" />
+        <lane id="NB1_South_2" index="2" speed="13.89" length="286.40" shape="301.60,-300.00 301.60,-13.60" />
+    </edge>
+    <edge id="NB2_North" from="Intersection2" to="North_Most2" priority="-1">
+        <lane id="NB2_North_0" index="0" speed="13.89" length="286.40" shape="1108.00,13.60 1108.00,300.00" />
+        <lane id="NB2_North_1" index="1" speed="13.89" length="286.40" shape="1104.80,13.60 1104.80,300.00" />
+        <lane id="NB2_North_2" index="2" speed="13.89" length="286.40" shape="1101.60,13.60 1101.60,300.00" />
+    </edge>
+    <edge id="NB2_South" from="South_Most2" to="Intersection2" priority="-1">
+        <lane id="NB2_South_0" index="0" speed="13.89" length="286.40" shape="1108.00,-300.00 1108.00,-13.60" />
+        <lane id="NB2_South_1" index="1" speed="13.89" length="286.40" shape="1104.80,-300.00 1104.80,-13.60" />
+        <lane id="NB2_South_2" index="2" speed="13.89" length="286.40" shape="1101.60,-300.00 1101.60,-13.60" />
+    </edge>
+    <edge id="NB3_North" from="Intersection3" to="North_Most3" priority="-1">
+        <lane id="NB3_North_0" index="0" speed="13.89" length="286.40" shape="1908.00,13.60 1908.00,300.00" />
+        <lane id="NB3_North_1" index="1" speed="13.89" length="286.40" shape="1904.80,13.60 1904.80,300.00" />
+        <lane id="NB3_North_2" index="2" speed="13.89" length="286.40" shape="1901.60,13.60 1901.60,300.00" />
+    </edge>
+    <edge id="NB3_South" from="South_Most3" to="Intersection3" priority="-1">
+        <lane id="NB3_South_0" index="0" speed="13.89" length="286.40" shape="1908.00,-300.00 1908.00,-13.60" />
+        <lane id="NB3_South_1" index="1" speed="13.89" length="286.40" shape="1904.80,-300.00 1904.80,-13.60" />
+        <lane id="NB3_South_2" index="2" speed="13.89" length="286.40" shape="1901.60,-300.00 1901.60,-13.60" />
+    </edge>
+    <edge id="SB1_North" from="North_Most1" to="Intersection1" priority="-1">
+        <lane id="SB1_North_0" index="0" speed="13.89" length="286.40" shape="292.00,300.00 292.00,13.60" />
+        <lane id="SB1_North_1" index="1" speed="13.89" length="286.40" shape="295.20,300.00 295.20,13.60" />
+        <lane id="SB1_North_2" index="2" speed="13.89" length="286.40" shape="298.40,300.00 298.40,13.60" />
+    </edge>
+    <edge id="SB1_South" from="Intersection1" to="South_Most1" priority="-1">
+        <lane id="SB1_South_0" index="0" speed="13.89" length="286.40" shape="292.00,-13.60 292.00,-300.00" />
+        <lane id="SB1_South_1" index="1" speed="13.89" length="286.40" shape="295.20,-13.60 295.20,-300.00" />
+        <lane id="SB1_South_2" index="2" speed="13.89" length="286.40" shape="298.40,-13.60 298.40,-300.00" />
+    </edge>
+    <edge id="SB2_North" from="North_Most2" to="Intersection2" priority="-1">
+        <lane id="SB2_North_0" index="0" speed="13.89" length="286.40" shape="1092.00,300.00 1092.00,13.60" />
+        <lane id="SB2_North_1" index="1" speed="13.89" length="286.40" shape="1095.20,300.00 1095.20,13.60" />
+        <lane id="SB2_North_2" index="2" speed="13.89" length="286.40" shape="1098.40,300.00 1098.40,13.60" />
+    </edge>
+    <edge id="SB2_South" from="Intersection2" to="South_Most2" priority="-1">
+        <lane id="SB2_South_0" index="0" speed="13.89" length="286.40" shape="1092.00,-13.60 1092.00,-300.00" />
+        <lane id="SB2_South_1" index="1" speed="13.89" length="286.40" shape="1095.20,-13.60 1095.20,-300.00" />
+        <lane id="SB2_South_2" index="2" speed="13.89" length="286.40" shape="1098.40,-13.60 1098.40,-300.00" />
+    </edge>
+    <edge id="SB3_North" from="North_Most3" to="Intersection3" priority="-1">
+        <lane id="SB3_North_0" index="0" speed="13.89" length="286.40" shape="1892.00,300.00 1892.00,13.60" />
+        <lane id="SB3_North_1" index="1" speed="13.89" length="286.40" shape="1895.20,300.00 1895.20,13.60" />
+        <lane id="SB3_North_2" index="2" speed="13.89" length="286.40" shape="1898.40,300.00 1898.40,13.60" />
+    </edge>
+    <edge id="SB3_South" from="Intersection3" to="South_Most3" priority="-1">
+        <lane id="SB3_South_0" index="0" speed="13.89" length="286.40" shape="1892.00,-13.60 1892.00,-300.00" />
+        <lane id="SB3_South_1" index="1" speed="13.89" length="286.40" shape="1895.20,-13.60 1895.20,-300.00" />
+        <lane id="SB3_South_2" index="2" speed="13.89" length="286.40" shape="1898.40,-13.60 1898.40,-300.00" />
+    </edge>
+    <edge id="WB01" from="Intersection1" to="West_Most" priority="-1">
+        <lane id="WB01_0" index="0" speed="13.89" length="286.40" shape="286.40,8.00 0.00,8.00" />
+        <lane id="WB01_1" index="1" speed="13.89" length="286.40" shape="286.40,4.80 0.00,4.80" />
+        <lane id="WB01_2" index="2" speed="13.89" length="286.40" shape="286.40,1.60 0.00,1.60" />
+    </edge>
+    <edge id="WB12" from="Intersection2" to="Intersection1" priority="-1">
+        <lane id="WB12_0" index="0" speed="13.89" length="772.80" shape="1086.40,8.00 313.60,8.00" />
+        <lane id="WB12_1" index="1" speed="13.89" length="772.80" shape="1086.40,4.80 313.60,4.80" />
+        <lane id="WB12_2" index="2" speed="13.89" length="772.80" shape="1086.40,1.60 313.60,1.60" />
+    </edge>
+    <edge id="WB23" from="Intersection3" to="Intersection2" priority="-1">
+        <lane id="WB23_0" index="0" speed="13.89" length="772.80" shape="1886.40,8.00 1113.60,8.00" />
+        <lane id="WB23_1" index="1" speed="13.89" length="772.80" shape="1886.40,4.80 1113.60,4.80" />
+        <lane id="WB23_2" index="2" speed="13.89" length="772.80" shape="1886.40,1.60 1113.60,1.60" />
+    </edge>
+    <edge id="WB34" from="East_Most" to="Intersection3" priority="-1">
+        <lane id="WB34_0" index="0" speed="13.89" length="286.40" shape="2200.00,8.00 1913.60,8.00" />
+        <lane id="WB34_1" index="1" speed="13.89" length="286.40" shape="2200.00,4.80 1913.60,4.80" />
+        <lane id="WB34_2" index="2" speed="13.89" length="286.40" shape="2200.00,1.60 1913.60,1.60" />
+    </edge>
+
+    <tlLogic id="Intersection1" type="static" programID="0" offset="0">
+        <phase duration="8" state="GGGGggrrrrrrGGGGggrrrrrr" />
+        <phase duration="3" state="yyyyyyrrrrrryyyyyyrrrrrr" />
+        <phase duration="14" state="rrrrrrGGGGggrrrrrrGGGGgg" />
+        <phase duration="3" state="rrrrrryyyyyyrrrrrryyyyyy" />
+    </tlLogic>
+    <tlLogic id="Intersection3" type="static" programID="0" offset="0">
+        <phase duration="8" state="GGGGggrrrrrrGGGGggrrrrrr" />
+        <phase duration="3" state="yyyyyyrrrrrryyyyyyrrrrrr" />
+        <phase duration="14" state="rrrrrrGGGGggrrrrrrGGGGgg" />
+        <phase duration="3" state="rrrrrryyyyyyrrrrrryyyyyy" />
+    </tlLogic>
+    <tlLogic id="J3" type="static" programID="0" offset="0">
+        <phase duration="9" state="GGGGggrrrrrrGGGGggrrrrrr" />
+        <phase duration="3" state="yyyyyyrrrrrryyyyyyrrrrrr" />
+        <phase duration="13" state="rrrrrrGGGGggrrrrrrGGGGgg" />
+        <phase duration="3" state="rrrrrryyyyyyrrrrrryyyyyy" />
+    </tlLogic>
+
+    <junction id="East_Most" type="dead_end" x="2200.00" y="0.00" incLanes="EB34_0 EB34_1 EB34_2" intLanes="" shape="2200.00,0.00 2200.00,-9.60 2200.00,0.00" />
+    <junction id="Intersection1" type="traffic_light" x="300.00" y="0.00" incLanes="SB1_North_0 SB1_North_1 SB1_North_2 WB12_0 WB12_1 WB12_2 NB1_South_0 NB1_South_1 NB1_South_2 EB01_0 EB01_1 EB01_2" intLanes=":Intersection1_0_0 :Intersection1_1_0 :Intersection1_1_1 :Intersection1_1_2 :Intersection1_24_0 :Intersection1_25_0 :Intersection1_6_0 :Intersection1_7_0 :Intersection1_7_1 :Intersection1_7_2 :Intersection1_26_0 :Intersection1_27_0 :Intersection1_12_0 :Intersection1_13_0 :Intersection1_13_1 :Intersection1_13_2 :Intersection1_28_0 :Intersection1_29_0 :Intersection1_18_0 :Intersection1_19_0 :Intersection1_19_1 :Intersection1_19_2 :Intersection1_30_0 :Intersection1_31_0" shape="290.40,13.60 309.60,13.60 310.04,11.38 310.60,10.60 311.38,10.04 312.38,9.71 313.60,9.60 313.60,-9.60 311.38,-10.04 310.60,-10.60 310.04,-11.38 309.71,-12.38 309.60,-13.60 290.40,-13.60 289.96,-11.38 289.40,-10.60 288.62,-10.04 287.62,-9.71 286.40,-9.60 286.40,9.60 288.62,10.04 289.40,10.60 289.96,11.38 290.29,12.38">
+        <request index="0" response="000000000000000000000000" foes="000000000000001110000000" cont="0" />
+        <request index="1" response="010000000000000000000000" foes="011111110000011110000000" cont="0" />
+        <request index="2" response="010000000000000000000000" foes="011111110000011110000000" cont="0" />
+        <request index="3" response="010000000000010000000000" foes="011111110000011110000000" cont="0" />
+        <request index="4" response="010000001110010000000000" foes="011110001110111110000000" cont="1" />
+        <request index="5" response="010000001110000000000000" foes="010000001110000000000000" cont="1" />
+        <request index="6" response="000000001110000000000000" foes="000000001110000000000000" cont="0" />
+        <request index="7" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="8" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="9" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="10" response="001110011110000000011110" foes="001110111110000000011110" cont="1" />
+        <request index="11" response="001110000000000000010000" foes="001110000000000000010000" cont="1" />
+        <request index="12" response="000000000000000000000000" foes="001110000000000000000000" cont="0" />
+        <request index="13" response="000000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="14" response="000000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="15" response="010000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="16" response="010000000000010000001110" foes="111110000000011110001110" cont="1" />
+        <request index="17" response="000000000000010000001110" foes="000000000000010000001110" cont="1" />
+        <request index="18" response="000000000000000000001110" foes="000000000000000000001110" cont="0" />
+        <request index="19" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="20" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="21" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="22" response="000000011110001110011110" foes="000000011110001110111110" cont="1" />
+        <request index="23" response="000000010000001110000000" foes="000000010000001110000000" cont="1" />
+    </junction>
+    <junction id="Intersection2" type="traffic_light" x="1100.00" y="0.00" incLanes="SB2_North_0 SB2_North_1 SB2_North_2 WB23_0 WB23_1 WB23_2 NB2_South_0 NB2_South_1 NB2_South_2 EB12_0 EB12_1 EB12_2" intLanes=":Intersection2_0_0 :Intersection2_1_0 :Intersection2_1_1 :Intersection2_1_2 :Intersection2_24_0 :Intersection2_25_0 :Intersection2_6_0 :Intersection2_7_0 :Intersection2_7_1 :Intersection2_7_2 :Intersection2_26_0 :Intersection2_27_0 :Intersection2_12_0 :Intersection2_13_0 :Intersection2_13_1 :Intersection2_13_2 :Intersection2_28_0 :Intersection2_29_0 :Intersection2_18_0 :Intersection2_19_0 :Intersection2_19_1 :Intersection2_19_2 :Intersection2_30_0 :Intersection2_31_0" shape="1090.40,13.60 1109.60,13.60 1110.04,11.38 1110.60,10.60 1111.38,10.04 1112.38,9.71 1113.60,9.60 1113.60,-9.60 1111.38,-10.04 1110.60,-10.60 1110.04,-11.38 1109.71,-12.38 1109.60,-13.60 1090.40,-13.60 1089.96,-11.38 1089.40,-10.60 1088.62,-10.04 1087.62,-9.71 1086.40,-9.60 1086.40,9.60 1088.62,10.04 1089.40,10.60 1089.96,11.38 1090.29,12.38">
+        <request index="0" response="000000000000000000000000" foes="000000000000001110000000" cont="0" />
+        <request index="1" response="010000000000000000000000" foes="011111110000011110000000" cont="0" />
+        <request index="2" response="010000000000000000000000" foes="011111110000011110000000" cont="0" />
+        <request index="3" response="010000000000010000000000" foes="011111110000011110000000" cont="0" />
+        <request index="4" response="010000001110010000000000" foes="011110001110111110000000" cont="1" />
+        <request index="5" response="010000001110000000000000" foes="010000001110000000000000" cont="1" />
+        <request index="6" response="000000001110000000000000" foes="000000001110000000000000" cont="0" />
+        <request index="7" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="8" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="9" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="10" response="001110011110000000011110" foes="001110111110000000011110" cont="1" />
+        <request index="11" response="001110000000000000010000" foes="001110000000000000010000" cont="1" />
+        <request index="12" response="000000000000000000000000" foes="001110000000000000000000" cont="0" />
+        <request index="13" response="000000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="14" response="000000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="15" response="010000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="16" response="010000000000010000001110" foes="111110000000011110001110" cont="1" />
+        <request index="17" response="000000000000010000001110" foes="000000000000010000001110" cont="1" />
+        <request index="18" response="000000000000000000001110" foes="000000000000000000001110" cont="0" />
+        <request index="19" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="20" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="21" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="22" response="000000011110001110011110" foes="000000011110001110111110" cont="1" />
+        <request index="23" response="000000010000001110000000" foes="000000010000001110000000" cont="1" />
+    </junction>
+    <junction id="Intersection3" type="traffic_light" x="1900.00" y="0.00" incLanes="SB3_North_0 SB3_North_1 SB3_North_2 WB34_0 WB34_1 WB34_2 NB3_South_0 NB3_South_1 NB3_South_2 EB23_0 EB23_1 EB23_2" intLanes=":Intersection3_0_0 :Intersection3_1_0 :Intersection3_1_1 :Intersection3_1_2 :Intersection3_24_0 :Intersection3_25_0 :Intersection3_6_0 :Intersection3_7_0 :Intersection3_7_1 :Intersection3_7_2 :Intersection3_26_0 :Intersection3_27_0 :Intersection3_12_0 :Intersection3_13_0 :Intersection3_13_1 :Intersection3_13_2 :Intersection3_28_0 :Intersection3_29_0 :Intersection3_18_0 :Intersection3_19_0 :Intersection3_19_1 :Intersection3_19_2 :Intersection3_30_0 :Intersection3_31_0" shape="1890.40,13.60 1909.60,13.60 1910.04,11.38 1910.60,10.60 1911.38,10.04 1912.38,9.71 1913.60,9.60 1913.60,-9.60 1911.38,-10.04 1910.60,-10.60 1910.04,-11.38 1909.71,-12.38 1909.60,-13.60 1890.40,-13.60 1889.96,-11.38 1889.40,-10.60 1888.62,-10.04 1887.62,-9.71 1886.40,-9.60 1886.40,9.60 1888.62,10.04 1889.40,10.60 1889.96,11.38 1890.29,12.38">
+        <request index="0" response="000000000000000000000000" foes="000000000000001110000000" cont="0" />
+        <request index="1" response="010000000000000000000000" foes="011111110000011110000000" cont="0" />
+        <request index="2" response="010000000000000000000000" foes="011111110000011110000000" cont="0" />
+        <request index="3" response="010000000000010000000000" foes="011111110000011110000000" cont="0" />
+        <request index="4" response="010000001110010000000000" foes="011110001110111110000000" cont="1" />
+        <request index="5" response="010000001110000000000000" foes="010000001110000000000000" cont="1" />
+        <request index="6" response="000000001110000000000000" foes="000000001110000000000000" cont="0" />
+        <request index="7" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="8" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="9" response="000000011110000000011111" foes="110000011110000000011111" cont="0" />
+        <request index="10" response="001110011110000000011110" foes="001110111110000000011110" cont="1" />
+        <request index="11" response="001110000000000000010000" foes="001110000000000000010000" cont="1" />
+        <request index="12" response="000000000000000000000000" foes="001110000000000000000000" cont="0" />
+        <request index="13" response="000000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="14" response="000000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="15" response="010000000000010000000000" foes="011110000000011111110000" cont="0" />
+        <request index="16" response="010000000000010000001110" foes="111110000000011110001110" cont="1" />
+        <request index="17" response="000000000000010000001110" foes="000000000000010000001110" cont="1" />
+        <request index="18" response="000000000000000000001110" foes="000000000000000000001110" cont="0" />
+        <request index="19" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="20" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="21" response="000000011111000000011110" foes="000000011111110000011110" cont="0" />
+        <request index="22" response="000000011110001110011110" foes="000000011110001110111110" cont="1" />
+        <request index="23" response="000000010000001110000000" foes="000000010000001110000000" cont="1" />
+    </junction>
+    <junction id="North_Most1" type="dead_end" x="300.00" y="300.00" incLanes="NB1_North_0 NB1_North_1 NB1_North_2" intLanes="" shape="300.00,300.00 309.60,300.00 300.00,300.00" />
+    <junction id="North_Most2" type="dead_end" x="1100.00" y="300.00" incLanes="NB2_North_0 NB2_North_1 NB2_North_2" intLanes="" shape="1100.00,300.00 1109.60,300.00 1100.00,300.00" />
+    <junction id="North_Most3" type="dead_end" x="1900.00" y="300.00" incLanes="NB3_North_0 NB3_North_1 NB3_North_2" intLanes="" shape="1900.00,300.00 1909.60,300.00 1900.00,300.00" />
+    <junction id="South_Most1" type="dead_end" x="300.00" y="-300.00" incLanes="SB1_South_0 SB1_South_1 SB1_South_2" intLanes="" shape="300.00,-300.00 290.40,-300.00 300.00,-300.00" />
+    <junction id="South_Most2" type="dead_end" x="1100.00" y="-300.00" incLanes="SB2_South_0 SB2_South_1 SB2_South_2" intLanes="" shape="1100.00,-300.00 1090.40,-300.00 1100.00,-300.00" />
+    <junction id="South_Most3" type="dead_end" x="1900.00" y="-300.00" incLanes="SB3_South_0 SB3_South_1 SB3_South_2" intLanes="" shape="1900.00,-300.00 1890.40,-300.00 1900.00,-300.00" />
+    <junction id="West_Most" type="dead_end" x="0.00" y="0.00" incLanes="WB01_0 WB01_1 WB01_2" intLanes="" shape="0.00,0.00 0.00,9.60 0.00,0.00" />
+
+    <junction id=":Intersection1_24_0" type="internal" x="299.11" y="8.64" incLanes=":Intersection1_4_0 NB1_South_0 NB1_South_1 NB1_South_2" intLanes=":Intersection1_7_0 :Intersection1_7_1 :Intersection1_7_2 :Intersection1_10_0 :Intersection1_11_0 :Intersection1_12_0 :Intersection1_13_0 :Intersection1_13_1 :Intersection1_13_2 :Intersection1_19_0 :Intersection1_19_1 :Intersection1_19_2 :Intersection1_22_0" />
+    <junction id=":Intersection1_25_0" type="internal" x="299.20" y="12.40" incLanes=":Intersection1_5_0 EB01_2 NB1_South_0 NB1_South_1 NB1_South_2 WB12_0" intLanes=":Intersection1_6_0 :Intersection1_13_0 :Intersection1_13_1 :Intersection1_13_2 :Intersection1_22_0" />
+    <junction id=":Intersection1_26_0" type="internal" x="308.64" y="0.89" incLanes=":Intersection1_10_0 EB01_0 EB01_1 EB01_2" intLanes=":Intersection1_1_0 :Intersection1_1_1 :Intersection1_1_2 :Intersection1_4_0 :Intersection1_13_0 :Intersection1_13_1 :Intersection1_13_2 :Intersection1_16_0 :Intersection1_17_0 :Intersection1_18_0 :Intersection1_19_0 :Intersection1_19_1 :Intersection1_19_2" />
+    <junction id=":Intersection1_27_0" type="internal" x="312.40" y="0.80" incLanes=":Intersection1_11_0 EB01_0 EB01_1 EB01_2 NB1_South_0 SB1_North_2" intLanes=":Intersection1_4_0 :Intersection1_12_0 :Intersection1_19_0 :Intersection1_19_1 :Intersection1_19_2" />
+    <junction id=":Intersection1_28_0" type="internal" x="300.89" y="-8.64" incLanes=":Intersection1_16_0 SB1_North_0 SB1_North_1 SB1_North_2" intLanes=":Intersection1_0_0 :Intersection1_1_0 :Intersection1_1_1 :Intersection1_1_2 :Intersection1_7_0 :Intersection1_7_1 :Intersection1_7_2 :Intersection1_10_0 :Intersection1_19_0 :Intersection1_19_1 :Intersection1_19_2 :Intersection1_22_0 :Intersection1_23_0" />
+    <junction id=":Intersection1_29_0" type="internal" x="300.80" y="-12.40" incLanes=":Intersection1_17_0 EB01_0 SB1_North_0 SB1_North_1 SB1_North_2 WB12_2" intLanes=":Intersection1_1_0 :Intersection1_1_1 :Intersection1_1_2 :Intersection1_10_0 :Intersection1_18_0" />
+    <junction id=":Intersection1_30_0" type="internal" x="291.36" y="-0.89" incLanes=":Intersection1_22_0 WB12_0 WB12_1 WB12_2" intLanes=":Intersection1_1_0 :Intersection1_1_1 :Intersection1_1_2 :Intersection1_4_0 :Intersection1_5_0 :Intersection1_6_0 :Intersection1_7_0 :Intersection1_7_1 :Intersection1_7_2 :Intersection1_13_0 :Intersection1_13_1 :Intersection1_13_2 :Intersection1_16_0" />
+    <junction id=":Intersection1_31_0" type="internal" x="287.60" y="-0.80" incLanes=":Intersection1_23_0 NB1_South_2 SB1_North_0 WB12_0 WB12_1 WB12_2" intLanes=":Intersection1_0_0 :Intersection1_7_0 :Intersection1_7_1 :Intersection1_7_2 :Intersection1_16_0" />
+    <junction id=":Intersection2_24_0" type="internal" x="1099.11" y="8.64" incLanes=":Intersection2_4_0 NB2_South_0 NB2_South_1 NB2_South_2" intLanes=":Intersection2_7_0 :Intersection2_7_1 :Intersection2_7_2 :Intersection2_10_0 :Intersection2_11_0 :Intersection2_12_0 :Intersection2_13_0 :Intersection2_13_1 :Intersection2_13_2 :Intersection2_19_0 :Intersection2_19_1 :Intersection2_19_2 :Intersection2_22_0" />
+    <junction id=":Intersection2_25_0" type="internal" x="1099.20" y="12.40" incLanes=":Intersection2_5_0 EB12_2 NB2_South_0 NB2_South_1 NB2_South_2 WB23_0" intLanes=":Intersection2_6_0 :Intersection2_13_0 :Intersection2_13_1 :Intersection2_13_2 :Intersection2_22_0" />
+    <junction id=":Intersection2_26_0" type="internal" x="1108.64" y="0.89" incLanes=":Intersection2_10_0 EB12_0 EB12_1 EB12_2" intLanes=":Intersection2_1_0 :Intersection2_1_1 :Intersection2_1_2 :Intersection2_4_0 :Intersection2_13_0 :Intersection2_13_1 :Intersection2_13_2 :Intersection2_16_0 :Intersection2_17_0 :Intersection2_18_0 :Intersection2_19_0 :Intersection2_19_1 :Intersection2_19_2" />
+    <junction id=":Intersection2_27_0" type="internal" x="1112.40" y="0.80" incLanes=":Intersection2_11_0 EB12_0 EB12_1 EB12_2 NB2_South_0 SB2_North_2" intLanes=":Intersection2_4_0 :Intersection2_12_0 :Intersection2_19_0 :Intersection2_19_1 :Intersection2_19_2" />
+    <junction id=":Intersection2_28_0" type="internal" x="1100.89" y="-8.64" incLanes=":Intersection2_16_0 SB2_North_0 SB2_North_1 SB2_North_2" intLanes=":Intersection2_0_0 :Intersection2_1_0 :Intersection2_1_1 :Intersection2_1_2 :Intersection2_7_0 :Intersection2_7_1 :Intersection2_7_2 :Intersection2_10_0 :Intersection2_19_0 :Intersection2_19_1 :Intersection2_19_2 :Intersection2_22_0 :Intersection2_23_0" />
+    <junction id=":Intersection2_29_0" type="internal" x="1100.80" y="-12.40" incLanes=":Intersection2_17_0 EB12_0 SB2_North_0 SB2_North_1 SB2_North_2 WB23_2" intLanes=":Intersection2_1_0 :Intersection2_1_1 :Intersection2_1_2 :Intersection2_10_0 :Intersection2_18_0" />
+    <junction id=":Intersection2_30_0" type="internal" x="1091.36" y="-0.89" incLanes=":Intersection2_22_0 WB23_0 WB23_1 WB23_2" intLanes=":Intersection2_1_0 :Intersection2_1_1 :Intersection2_1_2 :Intersection2_4_0 :Intersection2_5_0 :Intersection2_6_0 :Intersection2_7_0 :Intersection2_7_1 :Intersection2_7_2 :Intersection2_13_0 :Intersection2_13_1 :Intersection2_13_2 :Intersection2_16_0" />
+    <junction id=":Intersection2_31_0" type="internal" x="1087.60" y="-0.80" incLanes=":Intersection2_23_0 NB2_South_2 SB2_North_0 WB23_0 WB23_1 WB23_2" intLanes=":Intersection2_0_0 :Intersection2_7_0 :Intersection2_7_1 :Intersection2_7_2 :Intersection2_16_0" />
+    <junction id=":Intersection3_24_0" type="internal" x="1899.11" y="8.64" incLanes=":Intersection3_4_0 NB3_South_0 NB3_South_1 NB3_South_2" intLanes=":Intersection3_7_0 :Intersection3_7_1 :Intersection3_7_2 :Intersection3_10_0 :Intersection3_11_0 :Intersection3_12_0 :Intersection3_13_0 :Intersection3_13_1 :Intersection3_13_2 :Intersection3_19_0 :Intersection3_19_1 :Intersection3_19_2 :Intersection3_22_0" />
+    <junction id=":Intersection3_25_0" type="internal" x="1899.20" y="12.40" incLanes=":Intersection3_5_0 EB23_2 NB3_South_0 NB3_South_1 NB3_South_2 WB34_0" intLanes=":Intersection3_6_0 :Intersection3_13_0 :Intersection3_13_1 :Intersection3_13_2 :Intersection3_22_0" />
+    <junction id=":Intersection3_26_0" type="internal" x="1908.64" y="0.89" incLanes=":Intersection3_10_0 EB23_0 EB23_1 EB23_2" intLanes=":Intersection3_1_0 :Intersection3_1_1 :Intersection3_1_2 :Intersection3_4_0 :Intersection3_13_0 :Intersection3_13_1 :Intersection3_13_2 :Intersection3_16_0 :Intersection3_17_0 :Intersection3_18_0 :Intersection3_19_0 :Intersection3_19_1 :Intersection3_19_2" />
+    <junction id=":Intersection3_27_0" type="internal" x="1912.40" y="0.80" incLanes=":Intersection3_11_0 EB23_0 EB23_1 EB23_2 NB3_South_0 SB3_North_2" intLanes=":Intersection3_4_0 :Intersection3_12_0 :Intersection3_19_0 :Intersection3_19_1 :Intersection3_19_2" />
+    <junction id=":Intersection3_28_0" type="internal" x="1900.89" y="-8.64" incLanes=":Intersection3_16_0 SB3_North_0 SB3_North_1 SB3_North_2" intLanes=":Intersection3_0_0 :Intersection3_1_0 :Intersection3_1_1 :Intersection3_1_2 :Intersection3_7_0 :Intersection3_7_1 :Intersection3_7_2 :Intersection3_10_0 :Intersection3_19_0 :Intersection3_19_1 :Intersection3_19_2 :Intersection3_22_0 :Intersection3_23_0" />
+    <junction id=":Intersection3_29_0" type="internal" x="1900.80" y="-12.40" incLanes=":Intersection3_17_0 EB23_0 SB3_North_0 SB3_North_1 SB3_North_2 WB34_2" intLanes=":Intersection3_1_0 :Intersection3_1_1 :Intersection3_1_2 :Intersection3_10_0 :Intersection3_18_0" />
+    <junction id=":Intersection3_30_0" type="internal" x="1891.36" y="-0.89" incLanes=":Intersection3_22_0 WB34_0 WB34_1 WB34_2" intLanes=":Intersection3_1_0 :Intersection3_1_1 :Intersection3_1_2 :Intersection3_4_0 :Intersection3_5_0 :Intersection3_6_0 :Intersection3_7_0 :Intersection3_7_1 :Intersection3_7_2 :Intersection3_13_0 :Intersection3_13_1 :Intersection3_13_2 :Intersection3_16_0" />
+    <junction id=":Intersection3_31_0" type="internal" x="1887.60" y="-0.80" incLanes=":Intersection3_23_0 NB3_South_2 SB3_North_0 WB34_0 WB34_1 WB34_2" intLanes=":Intersection3_0_0 :Intersection3_7_0 :Intersection3_7_1 :Intersection3_7_2 :Intersection3_16_0" />
+
+    <connection from="EB01" to="SB1_South" fromLane="0" toLane="0" via=":Intersection1_18_0" tl="Intersection1" linkIndex="18" dir="r" state="o" />
+    <connection from="EB01" to="EB12" fromLane="0" toLane="0" via=":Intersection1_19_0" tl="Intersection1" linkIndex="19" dir="s" state="o" />
+    <connection from="EB01" to="EB12" fromLane="1" toLane="1" via=":Intersection1_19_1" tl="Intersection1" linkIndex="20" dir="s" state="o" />
+    <connection from="EB01" to="EB12" fromLane="2" toLane="2" via=":Intersection1_19_2" tl="Intersection1" linkIndex="21" dir="s" state="o" />
+    <connection from="EB01" to="NB1_North" fromLane="2" toLane="2" via=":Intersection1_22_0" tl="Intersection1" linkIndex="22" dir="l" state="o" />
+    <connection from="EB01" to="WB01" fromLane="2" toLane="2" via=":Intersection1_23_0" tl="Intersection1" linkIndex="23" dir="t" state="o" />
+    <connection from="EB12" to="SB2_South" fromLane="0" toLane="0" via=":Intersection2_18_0" tl="J3" linkIndex="18" dir="r" state="o" />
+    <connection from="EB12" to="EB23" fromLane="0" toLane="0" via=":Intersection2_19_0" tl="J3" linkIndex="19" dir="s" state="o" />
+    <connection from="EB12" to="EB23" fromLane="1" toLane="1" via=":Intersection2_19_1" tl="J3" linkIndex="20" dir="s" state="o" />
+    <connection from="EB12" to="EB23" fromLane="2" toLane="2" via=":Intersection2_19_2" tl="J3" linkIndex="21" dir="s" state="o" />
+    <connection from="EB12" to="NB2_North" fromLane="2" toLane="2" via=":Intersection2_22_0" tl="J3" linkIndex="22" dir="l" state="o" />
+    <connection from="EB12" to="WB12" fromLane="2" toLane="2" via=":Intersection2_23_0" tl="J3" linkIndex="23" dir="t" state="o" />
+    <connection from="EB23" to="SB3_South" fromLane="0" toLane="0" via=":Intersection3_18_0" tl="Intersection3" linkIndex="18" dir="r" state="o" />
+    <connection from="EB23" to="EB34" fromLane="0" toLane="0" via=":Intersection3_19_0" tl="Intersection3" linkIndex="19" dir="s" state="o" />
+    <connection from="EB23" to="EB34" fromLane="1" toLane="1" via=":Intersection3_19_1" tl="Intersection3" linkIndex="20" dir="s" state="o" />
+    <connection from="EB23" to="EB34" fromLane="2" toLane="2" via=":Intersection3_19_2" tl="Intersection3" linkIndex="21" dir="s" state="o" />
+    <connection from="EB23" to="NB3_North" fromLane="2" toLane="2" via=":Intersection3_22_0" tl="Intersection3" linkIndex="22" dir="l" state="o" />
+    <connection from="EB23" to="WB23" fromLane="2" toLane="2" via=":Intersection3_23_0" tl="Intersection3" linkIndex="23" dir="t" state="o" />
+    <connection from="NB1_South" to="EB12" fromLane="0" toLane="0" via=":Intersection1_12_0" tl="Intersection1" linkIndex="12" dir="r" state="O" />
+    <connection from="NB1_South" to="NB1_North" fromLane="0" toLane="0" via=":Intersection1_13_0" tl="Intersection1" linkIndex="13" dir="s" state="O" />
+    <connection from="NB1_South" to="NB1_North" fromLane="1" toLane="1" via=":Intersection1_13_1" tl="Intersection1" linkIndex="14" dir="s" state="O" />
+    <connection from="NB1_South" to="NB1_North" fromLane="2" toLane="2" via=":Intersection1_13_2" tl="Intersection1" linkIndex="15" dir="s" state="O" />
+    <connection from="NB1_South" to="WB01" fromLane="2" toLane="2" via=":Intersection1_16_0" tl="Intersection1" linkIndex="16" dir="l" state="o" />
+    <connection from="NB1_South" to="SB1_South" fromLane="2" toLane="2" via=":Intersection1_17_0" tl="Intersection1" linkIndex="17" dir="t" state="o" />
+    <connection from="NB2_South" to="EB23" fromLane="0" toLane="0" via=":Intersection2_12_0" tl="J3" linkIndex="12" dir="r" state="O" />
+    <connection from="NB2_South" to="NB2_North" fromLane="0" toLane="0" via=":Intersection2_13_0" tl="J3" linkIndex="13" dir="s" state="O" />
+    <connection from="NB2_South" to="NB2_North" fromLane="1" toLane="1" via=":Intersection2_13_1" tl="J3" linkIndex="14" dir="s" state="O" />
+    <connection from="NB2_South" to="NB2_North" fromLane="2" toLane="2" via=":Intersection2_13_2" tl="J3" linkIndex="15" dir="s" state="O" />
+    <connection from="NB2_South" to="WB12" fromLane="2" toLane="2" via=":Intersection2_16_0" tl="J3" linkIndex="16" dir="l" state="o" />
+    <connection from="NB2_South" to="SB2_South" fromLane="2" toLane="2" via=":Intersection2_17_0" tl="J3" linkIndex="17" dir="t" state="o" />
+    <connection from="NB3_South" to="EB34" fromLane="0" toLane="0" via=":Intersection3_12_0" tl="Intersection3" linkIndex="12" dir="r" state="O" />
+    <connection from="NB3_South" to="NB3_North" fromLane="0" toLane="0" via=":Intersection3_13_0" tl="Intersection3" linkIndex="13" dir="s" state="O" />
+    <connection from="NB3_South" to="NB3_North" fromLane="1" toLane="1" via=":Intersection3_13_1" tl="Intersection3" linkIndex="14" dir="s" state="O" />
+    <connection from="NB3_South" to="NB3_North" fromLane="2" toLane="2" via=":Intersection3_13_2" tl="Intersection3" linkIndex="15" dir="s" state="O" />
+    <connection from="NB3_South" to="WB23" fromLane="2" toLane="2" via=":Intersection3_16_0" tl="Intersection3" linkIndex="16" dir="l" state="o" />
+    <connection from="NB3_South" to="SB3_South" fromLane="2" toLane="2" via=":Intersection3_17_0" tl="Intersection3" linkIndex="17" dir="t" state="o" />
+    <connection from="SB1_North" to="WB01" fromLane="0" toLane="0" via=":Intersection1_0_0" tl="Intersection1" linkIndex="0" dir="r" state="O" />
+    <connection from="SB1_North" to="SB1_South" fromLane="0" toLane="0" via=":Intersection1_1_0" tl="Intersection1" linkIndex="1" dir="s" state="O" />
+    <connection from="SB1_North" to="SB1_South" fromLane="1" toLane="1" via=":Intersection1_1_1" tl="Intersection1" linkIndex="2" dir="s" state="O" />
+    <connection from="SB1_North" to="SB1_South" fromLane="2" toLane="2" via=":Intersection1_1_2" tl="Intersection1" linkIndex="3" dir="s" state="O" />
+    <connection from="SB1_North" to="EB12" fromLane="2" toLane="2" via=":Intersection1_4_0" tl="Intersection1" linkIndex="4" dir="l" state="o" />
+    <connection from="SB1_North" to="NB1_North" fromLane="2" toLane="2" via=":Intersection1_5_0" tl="Intersection1" linkIndex="5" dir="t" state="o" />
+    <connection from="SB2_North" to="WB12" fromLane="0" toLane="0" via=":Intersection2_0_0" tl="J3" linkIndex="0" dir="r" state="O" />
+    <connection from="SB2_North" to="SB2_South" fromLane="0" toLane="0" via=":Intersection2_1_0" tl="J3" linkIndex="1" dir="s" state="O" />
+    <connection from="SB2_North" to="SB2_South" fromLane="1" toLane="1" via=":Intersection2_1_1" tl="J3" linkIndex="2" dir="s" state="O" />
+    <connection from="SB2_North" to="SB2_South" fromLane="2" toLane="2" via=":Intersection2_1_2" tl="J3" linkIndex="3" dir="s" state="O" />
+    <connection from="SB2_North" to="EB23" fromLane="2" toLane="2" via=":Intersection2_4_0" tl="J3" linkIndex="4" dir="l" state="o" />
+    <connection from="SB2_North" to="NB2_North" fromLane="2" toLane="2" via=":Intersection2_5_0" tl="J3" linkIndex="5" dir="t" state="o" />
+    <connection from="SB3_North" to="WB23" fromLane="0" toLane="0" via=":Intersection3_0_0" tl="Intersection3" linkIndex="0" dir="r" state="O" />
+    <connection from="SB3_North" to="SB3_South" fromLane="0" toLane="0" via=":Intersection3_1_0" tl="Intersection3" linkIndex="1" dir="s" state="O" />
+    <connection from="SB3_North" to="SB3_South" fromLane="1" toLane="1" via=":Intersection3_1_1" tl="Intersection3" linkIndex="2" dir="s" state="O" />
+    <connection from="SB3_North" to="SB3_South" fromLane="2" toLane="2" via=":Intersection3_1_2" tl="Intersection3" linkIndex="3" dir="s" state="O" />
+    <connection from="SB3_North" to="EB34" fromLane="2" toLane="2" via=":Intersection3_4_0" tl="Intersection3" linkIndex="4" dir="l" state="o" />
+    <connection from="SB3_North" to="NB3_North" fromLane="2" toLane="2" via=":Intersection3_5_0" tl="Intersection3" linkIndex="5" dir="t" state="o" />
+    <connection from="WB12" to="NB1_North" fromLane="0" toLane="0" via=":Intersection1_6_0" tl="Intersection1" linkIndex="6" dir="r" state="o" />
+    <connection from="WB12" to="WB01" fromLane="0" toLane="0" via=":Intersection1_7_0" tl="Intersection1" linkIndex="7" dir="s" state="o" />
+    <connection from="WB12" to="WB01" fromLane="1" toLane="1" via=":Intersection1_7_1" tl="Intersection1" linkIndex="8" dir="s" state="o" />
+    <connection from="WB12" to="WB01" fromLane="2" toLane="2" via=":Intersection1_7_2" tl="Intersection1" linkIndex="9" dir="s" state="o" />
+    <connection from="WB12" to="SB1_South" fromLane="2" toLane="2" via=":Intersection1_10_0" tl="Intersection1" linkIndex="10" dir="l" state="o" />
+    <connection from="WB12" to="EB12" fromLane="2" toLane="2" via=":Intersection1_11_0" tl="Intersection1" linkIndex="11" dir="t" state="o" />
+    <connection from="WB23" to="NB2_North" fromLane="0" toLane="0" via=":Intersection2_6_0" tl="J3" linkIndex="6" dir="r" state="o" />
+    <connection from="WB23" to="WB12" fromLane="0" toLane="0" via=":Intersection2_7_0" tl="J3" linkIndex="7" dir="s" state="o" />
+    <connection from="WB23" to="WB12" fromLane="1" toLane="1" via=":Intersection2_7_1" tl="J3" linkIndex="8" dir="s" state="o" />
+    <connection from="WB23" to="WB12" fromLane="2" toLane="2" via=":Intersection2_7_2" tl="J3" linkIndex="9" dir="s" state="o" />
+    <connection from="WB23" to="SB2_South" fromLane="2" toLane="2" via=":Intersection2_10_0" tl="J3" linkIndex="10" dir="l" state="o" />
+    <connection from="WB23" to="EB23" fromLane="2" toLane="2" via=":Intersection2_11_0" tl="J3" linkIndex="11" dir="t" state="o" />
+    <connection from="WB34" to="NB3_North" fromLane="0" toLane="0" via=":Intersection3_6_0" tl="Intersection3" linkIndex="6" dir="r" state="o" />
+    <connection from="WB34" to="WB23" fromLane="0" toLane="0" via=":Intersection3_7_0" tl="Intersection3" linkIndex="7" dir="s" state="o" />
+    <connection from="WB34" to="WB23" fromLane="1" toLane="1" via=":Intersection3_7_1" tl="Intersection3" linkIndex="8" dir="s" state="o" />
+    <connection from="WB34" to="WB23" fromLane="2" toLane="2" via=":Intersection3_7_2" tl="Intersection3" linkIndex="9" dir="s" state="o" />
+    <connection from="WB34" to="SB3_South" fromLane="2" toLane="2" via=":Intersection3_10_0" tl="Intersection3" linkIndex="10" dir="l" state="o" />
+    <connection from="WB34" to="EB34" fromLane="2" toLane="2" via=":Intersection3_11_0" tl="Intersection3" linkIndex="11" dir="t" state="o" />
+
+    <connection from=":Intersection1_0" to="WB01" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection1_1" to="SB1_South" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection1_1" to="SB1_South" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection1_1" to="SB1_South" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection1_4" to="EB12" fromLane="0" toLane="2" via=":Intersection1_24_0" dir="l" state="m" />
+    <connection from=":Intersection1_24" to="EB12" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection1_5" to="NB1_North" fromLane="0" toLane="2" via=":Intersection1_25_0" dir="t" state="m" />
+    <connection from=":Intersection1_25" to="NB1_North" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection1_6" to="NB1_North" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection1_7" to="WB01" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection1_7" to="WB01" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection1_7" to="WB01" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection1_10" to="SB1_South" fromLane="0" toLane="2" via=":Intersection1_26_0" dir="l" state="m" />
+    <connection from=":Intersection1_26" to="SB1_South" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection1_11" to="EB12" fromLane="0" toLane="2" via=":Intersection1_27_0" dir="t" state="m" />
+    <connection from=":Intersection1_27" to="EB12" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection1_12" to="EB12" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection1_13" to="NB1_North" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection1_13" to="NB1_North" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection1_13" to="NB1_North" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection1_16" to="WB01" fromLane="0" toLane="2" via=":Intersection1_28_0" dir="l" state="m" />
+    <connection from=":Intersection1_28" to="WB01" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection1_17" to="SB1_South" fromLane="0" toLane="2" via=":Intersection1_29_0" dir="t" state="m" />
+    <connection from=":Intersection1_29" to="SB1_South" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection1_18" to="SB1_South" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection1_19" to="EB12" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection1_19" to="EB12" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection1_19" to="EB12" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection1_22" to="NB1_North" fromLane="0" toLane="2" via=":Intersection1_30_0" dir="l" state="m" />
+    <connection from=":Intersection1_30" to="NB1_North" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection1_23" to="WB01" fromLane="0" toLane="2" via=":Intersection1_31_0" dir="t" state="m" />
+    <connection from=":Intersection1_31" to="WB01" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection2_0" to="WB12" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection2_1" to="SB2_South" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection2_1" to="SB2_South" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection2_1" to="SB2_South" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection2_4" to="EB23" fromLane="0" toLane="2" via=":Intersection2_24_0" dir="l" state="m" />
+    <connection from=":Intersection2_24" to="EB23" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection2_5" to="NB2_North" fromLane="0" toLane="2" via=":Intersection2_25_0" dir="t" state="m" />
+    <connection from=":Intersection2_25" to="NB2_North" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection2_6" to="NB2_North" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection2_7" to="WB12" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection2_7" to="WB12" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection2_7" to="WB12" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection2_10" to="SB2_South" fromLane="0" toLane="2" via=":Intersection2_26_0" dir="l" state="m" />
+    <connection from=":Intersection2_26" to="SB2_South" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection2_11" to="EB23" fromLane="0" toLane="2" via=":Intersection2_27_0" dir="t" state="m" />
+    <connection from=":Intersection2_27" to="EB23" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection2_12" to="EB23" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection2_13" to="NB2_North" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection2_13" to="NB2_North" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection2_13" to="NB2_North" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection2_16" to="WB12" fromLane="0" toLane="2" via=":Intersection2_28_0" dir="l" state="m" />
+    <connection from=":Intersection2_28" to="WB12" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection2_17" to="SB2_South" fromLane="0" toLane="2" via=":Intersection2_29_0" dir="t" state="m" />
+    <connection from=":Intersection2_29" to="SB2_South" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection2_18" to="SB2_South" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection2_19" to="EB23" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection2_19" to="EB23" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection2_19" to="EB23" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection2_22" to="NB2_North" fromLane="0" toLane="2" via=":Intersection2_30_0" dir="l" state="m" />
+    <connection from=":Intersection2_30" to="NB2_North" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection2_23" to="WB12" fromLane="0" toLane="2" via=":Intersection2_31_0" dir="t" state="m" />
+    <connection from=":Intersection2_31" to="WB12" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection3_0" to="WB23" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection3_1" to="SB3_South" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection3_1" to="SB3_South" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection3_1" to="SB3_South" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection3_4" to="EB34" fromLane="0" toLane="2" via=":Intersection3_24_0" dir="l" state="m" />
+    <connection from=":Intersection3_24" to="EB34" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection3_5" to="NB3_North" fromLane="0" toLane="2" via=":Intersection3_25_0" dir="t" state="m" />
+    <connection from=":Intersection3_25" to="NB3_North" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection3_6" to="NB3_North" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection3_7" to="WB23" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection3_7" to="WB23" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection3_7" to="WB23" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection3_10" to="SB3_South" fromLane="0" toLane="2" via=":Intersection3_26_0" dir="l" state="m" />
+    <connection from=":Intersection3_26" to="SB3_South" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection3_11" to="EB34" fromLane="0" toLane="2" via=":Intersection3_27_0" dir="t" state="m" />
+    <connection from=":Intersection3_27" to="EB34" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection3_12" to="EB34" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection3_13" to="NB3_North" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection3_13" to="NB3_North" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection3_13" to="NB3_North" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection3_16" to="WB23" fromLane="0" toLane="2" via=":Intersection3_28_0" dir="l" state="m" />
+    <connection from=":Intersection3_28" to="WB23" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection3_17" to="SB3_South" fromLane="0" toLane="2" via=":Intersection3_29_0" dir="t" state="m" />
+    <connection from=":Intersection3_29" to="SB3_South" fromLane="0" toLane="2" dir="t" state="M" />
+    <connection from=":Intersection3_18" to="SB3_South" fromLane="0" toLane="0" dir="r" state="M" />
+    <connection from=":Intersection3_19" to="EB34" fromLane="0" toLane="0" dir="s" state="M" />
+    <connection from=":Intersection3_19" to="EB34" fromLane="1" toLane="1" dir="s" state="M" />
+    <connection from=":Intersection3_19" to="EB34" fromLane="2" toLane="2" dir="s" state="M" />
+    <connection from=":Intersection3_22" to="NB3_North" fromLane="0" toLane="2" via=":Intersection3_30_0" dir="l" state="m" />
+    <connection from=":Intersection3_30" to="NB3_North" fromLane="0" toLane="2" dir="l" state="M" />
+    <connection from=":Intersection3_23" to="WB23" fromLane="0" toLane="2" via=":Intersection3_31_0" dir="t" state="m" />
+    <connection from=":Intersection3_31" to="WB23" fromLane="0" toLane="2" dir="t" state="M" />
+
+</net>

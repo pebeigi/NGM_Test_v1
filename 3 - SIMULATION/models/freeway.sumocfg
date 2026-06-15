@@ -1,0 +1,13 @@
+<configuration>
+    <input>
+        <net-file value="C:\Users\Pedram\repo-optimized\3 - SIMULATION\models\freeway.net.xml" />
+        <route-files value="C:\Users\Pedram\repo-optimized\3 - SIMULATION\models\all_trips.trips.xml" />
+    </input>
+
+    <time>
+        <begin value="0" />
+        <end value="1200" />
+        <step-length value="0.1" />
+    </time>
+
+</configuration>

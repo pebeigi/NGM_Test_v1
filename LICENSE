@@ -1,0 +1,13 @@
+This project and its associated source code are made available for non-commercial academic research purposes only.
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0).
+
+Important Notices Regarding Third-Party Software and Datasets Used:
+
+This project may utilize, interface with, or depend upon third-party software and datasets that are governed by their own separate licensing terms.
+
+SUMO (Simulation of Urban MObility): This project may use Simulation of Urban MObility (SUMO)****, an open-source traffic simulation software developed by the Eclipse Foundation. SUMO is licensed under the Eclipse Public License 2.0 (EPL-2.0). Users of this project who install, use, modify, or distribute SUMO must comply with the terms of the Eclipse Public License 2.0. This project's license does not grant any rights to SUMO beyond those provided under the EPL-2.0. For official SUMO licensing details, please refer to the https://www.eclipse.org/legal/epl-2.0/ or the SUMO documentation.
+
+Waymo Open Dataset: The Waymo Open Dataset itself is licensed under separate terms. Users of this project who also wish to use the Waymo Open Dataset must agree to and comply with Waymo's terms. Please visit https://waymo.com/open/terms/ for details. This project's license does not grant any rights to the Waymo Open Dataset.
+
+TGSIM Dataset (U.S. Department of Transportation): The TGSIM dataset, if used or referenced by this project, is licensed under separate terms. It is noted as being in the U.S. Public Domain (us-pd) and intended for public access and use. For more information regarding datasets from the U.S. Department of Transportation, please visit https://catalog.data.gov/organization/dot-gov or the specific dataset's page.
