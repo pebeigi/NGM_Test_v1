@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-03 21:37:42 by Eclipse SUMO netedit Version 1.21.0
+<neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="I90_94_simple.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="I90_94_simple.net.xml"/>
+        <output.street-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="0"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</neteditConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="8.33" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="-438089.51,-4644248.98" convBoundary="159.66,1189.37,688.09,1659.26" origBoundary="-87.746979,41.947899,-87.721357,41.965410" projParameter="+proj=utm +zone=16 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"/>
+
+    <type id="highway.motorway" priority="14" numLanes="2" speed="8.33" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" oneway="1"/>
+
+    <edge id=":Diverge_0" function="internal">
+        <lane id=":Diverge_0_0" index="0" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="26.85" shape="389.58,1461.67 383.91,1467.28 379.85,1470.99 376.14,1474.98 371.57,1481.45"/>
+        <lane id=":Diverge_0_1" index="1" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="27.44" shape="387.25,1459.47 381.47,1465.22 377.32,1469.01 373.55,1473.10 368.87,1479.72"/>
+        <lane id=":Diverge_0_2" index="2" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="28.03" shape="384.92,1457.28 379.02,1463.15 374.79,1467.04 370.95,1471.23 366.18,1477.99"/>
+    </edge>
+    <edge id=":Diverge_3" function="internal">
+        <lane id=":Diverge_3_0" index="0" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="28.26" shape="382.60,1455.08 363.43,1475.84"/>
+        <lane id=":Diverge_3_1" index="1" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="28.26" shape="380.27,1452.89 361.10,1473.65"/>
+        <lane id=":Diverge_3_2" index="2" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="28.26" shape="377.94,1450.69 358.76,1471.46"/>
+    </edge>
+
+    <edge id="Main" from="In" to="Diverge" name="Kennedy Expressway" priority="14" type="highway.motorway" spreadType="center" shape="688.09,1194.45 680.90,1199.62 667.64,1209.03 656.05,1217.24 643.27,1226.49 632.95,1234.80 615.17,1248.32 587.20,1268.85 577.99,1276.16 559.83,1290.58 538.09,1307.80 519.92,1323.15 502.40,1338.30 482.68,1355.90 464.13,1373.00 444.40,1392.43 425.56,1411.65 399.54,1439.35 389.82,1449.75 383.76,1456.18">
+        <lane id="Main_0" index="0" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="401.72" shape="692.25,1201.31 685.55,1206.13 672.27,1215.56 660.71,1223.74 648.13,1232.85 637.88,1241.10 619.96,1254.73 592.06,1275.21 582.96,1282.43 564.80,1296.85 543.16,1313.99 525.12,1329.23 507.68,1344.31 488.05,1361.83 469.65,1378.79 450.06,1398.08 431.33,1417.19 405.37,1444.82 395.66,1455.22 389.58,1461.67">
+            <param key="origId" value="28256533"/>
+        </lane>
+        <lane id="Main_1" index="1" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="401.72" shape="690.39,1198.71 683.69,1203.53 670.42,1212.95 658.84,1221.14 646.18,1230.31 635.91,1238.58 618.04,1252.17 590.11,1272.67 580.97,1279.92 562.81,1294.34 541.13,1311.52 523.04,1326.80 505.57,1341.91 485.90,1359.46 467.44,1376.48 447.80,1395.82 429.02,1414.97 403.04,1442.63 393.32,1453.03 387.25,1459.47">
+            <param key="origId" value="28256533"/>
+        </lane>
+        <lane id="Main_2" index="2" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="401.72" shape="688.52,1196.11 681.83,1200.92 668.57,1210.34 656.98,1218.54 644.24,1227.76 633.94,1236.06 616.13,1249.60 588.17,1270.12 578.98,1277.41 560.82,1291.83 539.10,1309.04 520.96,1324.37 503.46,1339.50 483.75,1357.09 465.23,1374.16 445.53,1393.56 426.71,1412.76 400.71,1440.44 390.99,1450.84 384.92,1457.28">
+            <param key="origId" value="28256533"/>
+        </lane>
+        <lane id="Main_3" index="3" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="401.72" shape="686.65,1193.51 679.97,1198.32 666.71,1207.72 655.12,1215.94 642.30,1225.22 631.96,1233.54 614.21,1247.04 586.23,1267.58 577.00,1274.91 558.84,1289.33 537.08,1306.56 518.88,1321.93 501.34,1337.10 481.61,1354.71 463.03,1371.84 443.27,1391.30 424.41,1410.54 398.37,1438.26 388.65,1448.66 382.60,1455.08">
+            <param key="origId" value="28256533"/>
+        </lane>
+        <lane id="Main_4" index="4" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="401.72" shape="684.78,1190.92 678.11,1195.71 664.86,1205.11 653.26,1213.34 640.36,1222.67 629.99,1231.02 612.30,1244.47 584.29,1265.03 575.01,1272.40 556.85,1286.82 535.05,1304.08 516.80,1319.50 499.23,1334.69 479.46,1352.34 460.82,1369.52 441.00,1389.04 422.10,1408.33 396.04,1436.07 386.32,1446.47 380.27,1452.89">
+            <param key="origId" value="28256533"/>
+        </lane>
+        <lane id="Main_5" index="5" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="401.72" shape="682.91,1188.32 676.25,1193.11 663.01,1202.50 651.39,1210.74 638.41,1220.13 628.02,1228.50 610.38,1241.91 582.34,1262.49 573.02,1269.89 554.86,1284.31 533.02,1301.61 514.72,1317.07 497.12,1332.29 477.31,1349.97 458.61,1367.21 438.74,1386.78 419.79,1406.11 393.71,1433.88 383.98,1444.28 377.94,1450.69">
+            <param key="origId" value="28256533"/>
+        </lane>
+        <param key="ref" value="I 90;I 94"/>
+    </edge>
+    <edge id="NB" from="Diverge" to="North_Out" priority="-1" shape="379.85,1453.78 346.04,1506.35 283.86,1594.33 239.26,1659.26">
+        <lane id="NB_0" index="0" speed="8.33" length="221.40" shape="371.57,1481.45 352.67,1510.82 290.42,1598.90 245.85,1663.79"/>
+        <lane id="NB_1" index="1" speed="8.33" length="221.40" shape="368.87,1479.72 350.02,1509.03 287.80,1597.07 243.22,1661.98"/>
+        <lane id="NB_2" index="2" speed="8.33" length="221.40" shape="366.18,1477.99 347.37,1507.24 285.17,1595.24 240.58,1660.17"/>
+    </edge>
+    <edge id="SB" from="Diverge" to="South_Out" name="Kennedy Expressway" priority="14" type="highway.motorway" spreadType="center" shape="379.85,1453.78 363.97,1470.72 357.34,1477.47 287.67,1546.02 264.80,1568.73 230.62,1600.95 197.13,1627.62 188.23,1633.54 159.66,1651.53">
+        <lane id="SB_0" index="0" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="269.56" shape="363.43,1475.84 359.60,1479.73 289.92,1548.30 267.03,1571.03 232.72,1603.37 199.02,1630.21 189.97,1636.23 161.37,1654.24">
+            <param key="origId" value="380664935 33067989"/>
+        </lane>
+        <lane id="SB_1" index="1" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="269.56" shape="361.10,1473.65 357.34,1477.47 287.67,1546.02 264.80,1568.73 230.62,1600.95 197.13,1627.62 188.23,1633.54 159.66,1651.53">
+            <param key="origId" value="380664935 33067989"/>
+        </lane>
+        <lane id="SB_2" index="2" allow="private emergency authority army vip passenger hov taxi bus coach delivery truck trailer motorcycle evehicle custom1 custom2" speed="8.33" length="269.56" shape="358.76,1471.46 355.08,1475.21 285.42,1543.74 262.57,1566.43 228.52,1598.53 195.24,1625.03 186.49,1630.85 157.95,1648.82">
+            <param key="origId" value="380664935 33067989"/>
+        </lane>
+        <param key="ref" value="I 90"/>
+    </edge>
+
+    <junction id="Diverge" type="zipper" x="379.85" y="1453.78" incLanes="Main_0 Main_1 Main_2 Main_3 Main_4 Main_5" intLanes=":Diverge_0_0 :Diverge_0_1 :Diverge_0_2 :Diverge_3_0 :Diverge_3_1 :Diverge_3_2" shape="390.75,1462.76 376.77,1449.60 357.59,1470.36 364.60,1476.93 364.84,1477.12 372.91,1482.31 376.09,1477.67 378.70,1474.44 381.11,1471.98 383.68,1469.64 386.77,1466.78">
+        <request index="0" response="000000" foes="000000" cont="0"/>
+        <request index="1" response="000000" foes="000000" cont="0"/>
+        <request index="2" response="000000" foes="000000" cont="0"/>
+        <request index="3" response="000000" foes="000000" cont="0"/>
+        <request index="4" response="000000" foes="000000" cont="0"/>
+        <request index="5" response="000000" foes="000000" cont="0"/>
+    </junction>
+    <junction id="In" type="dead_end" x="683.67" y="1189.37" incLanes="" intLanes="" shape="681.98,1187.02 693.19,1202.61"/>
+    <junction id="North_Out" type="dead_end" x="239.26" y="1659.26" incLanes="NB_0 NB_1 NB_2" intLanes="" shape="247.17,1664.70 239.26,1659.26"/>
+    <junction id="South_Out" type="dead_end" x="159.66" y="1651.53" incLanes="SB_0 SB_1 SB_2" intLanes="" shape="162.22,1655.59 157.10,1647.47"/>
+
+    <connection from="Main" to="NB" fromLane="0" toLane="0" via=":Diverge_0_0" dir="R" state="M"/>
+    <connection from="Main" to="NB" fromLane="1" toLane="1" via=":Diverge_0_1" dir="R" state="M"/>
+    <connection from="Main" to="NB" fromLane="2" toLane="2" via=":Diverge_0_2" dir="R" state="M"/>
+    <connection from="Main" to="SB" fromLane="3" toLane="0" via=":Diverge_3_0" dir="s" state="M"/>
+    <connection from="Main" to="SB" fromLane="4" toLane="1" via=":Diverge_3_1" dir="s" state="M"/>
+    <connection from="Main" to="SB" fromLane="5" toLane="2" via=":Diverge_3_2" dir="s" state="M"/>
+
+    <connection from=":Diverge_0" to="NB" fromLane="0" toLane="0" dir="R" state="M"/>
+    <connection from=":Diverge_0" to="NB" fromLane="1" toLane="1" dir="R" state="M"/>
+    <connection from=":Diverge_0" to="NB" fromLane="2" toLane="2" dir="R" state="M"/>
+    <connection from=":Diverge_3" to="SB" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Diverge_3" to="SB" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":Diverge_3" to="SB" fromLane="2" toLane="2" dir="s" state="M"/>
+
+</net>

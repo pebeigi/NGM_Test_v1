@@ -14,7 +14,7 @@ Detection of lane-change events from trajectory data and calibration of **lane-c
 
 `1.2.1 - Data Processing.py` produces the event table (changing vehicle plus surrounding traffic). The
 MOBIL and DDM subfolders then consume the extracted events to fit their respective decision models. The
-resulting parameters feed the lane-changing logic in [`3 - SIMULATION`](../../3%20-%20SIMULATION/README.md).
+resulting parameters feed the lane-changing logic in [`2 - SIMULATION`](../../2%20-%20SIMULATION/README.md).
 
 > TGSIM CSV paths and lane-change outputs are resolved through [`ngm_paths.py`](../../ngm_paths.py)
 > (`calibration_dataset_paths()`, `lane_change_dataset_paths()`, `dataset_path()`).

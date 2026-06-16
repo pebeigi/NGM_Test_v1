@@ -2,8 +2,7 @@
 
 This stage turns **raw trajectory data into calibrated behavioral-model parameters**. Each subfolder
 targets one behavioral domain, fits one or more models to field data (mostly with genetic algorithms),
-and exports per-class parameter CSVs that feed the simulator in [`3 - SIMULATION`](../3%20-%20SIMULATION/README.md)
-and the reference notebook in [`2 - ALGORITHM DESCRIPTION`](../2%20-%20ALGORITHM%20DESCRIPTION/readme.md).
+and exports per-class parameter CSVs that feed the simulator in [`2 - SIMULATION`](../2%20-%20SIMULATION/README.md).
 
 ## Subfolders
 
@@ -35,5 +34,5 @@ paths need to be edited. If you add a new script in a subfolder, import helpers 
 ## Outputs that feed downstream stages
 
 Calibrated CSVs produced here are the source of the parameter pools copied into
-`3 - SIMULATION/models/model_params/` and `2 - ALGORITHM DESCRIPTION/model_params/` — for example the
-merged IDM/PT parameter tables and the MOBIL results used to sample per-vehicle behavior at runtime.
+`2 - SIMULATION/models/model_params/` — for example the merged IDM/PT parameter tables and the MOBIL
+results used to sample per-vehicle behavior at runtime.

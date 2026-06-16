@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-02-07 14:55:47 by Eclipse SUMO netedit Version 1.21.0
+<neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="freeway_3lane_template_on_on_off_off.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="freeway_3lane_template_on_on_off_off.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="0"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</neteditConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="-500.00,-100.00,1100.00,0.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id=":Off_Ramp2_Start_0" function="internal">
+        <lane id=":Off_Ramp2_Start_0_0" index="0" speed="10.28" length="3.71" shape="916.94,-11.20 918.04,-11.22 918.80,-11.31 919.51,-11.56 920.50,-12.04"/>
+    </edge>
+    <edge id=":Off_Ramp2_Start_1" function="internal">
+        <lane id=":Off_Ramp2_Start_1_0" index="0" speed="13.89" length="3.76" shape="916.94,-8.00 920.70,-8.00"/>
+        <lane id=":Off_Ramp2_Start_1_1" index="1" speed="13.89" length="3.76" shape="916.94,-4.80 920.70,-4.80"/>
+        <lane id=":Off_Ramp2_Start_1_2" index="2" speed="13.89" length="3.76" shape="916.94,-1.60 920.70,-1.60"/>
+    </edge>
+    <edge id=":Off_Ramp2_Taper_Start_0" function="internal">
+        <lane id=":Off_Ramp2_Taper_Start_0_0" index="0" speed="13.89" length="8.20" shape="696.00,-8.00 698.46,-8.50 700.00,-9.60 701.54,-10.70 704.00,-11.20"/>
+        <lane id=":Off_Ramp2_Taper_Start_0_1" index="1" speed="13.89" length="8.20" shape="696.00,-8.00 704.00,-8.00"/>
+        <lane id=":Off_Ramp2_Taper_Start_0_2" index="2" speed="13.89" length="8.20" shape="696.00,-4.80 704.00,-4.80"/>
+        <lane id=":Off_Ramp2_Taper_Start_0_3" index="3" speed="13.89" length="8.20" shape="696.00,-1.60 704.00,-1.60"/>
+    </edge>
+    <edge id=":On_Ramp1_End_0" function="internal">
+        <lane id=":On_Ramp1_End_0_0" index="0" speed="10.28" length="3.71" shape="-320.50,-12.04 -319.51,-11.56 -318.80,-11.31 -318.04,-11.22 -316.94,-11.20"/>
+    </edge>
+    <edge id=":On_Ramp1_End_1" function="internal">
+        <lane id=":On_Ramp1_End_1_0" index="0" speed="13.89" length="3.76" shape="-320.70,-8.00 -316.94,-8.00"/>
+        <lane id=":On_Ramp1_End_1_1" index="1" speed="13.89" length="3.76" shape="-320.70,-4.80 -316.94,-4.80"/>
+        <lane id=":On_Ramp1_End_1_2" index="2" speed="13.89" length="3.76" shape="-320.70,-1.60 -316.94,-1.60"/>
+    </edge>
+    <edge id=":On_Ramp1_Taper_End_0" function="internal">
+        <lane id=":On_Ramp1_Taper_End_0_0" index="0" speed="13.89" length="8.00" shape="-104.00,-8.00 -96.00,-8.00"/>
+        <lane id=":On_Ramp1_Taper_End_0_1" index="1" speed="13.89" length="8.00" shape="-104.00,-4.80 -96.00,-4.80"/>
+        <lane id=":On_Ramp1_Taper_End_0_2" index="2" speed="13.89" length="8.00" shape="-104.00,-1.60 -96.00,-1.60"/>
+    </edge>
+    <edge id=":Weaving_End_0" function="internal">
+        <lane id=":Weaving_End_0_0" index="0" speed="10.28" length="3.71" shape="516.94,-11.20 518.04,-11.22 518.80,-11.31 519.51,-11.56 520.50,-12.04"/>
+    </edge>
+    <edge id=":Weaving_End_1" function="internal">
+        <lane id=":Weaving_End_1_0" index="0" speed="13.89" length="3.76" shape="516.94,-8.00 520.70,-8.00"/>
+        <lane id=":Weaving_End_1_1" index="1" speed="13.89" length="3.76" shape="516.94,-4.80 520.70,-4.80"/>
+        <lane id=":Weaving_End_1_2" index="2" speed="13.89" length="3.76" shape="516.94,-1.60 520.70,-1.60"/>
+    </edge>
+    <edge id=":Weaving_Start_0" function="internal">
+        <lane id=":Weaving_Start_0_0" index="0" speed="10.28" length="3.71" shape="79.50,-12.04 80.49,-11.56 81.20,-11.31 81.96,-11.22 83.06,-11.20"/>
+    </edge>
+    <edge id=":Weaving_Start_1" function="internal">
+        <lane id=":Weaving_Start_1_0" index="0" speed="13.89" length="3.76" shape="79.30,-8.00 83.06,-8.00"/>
+        <lane id=":Weaving_Start_1_1" index="1" speed="13.89" length="3.76" shape="79.30,-4.80 83.06,-4.80"/>
+        <lane id=":Weaving_Start_1_2" index="2" speed="13.89" length="3.76" shape="79.30,-1.60 83.06,-1.60"/>
+    </edge>
+
+    <edge id="After_Weaving" from="Weaving_End" to="Off_Ramp2_Taper_Start" priority="-1">
+        <lane id="After_Weaving_0" index="0" speed="13.89" length="175.30" shape="520.70,-8.00 696.00,-8.00"/>
+        <lane id="After_Weaving_1" index="1" speed="13.89" length="175.30" shape="520.70,-4.80 696.00,-4.80"/>
+        <lane id="After_Weaving_2" index="2" speed="13.89" length="175.30" shape="520.70,-1.60 696.00,-1.60"/>
+    </edge>
+    <edge id="Before_Weaving" from="On_Ramp1_Taper_End" to="Weaving_Start" priority="-1">
+        <lane id="Before_Weaving_0" index="0" speed="13.89" length="175.30" shape="-96.00,-8.00 79.30,-8.00"/>
+        <lane id="Before_Weaving_1" index="1" speed="13.89" length="175.30" shape="-96.00,-4.80 79.30,-4.80"/>
+        <lane id="Before_Weaving_2" index="2" speed="13.89" length="175.30" shape="-96.00,-1.60 79.30,-1.60"/>
+    </edge>
+    <edge id="Input" from="Start" to="On_Ramp1_End" priority="-1">
+        <lane id="Input_0" index="0" speed="13.89" length="179.30" shape="-500.00,-8.00 -320.70,-8.00"/>
+        <lane id="Input_1" index="1" speed="13.89" length="179.30" shape="-500.00,-4.80 -320.70,-4.80"/>
+        <lane id="Input_2" index="2" speed="13.89" length="179.30" shape="-500.00,-1.60 -320.70,-1.60"/>
+    </edge>
+    <edge id="Off_Ramp1" from="Weaving_End" to="Off_Ramp1_End" priority="-1">
+        <lane id="Off_Ramp1_0" index="0" speed="13.89" length="199.89" shape="520.50,-12.04 699.28,-101.43"/>
+    </edge>
+    <edge id="Off_Ramp2" from="Off_Ramp2_Start" to="Off_Ramp2_End" priority="-1">
+        <lane id="Off_Ramp2_0" index="0" speed="13.89" length="199.89" shape="920.50,-12.04 1099.28,-101.43"/>
+    </edge>
+    <edge id="Off_Ramp2_Taper" from="Off_Ramp2_Taper_Start" to="Off_Ramp2_Start" priority="-1">
+        <lane id="Off_Ramp2_Taper_0" index="0" speed="13.89" length="212.94" shape="704.00,-11.20 916.94,-11.20"/>
+        <lane id="Off_Ramp2_Taper_1" index="1" speed="13.89" length="212.94" shape="704.00,-8.00 916.94,-8.00"/>
+        <lane id="Off_Ramp2_Taper_2" index="2" speed="13.89" length="212.94" shape="704.00,-4.80 916.94,-4.80"/>
+        <lane id="Off_Ramp2_Taper_3" index="3" speed="13.89" length="212.94" shape="704.00,-1.60 916.94,-1.60"/>
+    </edge>
+    <edge id="On_Ramp1" from="On_Ramp1_Start" to="On_Ramp1_End" priority="-1">
+        <lane id="On_Ramp1_0" index="0" speed="13.89" length="199.89" shape="-499.28,-101.43 -320.50,-12.04"/>
+    </edge>
+    <edge id="On_Ramp1_Taper" from="On_Ramp1_End" to="On_Ramp1_Taper_End" priority="-1">
+        <lane id="On_Ramp1_Taper_0" index="0" speed="13.89" length="212.94" shape="-316.94,-11.20 -104.00,-11.20"/>
+        <lane id="On_Ramp1_Taper_1" index="1" speed="13.89" length="212.94" shape="-316.94,-8.00 -104.00,-8.00"/>
+        <lane id="On_Ramp1_Taper_2" index="2" speed="13.89" length="212.94" shape="-316.94,-4.80 -104.00,-4.80"/>
+        <lane id="On_Ramp1_Taper_3" index="3" speed="13.89" length="212.94" shape="-316.94,-1.60 -104.00,-1.60"/>
+    </edge>
+    <edge id="On_Ramp2" from="On_Ramp2_Start" to="Weaving_Start" priority="-1">
+        <lane id="On_Ramp2_0" index="0" speed="13.89" length="199.89" shape="-99.28,-101.43 79.50,-12.04"/>
+    </edge>
+    <edge id="Output" from="Off_Ramp2_Start" to="End" priority="-1">
+        <lane id="Output_0" index="0" speed="13.89" length="179.30" shape="920.70,-8.00 1100.00,-8.00"/>
+        <lane id="Output_1" index="1" speed="13.89" length="179.30" shape="920.70,-4.80 1100.00,-4.80"/>
+        <lane id="Output_2" index="2" speed="13.89" length="179.30" shape="920.70,-1.60 1100.00,-1.60"/>
+    </edge>
+    <edge id="Weaving_Area" from="Weaving_Start" to="Weaving_End" priority="-1">
+        <lane id="Weaving_Area_0" index="0" speed="13.89" length="433.89" shape="83.06,-11.20 516.94,-11.20"/>
+        <lane id="Weaving_Area_1" index="1" speed="13.89" length="433.89" shape="83.06,-8.00 516.94,-8.00"/>
+        <lane id="Weaving_Area_2" index="2" speed="13.89" length="433.89" shape="83.06,-4.80 516.94,-4.80"/>
+        <lane id="Weaving_Area_3" index="3" speed="13.89" length="433.89" shape="83.06,-1.60 516.94,-1.60"/>
+    </edge>
+
+    <junction id="End" type="dead_end" x="1100.00" y="0.00" incLanes="Output_0 Output_1 Output_2" intLanes="" shape="1100.00,-9.60 1100.00,0.00"/>
+    <junction id="Off_Ramp1_End" type="dead_end" x="700.00" y="-100.00" incLanes="Off_Ramp1_0" intLanes="" shape="698.57,-102.86 700.00,-100.00"/>
+    <junction id="Off_Ramp2_End" type="dead_end" x="1100.00" y="-100.00" incLanes="Off_Ramp2_0" intLanes="" shape="1098.57,-102.86 1100.00,-100.00"/>
+    <junction id="Off_Ramp2_Start" type="priority" x="900.00" y="0.00" incLanes="Off_Ramp2_Taper_0 Off_Ramp2_Taper_1 Off_Ramp2_Taper_2 Off_Ramp2_Taper_3" intLanes=":Off_Ramp2_Start_0_0 :Off_Ramp2_Start_1_0 :Off_Ramp2_Start_1_1 :Off_Ramp2_Start_1_2" shape="920.70,0.00 920.70,-9.60 920.09,-9.71 920.08,-9.85 920.26,-10.05 920.64,-10.30 921.22,-10.61 919.79,-13.47 918.79,-13.01 918.42,-12.89 918.04,-12.83 917.57,-12.80 916.94,-12.80 916.94,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="Off_Ramp2_Taper_Start" type="priority" x="700.00" y="0.00" incLanes="After_Weaving_0 After_Weaving_1 After_Weaving_2" intLanes=":Off_Ramp2_Taper_Start_0_0 :Off_Ramp2_Taper_Start_0_1 :Off_Ramp2_Taper_Start_0_2 :Off_Ramp2_Taper_Start_0_3" shape="704.00,0.00 704.00,-12.80 700.97,-11.97 699.03,-10.43 697.79,-9.84 696.00,-9.60 696.00,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="On_Ramp1_End" type="priority" x="-300.00" y="0.00" incLanes="On_Ramp1_0 Input_0 Input_1 Input_2" intLanes=":On_Ramp1_End_0_0 :On_Ramp1_End_1_0 :On_Ramp1_End_1_1 :On_Ramp1_End_1_2" shape="-316.94,0.00 -316.94,-12.80 -318.04,-12.83 -318.42,-12.89 -318.79,-13.01 -319.22,-13.19 -319.79,-13.47 -321.22,-10.61 -320.26,-10.05 -320.08,-9.85 -320.09,-9.71 -320.30,-9.63 -320.70,-9.60 -320.70,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="On_Ramp1_Start" type="dead_end" x="-500.00" y="-100.00" incLanes="" intLanes="" shape="-500.00,-100.00 -498.57,-102.86"/>
+    <junction id="On_Ramp1_Taper_End" type="priority" x="-100.00" y="0.00" incLanes="On_Ramp1_Taper_0 On_Ramp1_Taper_1 On_Ramp1_Taper_2 On_Ramp1_Taper_3" intLanes=":On_Ramp1_Taper_End_0_0 :On_Ramp1_Taper_End_0_1 :On_Ramp1_Taper_End_0_2" shape="-96.00,0.00 -96.00,-9.60 -99.03,-10.43 -100.97,-11.97 -102.21,-12.56 -104.00,-12.80 -104.00,0.00">
+        <request index="0" response="000" foes="000" cont="0"/>
+        <request index="1" response="000" foes="000" cont="0"/>
+        <request index="2" response="000" foes="000" cont="0"/>
+    </junction>
+    <junction id="On_Ramp2_Start" type="dead_end" x="-100.00" y="-100.00" incLanes="" intLanes="" shape="-100.00,-100.00 -98.57,-102.86"/>
+    <junction id="Start" type="dead_end" x="-500.00" y="0.00" incLanes="" intLanes="" shape="-500.00,0.00 -500.00,-9.60"/>
+    <junction id="Weaving_End" type="priority" x="500.00" y="0.00" incLanes="Weaving_Area_0 Weaving_Area_1 Weaving_Area_2 Weaving_Area_3" intLanes=":Weaving_End_0_0 :Weaving_End_1_0 :Weaving_End_1_1 :Weaving_End_1_2" shape="520.70,0.00 520.70,-9.60 520.09,-9.71 520.08,-9.85 520.26,-10.05 520.64,-10.30 521.22,-10.61 519.79,-13.47 518.79,-13.01 518.42,-12.89 518.04,-12.83 517.57,-12.80 516.94,-12.80 516.94,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="Weaving_Start" type="priority" x="100.00" y="0.00" incLanes="On_Ramp2_0 Before_Weaving_0 Before_Weaving_1 Before_Weaving_2" intLanes=":Weaving_Start_0_0 :Weaving_Start_1_0 :Weaving_Start_1_1 :Weaving_Start_1_2" shape="83.06,0.00 83.06,-12.80 81.96,-12.83 81.58,-12.89 81.21,-13.01 80.78,-13.19 80.21,-13.47 78.78,-10.61 79.74,-10.05 79.92,-9.85 79.91,-9.71 79.70,-9.63 79.30,-9.60 79.30,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+
+    <connection from="After_Weaving" to="Off_Ramp2_Taper" fromLane="0" toLane="0" via=":Off_Ramp2_Taper_Start_0_0" dir="s" state="M"/>
+    <connection from="After_Weaving" to="Off_Ramp2_Taper" fromLane="0" toLane="1" via=":Off_Ramp2_Taper_Start_0_1" dir="s" state="M"/>
+    <connection from="After_Weaving" to="Off_Ramp2_Taper" fromLane="1" toLane="2" via=":Off_Ramp2_Taper_Start_0_2" dir="s" state="M"/>
+    <connection from="After_Weaving" to="Off_Ramp2_Taper" fromLane="2" toLane="3" via=":Off_Ramp2_Taper_Start_0_3" dir="s" state="M"/>
+    <connection from="Before_Weaving" to="Weaving_Area" fromLane="0" toLane="1" via=":Weaving_Start_1_0" dir="s" state="M"/>
+    <connection from="Before_Weaving" to="Weaving_Area" fromLane="1" toLane="2" via=":Weaving_Start_1_1" dir="s" state="M"/>
+    <connection from="Before_Weaving" to="Weaving_Area" fromLane="2" toLane="3" via=":Weaving_Start_1_2" dir="s" state="M"/>
+    <connection from="Input" to="On_Ramp1_Taper" fromLane="0" toLane="1" via=":On_Ramp1_End_1_0" dir="s" state="M"/>
+    <connection from="Input" to="On_Ramp1_Taper" fromLane="1" toLane="2" via=":On_Ramp1_End_1_1" dir="s" state="M"/>
+    <connection from="Input" to="On_Ramp1_Taper" fromLane="2" toLane="3" via=":On_Ramp1_End_1_2" dir="s" state="M"/>
+    <connection from="Off_Ramp2_Taper" to="Off_Ramp2" fromLane="0" toLane="0" via=":Off_Ramp2_Start_0_0" dir="R" state="M"/>
+    <connection from="Off_Ramp2_Taper" to="Output" fromLane="1" toLane="0" via=":Off_Ramp2_Start_1_0" dir="s" state="M"/>
+    <connection from="Off_Ramp2_Taper" to="Output" fromLane="2" toLane="1" via=":Off_Ramp2_Start_1_1" dir="s" state="M"/>
+    <connection from="Off_Ramp2_Taper" to="Output" fromLane="3" toLane="2" via=":Off_Ramp2_Start_1_2" dir="s" state="M"/>
+    <connection from="On_Ramp1" to="On_Ramp1_Taper" fromLane="0" toLane="0" via=":On_Ramp1_End_0_0" dir="s" state="M"/>
+    <connection from="On_Ramp1_Taper" to="Before_Weaving" fromLane="1" toLane="0" via=":On_Ramp1_Taper_End_0_0" dir="s" state="M"/>
+    <connection from="On_Ramp1_Taper" to="Before_Weaving" fromLane="2" toLane="1" via=":On_Ramp1_Taper_End_0_1" dir="s" state="M"/>
+    <connection from="On_Ramp1_Taper" to="Before_Weaving" fromLane="3" toLane="2" via=":On_Ramp1_Taper_End_0_2" dir="s" state="M"/>
+    <connection from="On_Ramp2" to="Weaving_Area" fromLane="0" toLane="0" via=":Weaving_Start_0_0" dir="s" state="M"/>
+    <connection from="Weaving_Area" to="Off_Ramp1" fromLane="0" toLane="0" via=":Weaving_End_0_0" dir="R" state="M"/>
+    <connection from="Weaving_Area" to="After_Weaving" fromLane="1" toLane="0" via=":Weaving_End_1_0" dir="s" state="M"/>
+    <connection from="Weaving_Area" to="After_Weaving" fromLane="2" toLane="1" via=":Weaving_End_1_1" dir="s" state="M"/>
+    <connection from="Weaving_Area" to="After_Weaving" fromLane="3" toLane="2" via=":Weaving_End_1_2" dir="s" state="M"/>
+
+    <connection from=":Off_Ramp2_Start_0" to="Off_Ramp2" fromLane="0" toLane="0" dir="R" state="M"/>
+    <connection from=":Off_Ramp2_Start_1" to="Output" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Off_Ramp2_Start_1" to="Output" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":Off_Ramp2_Start_1" to="Output" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":Off_Ramp2_Taper_Start_0" to="Off_Ramp2_Taper" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Off_Ramp2_Taper_Start_0" to="Off_Ramp2_Taper" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":Off_Ramp2_Taper_Start_0" to="Off_Ramp2_Taper" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":Off_Ramp2_Taper_Start_0" to="Off_Ramp2_Taper" fromLane="3" toLane="3" dir="s" state="M"/>
+    <connection from=":On_Ramp1_End_0" to="On_Ramp1_Taper" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":On_Ramp1_End_1" to="On_Ramp1_Taper" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":On_Ramp1_End_1" to="On_Ramp1_Taper" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from=":On_Ramp1_End_1" to="On_Ramp1_Taper" fromLane="2" toLane="3" dir="s" state="M"/>
+    <connection from=":On_Ramp1_Taper_End_0" to="Before_Weaving" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":On_Ramp1_Taper_End_0" to="Before_Weaving" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":On_Ramp1_Taper_End_0" to="Before_Weaving" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving_End_0" to="Off_Ramp1" fromLane="0" toLane="0" dir="R" state="M"/>
+    <connection from=":Weaving_End_1" to="After_Weaving" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Weaving_End_1" to="After_Weaving" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":Weaving_End_1" to="After_Weaving" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving_Start_0" to="Weaving_Area" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Weaving_Start_1" to="Weaving_Area" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":Weaving_Start_1" to="Weaving_Area" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving_Start_1" to="Weaving_Area" fromLane="2" toLane="3" dir="s" state="M"/>
+
+</net>

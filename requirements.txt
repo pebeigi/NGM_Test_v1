@@ -1,0 +1,12 @@
+# Python dependencies for NGM Simulation (GUI.py) and calibration notebooks.
+# Install SUMO separately: https://eclipse.dev/sumo/
+PyQt5
+numpy
+pandas
+scipy
+matplotlib
+numba
+scikit-learn
+ray
+traci
+sumolib

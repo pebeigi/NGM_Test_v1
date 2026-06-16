@@ -99,7 +99,7 @@ def load_tgsim_csv(path: str, **read_csv_kwargs) -> pd.DataFrame:
 
 
 def simulation_results_dir() -> str:
-    return os.path.join(REPO_ROOT, "3 - SIMULATION", "results")
+    return os.path.join(REPO_ROOT, "2 - SIMULATION", "results")
 
 
 def lateral_calibration_dir() -> str:

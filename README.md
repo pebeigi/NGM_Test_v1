@@ -1,18 +1,17 @@
 # Next Generation Modeling (NGM) Project
 
-**NGM Project** is an end-to-end research framework for **calibrating, describing, and simulating
+**NGM Project** is an end-to-end research framework for **calibrating and simulating
 next-generation transportation behavior models**. It covers the full pipeline — from raw vehicle and
 vulnerable-road-user (VRU) trajectory data, through behavioral-model calibration, to large-scale
 microscopic traffic simulation in [Eclipse SUMO](https://eclipse.dev/sumo/) with connected/automated
 vehicle (CAV/AV) and communication (V2X) behavior.
 
-The repository is organized into three numbered stages that mirror this workflow:
+The repository is organized into two numbered stages that mirror this workflow:
 
 | Stage | Folder | What it does |
 |-------|--------|--------------|
 | **1. Parametric input** | [`1 - PARAMETRIC INPUT`](1%20-%20PARAMETRIC%20INPUT/readme.md) | Calibrates behavioral models (car-following, lane-changing, lateral, VRU) against real trajectory data and produces parameter libraries. |
-| **2. Algorithm description** | [`2 - ALGORITHM DESCRIPTION`](2%20-%20ALGORITHM%20DESCRIPTION/readme.md) | Reference SUMO + TraCI implementation of the calibrated models on three real freeway corridors. |
-| **3. Simulation** | [`3 - SIMULATION`](3%20-%20SIMULATION/README.md) | Full desktop microsimulation tool (PyQt5 wizard) for running and comparing scenarios at scale. |
+| **2. Simulation** | [`2 - SIMULATION`](2%20-%20SIMULATION/README.md) | Full desktop microsimulation tool (PyQt5 wizard) for running and comparing scenarios at scale. |
 
 > **Data convention used across the project:** vehicle classes are abbreviated **S** = Small vehicle
 > (human-driven car), **A** = Automated vehicle (AV/CAV), **L** = Large/heavy vehicle (truck).
@@ -26,19 +25,13 @@ The repository is organized into three numbered stages that mirror this workflow
    Raw trajectory data                Calibrated parameters             Microsimulation
  (Waymo, TGSIM, I-94/294/395)              (CSV libraries)              (SUMO + TraCI + GUI)
 
-  1 - PARAMETRIC INPUT      ───────►   model_params / *.csv   ───────►   3 - SIMULATION
-        │                                      ▲                              │
-        └──────────────────────────────────────┴──────────────────────────────┘
-                          2 - ALGORITHM DESCRIPTION
-                  (reference freeway implementation of the models)
+  1 - PARAMETRIC INPUT      ───────►   model_params / *.csv   ───────►   2 - SIMULATION
 ```
 
 1. **Stage 1** fits behavioral models — IDM and Prospect Theory (PT) for car-following, MOBIL and the
    Drift Diffusion Model (DDM) for lane-changing, polynomial models for lateral motion, and Social Force
    (SF) / PT for pedestrians and bicycles — and exports per-class parameter CSVs.
-2. **Stage 2** is a self-contained notebook that loads those parameters and drives custom car-following
-   models inside SUMO for the I-90/94, I-294, and I-395 corridors.
-3. **Stage 3** is the production simulator: a GUI-driven, scenario-configurable SUMO front-end that
+2. **Stage 2** is the production simulator: a GUI-driven, scenario-configurable SUMO front-end that
    supports freeways, arterials, and intersections, plus CAV cooperation, V2X communication, signal
    control, and safety analysis.
 
@@ -50,6 +43,7 @@ The repository is organized into three numbered stages that mirror this workflow
 NGM_Test_v1/
 ├── README.md                     # This file
 ├── LICENSE
+├── requirements.txt              # Python deps for GUI.py (SUMO installed separately)
 ├── ngm_paths.py                  # Shared dataset/output path helpers (repo root)
 ├── main.py                       # Placeholder entry point
 ├── .gitignore                    # Ignores raw datasets and large generated CSVs/plots
@@ -62,12 +56,7 @@ NGM_Test_v1/
 │   ├── 1.3 - Lateral Calibration/#   Curvilinear transform + lateral LC shape
 │   └── 1.4.2 - VRU Parametric Analysis/  # Social Force / PT VRU calibration
 │
-├── 2 - ALGORITHM DESCRIPTION/    # Reference SUMO freeway implementation  →  see readme.md
-│   ├── Simulate_Freeway.ipynb
-│   ├── configs/                  #   SUMO networks for I-90/94, I-294, I-395
-│   └── model_params/             #   Calibrated IDM/PT parameter pools
-│
-└── 3 - SIMULATION/               # Production microsimulation tool  →  see README.md
+└── 2 - SIMULATION/               # Production microsimulation tool  →  see README.md
     ├── GUI.py                    #   PyQt5 configuration wizard (main entry point)
     ├── models/                   #   Scenario runners, physics, networking, signals
     ├── templates/                #   SUMO network skeletons
@@ -91,15 +80,7 @@ Data preprocessing and behavioral-model calibration across four domains:
 - **[VRU parametric analysis](1%20-%20PARAMETRIC%20INPUT/1.4.2%20-%20VRU%20Parametric%20Analysis/readme.md)** —
   Social Force and Prospect Theory models for pedestrians/bicycles.
 
-### [2 — Algorithm Description](2%20-%20ALGORITHM%20DESCRIPTION/readme.md)
-
-A reference implementation that takes the calibrated parameters into SUMO. `Simulate_Freeway.ipynb`
-drives **custom IDM/PT car-following** through TraCI on three real-world freeway corridors
-(**I-90/94**, **I-294**, **I-395**), with SUMO network/trip configs under
-[`configs/`](2%20-%20ALGORITHM%20DESCRIPTION/configs/readme.md) and calibrated parameter pools under
-[`model_params/`](2%20-%20ALGORITHM%20DESCRIPTION/model_params/readme.md).
-
-### [3 — Simulation](3%20-%20SIMULATION/README.md)
+### [2 — Simulation](2%20-%20SIMULATION/README.md)
 
 The production tool: a **PyQt5 wizard (`GUI.py`)** that configures networks, demand, signal timing,
 driver models, and optional CAV/V2X behavior, then runs SUMO via **TraCI** with custom physics. It
@@ -107,38 +88,129 @@ supports **freeway**, **arterial**, **single-intersection**, and **TGSIM** scena
 analysis tools for trajectories, flow–density relationships, and surrogate safety metrics. See the
 subfolder guides:
 
-- [`models/`](3%20-%20SIMULATION/models/readme.md) — scenario runners, car-following/cooperation physics,
+- [`models/`](2%20-%20SIMULATION/models/readme.md) — scenario runners, car-following/cooperation physics,
   V2X networking, and signal control.
-- [`templates/`](3%20-%20SIMULATION/templates/readme.md) — SUMO network skeletons and their naming scheme.
-- [`results/`](3%20-%20SIMULATION/results/readme.md) — post-processing notebooks, plotting, safety
+- [`templates/`](2%20-%20SIMULATION/templates/readme.md) — SUMO network skeletons and their naming scheme.
+- [`results/`](2%20-%20SIMULATION/results/readme.md) — post-processing notebooks, plotting, safety
   metrics, and batch outputs.
 
 ---
 
-## Getting started
+## Quick start: run the simulator (`GUI.py`)
 
-Download all raw datasets from the
-[NGM Datasets Kaggle page](https://www.kaggle.com/datasets/pedrambeigi/ngm-datasets) into
-[`0 - Datasets/`](0%20-%20Datasets/readme.md) before running calibration scripts.
+This is the fastest path if you only want to **open the desktop wizard and run a SUMO
+simulation**. You do **not** need to download Kaggle datasets or run Stage 1 calibration first.
 
-**Stage 1** scripts and notebooks resolve dataset paths through [`ngm_paths.py`](ngm_paths.py) at the
-repo root — no machine-specific paths need to be edited after the data is in place. **Stage 2** uses
-repo-relative paths under `2 - ALGORITHM DESCRIPTION/` (e.g. `model_params/`, `configs/`). **Stage 3**
-(the simulator) is the most turn-key component.
+| What you need | Required for GUI? |
+|---------------|-------------------|
+| Python 3.9+ and pip | Yes |
+| Eclipse SUMO (`sumo`, `sumo-gui` on PATH) | Yes |
+| Python packages (see below) | Yes |
+| Trajectory datasets in `0 - Datasets/` | No (Stage 1 only) |
+| Calibrated CSVs in `models/model_params/` | No — wizard uses built-in defaults if files are missing |
 
-To run the simulator:
+### Step 1 — Clone the repository
 
 ```bash
-# 1. Install SUMO and add its bin/ to PATH (see Eclipse SUMO docs)
-# 2. Install Python dependencies
-pip install PyQt5 numpy pandas scipy matplotlib numba scikit-learn ray
+git clone https://github.com/pebeigi/NGM_Test_v1.git
+cd NGM_Test_v1
+```
 
-# 3. Launch the configuration wizard
-cd "3 - SIMULATION"
+### Step 2 — Create a virtual environment (recommended)
+
+```bash
+python -m venv .venv
+
+# Windows (PowerShell)
+.\.venv\Scripts\Activate.ps1
+
+# macOS / Linux
+source .venv/bin/activate
+```
+
+### Step 3 — Install Python packages
+
+From the **repo root**:
+
+```bash
+pip install -r requirements.txt
+```
+
+This installs PyQt5, NumPy/Pandas/SciPy, Matplotlib, Numba, scikit-learn, Ray, and the Python
+**TraCI** bindings (`traci`, `sumolib`).
+
+### Step 4 — Install Eclipse SUMO
+
+1. Download the installer for your OS from [eclipse.dev/sumo](https://eclipse.dev/sumo/).
+2. Run the installer. On **Windows**, leave **“Add SUMO to PATH”** enabled if the installer offers it.
+3. Confirm the binaries work in a **new** terminal (PATH updates apply to new shells):
+
+```bash
+sumo --version
+sumo-gui --version
+```
+
+If those commands are not found, add SUMO’s `bin` folder to your system `PATH` manually (typical
+Windows location: `C:\Program Files (x86)\Eclipse\Sumo\bin`).
+
+### Step 5 — Verify imports
+
+Still in your virtual environment:
+
+```bash
+python -c "import traci, sumolib, PyQt5; print('Dependencies OK')"
+```
+
+If `traci` fails, reinstall bindings that match your SUMO version:
+
+```bash
+pip install --upgrade traci sumolib
+```
+
+### Step 6 — Launch the GUI
+
+```bash
+cd "2 - SIMULATION"
 python GUI.py
 ```
 
-See the [Stage 3 README](3%20-%20SIMULATION/README.md) for full installation, usage, and output details.
+The PyQt5 wizard opens. Work through the pages (Geometry → Network → Volume → … → Simulation) and
+click **Run** on the last page. See the [Stage 2 README](2%20-%20SIMULATION/README.md) for a
+full walkthrough of every wizard page and scenario type.
+
+**First run tip:** choose **Freeway** or **Single Intersection**, keep default volumes, enable
+**visualization** if you want to watch SUMO-GUI, and leave **data collection** off for a quick smoke
+test.
+
+### Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| `ModuleNotFoundError: No module named 'traci'` | `pip install traci sumolib` (Step 3) |
+| `ModuleNotFoundError: No module named 'PyQt5'` | Activate your venv, then `pip install -r requirements.txt` |
+| `sumo` / `sumo-gui` not recognized | Install SUMO (Step 4) and reopen the terminal |
+| GUI opens but simulation errors immediately | Confirm `sumo-gui --version` works; on Windows, keep visualization enabled only if SUMO-GUI is installed |
+| Empty or missing `models/model_params/*.csv` | Expected on a fresh clone (`*.csv` is git-ignored). The GUI still runs with code defaults; copy calibrated CSVs from Stage 1 outputs when you want research-grade parameters |
+
+### Optional — use calibrated behavior parameters
+
+The simulator samples driver-model parameters from CSV libraries under
+[`2 - SIMULATION/models/model_params/`](2%20-%20SIMULATION/models/model_params/readme.md)
+(`merged_IDM_*.csv`, `merged_PT_*.csv`, `MOBIL_results.csv`, …). Generate or copy these by running
+[Stage 1 calibration](1%20-%20PARAMETRIC%20INPUT/readme.md), or download the pre-built parameter
+bundles from the [NGM Datasets Kaggle page](https://www.kaggle.com/datasets/pedrambeigi/ngm-datasets)
+if available there.
+
+---
+
+## Getting started: Stage 1 calibration (optional)
+
+Download all raw trajectory datasets from the
+[NGM Datasets Kaggle page](https://www.kaggle.com/datasets/pedrambeigi/ngm-datasets) into
+[`0 - Datasets/`](0%20-%20Datasets/readme.md) before running calibration scripts.
+
+Stage 1 scripts and notebooks resolve paths through [`ngm_paths.py`](ngm_paths.py) at the repo root —
+no machine-specific paths need to be edited after the data is in place.
 
 ---
 

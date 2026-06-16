@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-02-08 14:02:24 by Eclipse SUMO netedit Version 1.21.0
+<neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="freeway_3lane_template_on_off_on_off.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="freeway_3lane_template_on_off_on_off.net.xml"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="0"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</neteditConfiguration>
+-->
+
+<net version="1.20" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="-100.00,-100.00,1700.00,0.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id=":Weaving1_End_0" function="internal">
+        <lane id=":Weaving1_End_0_0" index="0" speed="10.28" length="3.71" shape="516.94,-11.20 518.04,-11.22 518.80,-11.31 519.51,-11.56 520.50,-12.04"/>
+    </edge>
+    <edge id=":Weaving1_End_1" function="internal">
+        <lane id=":Weaving1_End_1_0" index="0" speed="13.89" length="3.76" shape="516.94,-8.00 520.70,-8.00"/>
+        <lane id=":Weaving1_End_1_1" index="1" speed="13.89" length="3.76" shape="516.94,-4.80 520.70,-4.80"/>
+        <lane id=":Weaving1_End_1_2" index="2" speed="13.89" length="3.76" shape="516.94,-1.60 520.70,-1.60"/>
+    </edge>
+    <edge id=":Weaving1_Start_0" function="internal">
+        <lane id=":Weaving1_Start_0_0" index="0" speed="10.28" length="3.71" shape="79.50,-12.04 80.49,-11.56 81.20,-11.31 81.96,-11.22 83.06,-11.20"/>
+    </edge>
+    <edge id=":Weaving1_Start_1" function="internal">
+        <lane id=":Weaving1_Start_1_0" index="0" speed="13.89" length="3.76" shape="79.30,-8.00 83.06,-8.00"/>
+        <lane id=":Weaving1_Start_1_1" index="1" speed="13.89" length="3.76" shape="79.30,-4.80 83.06,-4.80"/>
+        <lane id=":Weaving1_Start_1_2" index="2" speed="13.89" length="3.76" shape="79.30,-1.60 83.06,-1.60"/>
+    </edge>
+    <edge id=":Weaving2_End_0" function="internal">
+        <lane id=":Weaving2_End_0_0" index="0" speed="10.28" length="3.71" shape="1516.94,-11.20 1518.04,-11.22 1518.80,-11.31 1519.51,-11.56 1520.50,-12.04"/>
+    </edge>
+    <edge id=":Weaving2_End_1" function="internal">
+        <lane id=":Weaving2_End_1_0" index="0" speed="13.89" length="3.76" shape="1516.94,-8.00 1520.70,-8.00"/>
+        <lane id=":Weaving2_End_1_1" index="1" speed="13.89" length="3.76" shape="1516.94,-4.80 1520.70,-4.80"/>
+        <lane id=":Weaving2_End_1_2" index="2" speed="13.89" length="3.76" shape="1516.94,-1.60 1520.70,-1.60"/>
+    </edge>
+    <edge id=":Weaving2_Start_0" function="internal">
+        <lane id=":Weaving2_Start_0_0" index="0" speed="10.28" length="3.71" shape="1079.50,-12.04 1080.49,-11.56 1081.20,-11.31 1081.96,-11.22 1083.06,-11.20"/>
+    </edge>
+    <edge id=":Weaving2_Start_1" function="internal">
+        <lane id=":Weaving2_Start_1_0" index="0" speed="13.89" length="3.76" shape="1079.30,-8.00 1083.06,-8.00"/>
+        <lane id=":Weaving2_Start_1_1" index="1" speed="13.89" length="3.76" shape="1079.30,-4.80 1083.06,-4.80"/>
+        <lane id=":Weaving2_Start_1_2" index="2" speed="13.89" length="3.76" shape="1079.30,-1.60 1083.06,-1.60"/>
+    </edge>
+
+    <edge id="Between_Weaving" from="Weaving1_End" to="Weaving2_Start" priority="-1">
+        <lane id="Between_Weaving_0" index="0" speed="13.89" length="558.60" shape="520.70,-8.00 1079.30,-8.00"/>
+        <lane id="Between_Weaving_1" index="1" speed="13.89" length="558.60" shape="520.70,-4.80 1079.30,-4.80"/>
+        <lane id="Between_Weaving_2" index="2" speed="13.89" length="558.60" shape="520.70,-1.60 1079.30,-1.60"/>
+    </edge>
+    <edge id="Input" from="Start" to="Weaving1_Start" priority="-1">
+        <lane id="Input_0" index="0" speed="13.89" length="179.30" shape="-100.00,-8.00 79.30,-8.00"/>
+        <lane id="Input_1" index="1" speed="13.89" length="179.30" shape="-100.00,-4.80 79.30,-4.80"/>
+        <lane id="Input_2" index="2" speed="13.89" length="179.30" shape="-100.00,-1.60 79.30,-1.60"/>
+    </edge>
+    <edge id="Off_Ramp1" from="Weaving1_End" to="Off_Ramp1_End" priority="-1">
+        <lane id="Off_Ramp1_0" index="0" speed="13.89" length="199.89" shape="520.50,-12.04 699.28,-101.43"/>
+    </edge>
+    <edge id="Off_Ramp2" from="Weaving2_End" to="Off_Ramp2_End" priority="-1">
+        <lane id="Off_Ramp2_0" index="0" speed="13.89" length="199.89" shape="1520.50,-12.04 1699.28,-101.43"/>
+    </edge>
+    <edge id="On_Ramp1" from="On_Ramp1_Start" to="Weaving1_Start" priority="-1">
+        <lane id="On_Ramp1_0" index="0" speed="13.89" length="199.89" shape="-99.28,-101.43 79.50,-12.04"/>
+    </edge>
+    <edge id="On_Ramp2" from="On_Ramp2_Start" to="Weaving2_Start" priority="-1">
+        <lane id="On_Ramp2_0" index="0" speed="13.89" length="199.89" shape="900.72,-101.43 1079.50,-12.04"/>
+    </edge>
+    <edge id="Output" from="Weaving2_End" to="End" priority="-1">
+        <lane id="Output_0" index="0" speed="13.89" length="179.30" shape="1520.70,-8.00 1700.00,-8.00"/>
+        <lane id="Output_1" index="1" speed="13.89" length="179.30" shape="1520.70,-4.80 1700.00,-4.80"/>
+        <lane id="Output_2" index="2" speed="13.89" length="179.30" shape="1520.70,-1.60 1700.00,-1.60"/>
+    </edge>
+    <edge id="Weaving_Area1" from="Weaving1_Start" to="Weaving1_End" priority="-1">
+        <lane id="Weaving_Area1_0" index="0" speed="13.89" length="433.89" shape="83.06,-11.20 516.94,-11.20"/>
+        <lane id="Weaving_Area1_1" index="1" speed="13.89" length="433.89" shape="83.06,-8.00 516.94,-8.00"/>
+        <lane id="Weaving_Area1_2" index="2" speed="13.89" length="433.89" shape="83.06,-4.80 516.94,-4.80"/>
+        <lane id="Weaving_Area1_3" index="3" speed="13.89" length="433.89" shape="83.06,-1.60 516.94,-1.60"/>
+    </edge>
+    <edge id="Weaving_Area2" from="Weaving2_Start" to="Weaving2_End" priority="-1">
+        <lane id="Weaving_Area2_0" index="0" speed="13.89" length="433.89" shape="1083.06,-11.20 1516.94,-11.20"/>
+        <lane id="Weaving_Area2_1" index="1" speed="13.89" length="433.89" shape="1083.06,-8.00 1516.94,-8.00"/>
+        <lane id="Weaving_Area2_2" index="2" speed="13.89" length="433.89" shape="1083.06,-4.80 1516.94,-4.80"/>
+        <lane id="Weaving_Area2_3" index="3" speed="13.89" length="433.89" shape="1083.06,-1.60 1516.94,-1.60"/>
+    </edge>
+
+    <junction id="End" type="dead_end" x="1700.00" y="0.00" incLanes="Output_0 Output_1 Output_2" intLanes="" shape="1700.00,-9.60 1700.00,0.00"/>
+    <junction id="Off_Ramp1_End" type="dead_end" x="700.00" y="-100.00" incLanes="Off_Ramp1_0" intLanes="" shape="698.57,-102.86 700.00,-100.00"/>
+    <junction id="Off_Ramp2_End" type="dead_end" x="1700.00" y="-100.00" incLanes="Off_Ramp2_0" intLanes="" shape="1698.57,-102.86 1700.00,-100.00"/>
+    <junction id="On_Ramp1_Start" type="dead_end" x="-100.00" y="-100.00" incLanes="" intLanes="" shape="-100.00,-100.00 -98.57,-102.86"/>
+    <junction id="On_Ramp2_Start" type="dead_end" x="900.00" y="-100.00" incLanes="" intLanes="" shape="900.00,-100.00 901.43,-102.86"/>
+    <junction id="Start" type="dead_end" x="-100.00" y="0.00" incLanes="" intLanes="" shape="-100.00,0.00 -100.00,-9.60"/>
+    <junction id="Weaving1_End" type="priority" x="500.00" y="0.00" incLanes="Weaving_Area1_0 Weaving_Area1_1 Weaving_Area1_2 Weaving_Area1_3" intLanes=":Weaving1_End_0_0 :Weaving1_End_1_0 :Weaving1_End_1_1 :Weaving1_End_1_2" shape="520.70,0.00 520.70,-9.60 520.09,-9.71 520.08,-9.85 520.26,-10.05 520.64,-10.30 521.22,-10.61 519.79,-13.47 518.79,-13.01 518.42,-12.89 518.04,-12.83 517.57,-12.80 516.94,-12.80 516.94,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="Weaving1_Start" type="priority" x="100.00" y="0.00" incLanes="On_Ramp1_0 Input_0 Input_1 Input_2" intLanes=":Weaving1_Start_0_0 :Weaving1_Start_1_0 :Weaving1_Start_1_1 :Weaving1_Start_1_2" shape="83.06,0.00 83.06,-12.80 81.96,-12.83 81.58,-12.89 81.21,-13.01 80.78,-13.19 80.21,-13.47 78.78,-10.61 79.74,-10.05 79.92,-9.85 79.91,-9.71 79.70,-9.63 79.30,-9.60 79.30,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="Weaving2_End" type="priority" x="1500.00" y="0.00" incLanes="Weaving_Area2_0 Weaving_Area2_1 Weaving_Area2_2 Weaving_Area2_3" intLanes=":Weaving2_End_0_0 :Weaving2_End_1_0 :Weaving2_End_1_1 :Weaving2_End_1_2" shape="1520.70,0.00 1520.70,-9.60 1520.09,-9.71 1520.08,-9.85 1520.26,-10.05 1520.64,-10.30 1521.22,-10.61 1519.79,-13.47 1518.79,-13.01 1518.42,-12.89 1518.04,-12.83 1517.57,-12.80 1516.94,-12.80 1516.94,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+    <junction id="Weaving2_Start" type="priority" x="1100.00" y="0.00" incLanes="On_Ramp2_0 Between_Weaving_0 Between_Weaving_1 Between_Weaving_2" intLanes=":Weaving2_Start_0_0 :Weaving2_Start_1_0 :Weaving2_Start_1_1 :Weaving2_Start_1_2" shape="1083.06,0.00 1083.06,-12.80 1081.96,-12.83 1081.58,-12.89 1081.21,-13.01 1080.78,-13.19 1080.21,-13.47 1078.78,-10.61 1079.74,-10.05 1079.92,-9.85 1079.91,-9.71 1079.70,-9.63 1079.30,-9.60 1079.30,0.00">
+        <request index="0" response="0000" foes="0000" cont="0"/>
+        <request index="1" response="0000" foes="0000" cont="0"/>
+        <request index="2" response="0000" foes="0000" cont="0"/>
+        <request index="3" response="0000" foes="0000" cont="0"/>
+    </junction>
+
+    <connection from="Between_Weaving" to="Weaving_Area2" fromLane="0" toLane="1" via=":Weaving2_Start_1_0" dir="s" state="M"/>
+    <connection from="Between_Weaving" to="Weaving_Area2" fromLane="1" toLane="2" via=":Weaving2_Start_1_1" dir="s" state="M"/>
+    <connection from="Between_Weaving" to="Weaving_Area2" fromLane="2" toLane="3" via=":Weaving2_Start_1_2" dir="s" state="M"/>
+    <connection from="Input" to="Weaving_Area1" fromLane="0" toLane="1" via=":Weaving1_Start_1_0" dir="s" state="M"/>
+    <connection from="Input" to="Weaving_Area1" fromLane="1" toLane="2" via=":Weaving1_Start_1_1" dir="s" state="M"/>
+    <connection from="Input" to="Weaving_Area1" fromLane="2" toLane="3" via=":Weaving1_Start_1_2" dir="s" state="M"/>
+    <connection from="On_Ramp1" to="Weaving_Area1" fromLane="0" toLane="0" via=":Weaving1_Start_0_0" dir="s" state="M"/>
+    <connection from="On_Ramp2" to="Weaving_Area2" fromLane="0" toLane="0" via=":Weaving2_Start_0_0" dir="s" state="M"/>
+    <connection from="Weaving_Area1" to="Off_Ramp1" fromLane="0" toLane="0" via=":Weaving1_End_0_0" dir="R" state="M"/>
+    <connection from="Weaving_Area1" to="Between_Weaving" fromLane="1" toLane="0" via=":Weaving1_End_1_0" dir="s" state="M"/>
+    <connection from="Weaving_Area1" to="Between_Weaving" fromLane="2" toLane="1" via=":Weaving1_End_1_1" dir="s" state="M"/>
+    <connection from="Weaving_Area1" to="Between_Weaving" fromLane="3" toLane="2" via=":Weaving1_End_1_2" dir="s" state="M"/>
+    <connection from="Weaving_Area2" to="Off_Ramp2" fromLane="0" toLane="0" via=":Weaving2_End_0_0" dir="R" state="M"/>
+    <connection from="Weaving_Area2" to="Output" fromLane="1" toLane="0" via=":Weaving2_End_1_0" dir="s" state="M"/>
+    <connection from="Weaving_Area2" to="Output" fromLane="2" toLane="1" via=":Weaving2_End_1_1" dir="s" state="M"/>
+    <connection from="Weaving_Area2" to="Output" fromLane="3" toLane="2" via=":Weaving2_End_1_2" dir="s" state="M"/>
+
+    <connection from=":Weaving1_End_0" to="Off_Ramp1" fromLane="0" toLane="0" dir="R" state="M"/>
+    <connection from=":Weaving1_End_1" to="Between_Weaving" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Weaving1_End_1" to="Between_Weaving" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":Weaving1_End_1" to="Between_Weaving" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving1_Start_0" to="Weaving_Area1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Weaving1_Start_1" to="Weaving_Area1" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":Weaving1_Start_1" to="Weaving_Area1" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving1_Start_1" to="Weaving_Area1" fromLane="2" toLane="3" dir="s" state="M"/>
+    <connection from=":Weaving2_End_0" to="Off_Ramp2" fromLane="0" toLane="0" dir="R" state="M"/>
+    <connection from=":Weaving2_End_1" to="Output" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Weaving2_End_1" to="Output" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from=":Weaving2_End_1" to="Output" fromLane="2" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving2_Start_0" to="Weaving_Area2" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from=":Weaving2_Start_1" to="Weaving_Area2" fromLane="0" toLane="1" dir="s" state="M"/>
+    <connection from=":Weaving2_Start_1" to="Weaving_Area2" fromLane="1" toLane="2" dir="s" state="M"/>
+    <connection from=":Weaving2_Start_1" to="Weaving_Area2" fromLane="2" toLane="3" dir="s" state="M"/>
+
+</net>
