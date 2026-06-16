@@ -8,7 +8,6 @@ Calibration of a **Drift Diffusion Model (DDM)** for discrete **left / right lan
 |------|-------------|
 | `fit_DDM_Lane_Change.py` | Fits the DDM with an **MPI-parallel genetic algorithm** (`geneticalgorithm` + `mpi4py`, with numba acceleration). Estimates population-level means, standard deviations, and covariances for the drift-rate coefficients (`beta_L/R/G/V/MLC`, `G0`, `sigma`, `alpha`) — 18 parameters in total. Writes incremental checkpoints to `progress/gen{N}ind{M}.pkl` and a final `progress/final_result.pkl`. |
 | `examine_results.ipynb` | Loads the `progress/gen*.pkl` checkpoints, finds the run with minimum log-likelihood, and prints the best DDM parameter vector. |
-| `readme` | One-line instruction: run the `.py` to calibrate, then read results with the notebook. |
 | `progress/` | Holds intermediate GA-iteration pickles (see `progress/readme.md`). |
 
 ## Input

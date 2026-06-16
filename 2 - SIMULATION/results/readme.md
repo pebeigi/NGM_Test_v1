@@ -32,8 +32,8 @@ override the fleet mix / communication parameters, and re-run headless.
 | `SW_AV.csv` | Freeway shockwave-case trajectory (AV fleet). |
 | `test_sim.csv` | Example trajectory output (when present); the GUI writes to the user-chosen `Data_Folder/test_sim.csv`. |
 
-> The large grid/trajectory CSVs are heavy; see the root cleanup notes about keeping them out of version
-> control.
+> Large grid/trajectory CSVs are heavy; they are excluded from version control by the root
+> [`.gitignore`](../../.gitignore) (`*.csv`).
 
 ## Subfolders
 

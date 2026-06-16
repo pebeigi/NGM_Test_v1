@@ -1,6 +1,6 @@
 # Next Generation Modeling (NGM) Project
 
-**NGM Project** is an end-to-end research framework for **calibrating and simulating
+The **NGM Project** is an end-to-end research framework for **calibrating and simulating
 next-generation transportation behavior models**. It covers the full pipeline — from raw vehicle and
 vulnerable-road-user (VRU) trajectory data, through behavioral-model calibration, to large-scale
 microscopic traffic simulation in [Eclipse SUMO](https://eclipse.dev/sumo/) with connected/automated
@@ -13,9 +13,6 @@ The repository is organized into two numbered stages that mirror this workflow:
 | **1. Parametric input** | [`1 - PARAMETRIC INPUT`](1%20-%20PARAMETRIC%20INPUT/readme.md) | Calibrates behavioral models (car-following, lane-changing, lateral, VRU) against real trajectory data and produces parameter libraries. |
 | **2. Simulation** | [`2 - SIMULATION`](2%20-%20SIMULATION/README.md) | Full desktop microsimulation tool (PyQt5 wizard) for running and comparing scenarios at scale. |
 
-> **Data convention used across the project:** vehicle classes are abbreviated **S** = Small vehicle
-> (human-driven car), **A** = Automated vehicle (AV/CAV), **L** = Large/heavy vehicle (truck).
-> Some simulation parameter files add **CL** = Connected heavy vehicle (CAHV).
 
 ---
 
@@ -45,7 +42,6 @@ NGM_Test_v1/
 ├── LICENSE
 ├── requirements.txt              # Python deps for GUI.py (SUMO installed separately)
 ├── ngm_paths.py                  # Shared dataset/output path helpers (repo root)
-├── main.py                       # Placeholder entry point
 ├── .gitignore                    # Ignores raw datasets and large generated CSVs/plots
 │
 ├── 0 - Datasets/                 # Raw datasets — download links & layout (see readme)

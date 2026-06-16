@@ -19,7 +19,6 @@ This document explains what the software does, how the user interface is organiz
 4. [Driving and cooperation models](#driving-and-cooperation-models)
 5. [Active travel (pedestrians and bikes)](#active-travel-pedestrians-and-bikes)
 6. [Repository layout and generated files](#repository-layout-and-generated-files)
-
 7. [Requirements and installation](#requirements-and-installation)
 8. [How to run](#how-to-run)
 9. [Output data](#output-data)
@@ -42,6 +41,7 @@ The main entry point is **`GUI.py`**. When you finish the wizard, **`run_simulat
 - `models/single_inter_sim.py` → **Single Intersection**
 - `models/multi_inter_sim.py` → **Arterial**
 - `models/freeway_sim.py` → **Freeway**
+- `models/tgsim_sim.py` → **TGSIM** (currently I-90/94 - for Validation Purposes)
 
 If **visualization** is enabled, **SUMO-GUI** may need to run on the **main thread** (notably on Windows); otherwise the heavy work can run in a **background thread** so the window stays responsive.
 
@@ -72,6 +72,11 @@ If **visualization** is enabled, **SUMO-GUI** may need to run on the **main thre
    - **Approach length** from each leg to the junction (meters).  
    - **Pedestrian walkway width** (meters) for sidewalks when pedestrians are modeled.  
    - **Per-approach volumes** (veh/h) for East-Bound, West-Bound, North-Bound, South-Bound, each with **left-turn** and **right-turn** sliders (percentages are coupled so left + right ≤ 100%).
+
+4. **TGSIM**  
+   - Fixed **real-world freeway network** (currently **I-90/94** only) loaded from `templates/I90_94_simple.net.xml` — no procedural geometry editing.  
+   - **Volume** is set per named route on the corridor (mainline and ramp flows as defined in `tgsim_sim.py`).  
+   - Skips signal control and active-travel (pedestrian/bike) pages; goes straight to car-following and lane-changing models like the procedural freeway workflow.
 
 ### Vehicle mix
 
@@ -104,14 +109,16 @@ You choose exactly one:
 - **Freeway**
 - **Arterial** (labeled “Arterial” in the UI — the multi-intersection corridor)
 - **Single Intersection**
+- **TGSIM** (fixed I-90/94 network; sub-selector under the radio button)
 
-This sets `Scenario` in the internal configuration (`"Freeway"`, `"Arterial"`, or `"Single Intersection"`).
+This sets `Scenario` in the internal configuration (`"Freeway"`, `"Arterial"`, `"Single Intersection"`, or `"TGSIM"`).
 
 ### 3. Network configuration
 
 Scenario-specific geometry is stored under `Geometry` in the responses object.
 
 - **Freeway**: lanes, ramp length, freeway type, then all segment-length fields for the selected layout.  
+- **TGSIM**: read-only summary of the selected network (geometry is fixed by the template).  
 - **Single intersection**: intersection control (signal vs all-way stop), NS/EW lanes, road length, walkway width.  
 - **Arterial**: NS/EW lanes, west–central distance, central–east distance.
 
@@ -119,6 +126,7 @@ Scenario-specific geometry is stored under `Geometry` in the responses object.
 
 - **Vehicle mix** (must total 100%) as above.  
 - **Freeway**: volumes per **named route** (depends on `Freeway_Type`).  
+- **TGSIM**: volumes per **named route** on the I-90/94 network.  
 - **Single intersection**: per-boundary volume + left/right turn ratios.  
 - **Arterial**: OD matrix **manual** or **CSV upload** (validation requires a 9×9 table with an 8×8 numeric interior).
 
@@ -149,7 +157,7 @@ This page appears for **Single Intersection** after volume (and after signal con
 
 Saved as `Allow_Ped`, `Allow_Bike`, `Ped_Volume`, `Bike_Volume`.
 
-**Freeway** and **Arterial** workflows **skip** this page and go straight to **car-following** models.
+**Freeway**, **TGSIM**, and **Arterial** workflows **skip** this page and go straight to **car-following** models.
 
 ### 7. Driving models — Car-following (CF)
 
@@ -238,6 +246,7 @@ Pedestrians are described in the UI as having **randomized origins and destinati
 | **`models/single_inter_sim.py`** | Builds `single_intersection.net.xml`, routes, runs TraCI loop for one junction. |
 | **`models/multi_inter_sim.py`** | Three-intersection arterial; offsets and per-intersection plans. |
 | **`models/freeway_sim.py`** | Freeway nets and OD/route flows by layout type. |
+| **`models/tgsim_sim.py`** | TGSIM I-90/94 network, routes, and TraCI loop. |
 | **`models/signal_control.py`** | Webster and manual timing integration. |
 | **`models/coop_models.py`** | Numba-accelerated IDM/C-IDM kernels. |
 | **`models/ns.py`** | Networking abstractions for connected vehicles. |
