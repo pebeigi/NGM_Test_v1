@@ -1,5 +1,7 @@
-# Ignore all large CSVs everywhere
+# Ignore large CSVs everywhere except simulator calibration libraries
 *.csv
+!2 - SIMULATION/models/model_params/
+!2 - SIMULATION/models/model_params/*.csv
 
 # Ignore everything inside the Datasets folder
 0 - Datasets/*

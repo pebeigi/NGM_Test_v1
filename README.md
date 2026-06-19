@@ -103,7 +103,7 @@ simulation**. You do **not** need to download Kaggle datasets or run Stage 1 cal
 | Eclipse SUMO (`sumo`, `sumo-gui` on PATH) | Yes |
 | Python packages (see below) | Yes |
 | Trajectory datasets in `0 - Datasets/` | No (Stage 1 only) |
-| Calibrated CSVs in `models/model_params/` | No — wizard uses built-in defaults if files are missing |
+| Calibrated CSVs in `models/model_params/` | Shipped in repo (optional to refresh from Stage 1) |
 
 ### Step 1 — Clone the repository
 
@@ -186,7 +186,7 @@ test.
 | `ModuleNotFoundError: No module named 'PyQt5'` | Activate your venv, then `pip install -r requirements.txt` |
 | `sumo` / `sumo-gui` not recognized | Install SUMO (Step 4) and reopen the terminal |
 | GUI opens but simulation errors immediately | Confirm `sumo-gui --version` works; on Windows, keep visualization enabled only if SUMO-GUI is installed |
-| Empty or missing `models/model_params/*.csv` | Expected on a fresh clone (`*.csv` is git-ignored). The GUI still runs with code defaults; copy calibrated CSVs from Stage 1 outputs when you want research-grade parameters |
+| Empty or missing `models/model_params/*.csv` | Re-clone or copy from Stage 1 calibration outputs. The GUI falls back to code defaults if a file is absent |
 
 ### Optional — use calibrated behavior parameters
 
@@ -215,8 +215,9 @@ no machine-specific paths need to be edited after the data is in place.
 - Raw datasets are **not** stored in the repo (too large). Download all bundles from the
   [NGM Datasets Kaggle page](https://www.kaggle.com/datasets/pedrambeigi/ngm-datasets) and extract
   them into [`0 - Datasets/`](0%20-%20Datasets/readme.md). See [`0 - Datasets/readme.md`](0%20-%20Datasets/readme.md)
-  for the expected filenames and layout. Calibrated parameter CSVs (what the simulator needs) are
-  versioned. Bulk simulation outputs remain git-ignored (see `.gitignore`).
+  for the expected filenames and layout. Simulator calibration CSVs under
+  `2 - SIMULATION/models/model_params/` are versioned; other large CSV outputs remain git-ignored
+  (see `.gitignore`).
 - Primary datasets referenced throughout: **Waymo Open Motion** (pre-processed leader–follower and
   map CSVs), and **TGSIM** (Third Generation Simulation Data) for I-395, I-90/94, I-294, and
   the Foggy Bottom VRU trajectories.

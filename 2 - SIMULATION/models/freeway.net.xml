@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2026-06-10T10:11:20.622087-05:00 by Eclipse SUMO netconvert 1.26.0
+<!-- generated on 2026-06-18T14:40:49.920431-05:00 by Eclipse SUMO netconvert 1.26.0
 <netconvertConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <sumo-net-file value="freeway.net.xml"/>
+        <sumo-net-file value="C:\Users\Pedram\NGM_Test_v1\2 - SIMULATION\models\freeway.net.xml"/>
     </input>
 
     <output>
-        <output-file value="freeway.net.xml"/>
+        <output-file value="C:\Users\Pedram\NGM_Test_v1\2 - SIMULATION\models\freeway.net.xml"/>
     </output>
 
     <processing>

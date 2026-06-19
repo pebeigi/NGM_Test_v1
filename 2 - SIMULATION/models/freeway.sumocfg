@@ -1,7 +1,7 @@
 <configuration>
     <input>
-        <net-file value="freeway.net.xml" />
-        <route-files value="all_trips.trips.xml" />
+        <net-file value="C:\Users\Pedram\NGM_Test_v1\2 - SIMULATION\models\freeway.net.xml" />
+        <route-files value="C:\Users\Pedram\NGM_Test_v1\2 - SIMULATION\models\all_trips.trips.xml" />
     </input>
 
     <time>
