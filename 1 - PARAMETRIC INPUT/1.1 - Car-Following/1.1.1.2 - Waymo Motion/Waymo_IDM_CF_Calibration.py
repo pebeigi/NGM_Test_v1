@@ -9,7 +9,11 @@ Input columns (per file):
   lane_changing, leader_vehicle_id, is_sdc, assigned_lane_feature_id
 
 Calibration: skip cases where stable leader–follower overlap lasts less than MIN_CF_DURATION_S.
-Kinematics: speed from velocity components; 1D position = arc length along center_x/y.
+Kinematics: speed from velocity components; 1D position = distance along the follower's
+  assigned lane polyline (map CSV + assigned_lane_feature_id). Leader is projected onto
+  the same lane. Falls back to path arc length if map geometry is missing.
+Simulation: closed-loop follower roll-out (IC at t=0 only; IDM integrates forward).
+  Leader trajectory stays observed (open-loop).
 
 Vehicle groups (same S / L / A convention as freeway calibration):
   Waymo_S — passenger-sized vehicles (length < LARGE_LENGTH_M)
@@ -19,7 +23,7 @@ Vehicle groups (same S / L / A convention as freeway calibration):
 Outputs under ./Results/:
   IDM_Params_Waymo_{S,L,A}.csv
   IDM_Simulated_Waymo_{S,L,A}.csv
-  plots/IDM_Waymo_*_FID_*_LID_*_run_*.png
+  plots/IDM_Waymo_*_FID_*_LID_*_sc_*.png  (x–y, time–x, time–y, time–speed)
 """
 
 from __future__ import annotations
@@ -29,6 +33,7 @@ import ast
 import glob
 import os
 import random
+import re
 from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -73,14 +78,19 @@ MAP_FILES = {
 
 _scenario_source: Dict[str, str] = {}
 _map_scenario_cache: Dict[str, pd.DataFrame] = {}
+_lane_geom_cache: Dict[Tuple[str, int], Tuple[np.ndarray, np.ndarray, np.ndarray]] = {}
 _loaded_map_tags: set = set()
+
+# Returned by extract_subject_and_leader_data when lane projection succeeds:
+# (ref_lane_feature_id, polyline_x, polyline_y, cumulative_s_along_polyline)
+LaneGeom = Tuple[int, np.ndarray, np.ndarray, np.ndarray]
 
 population_size = 40
 num_generations = 80
 mutation_rate = 0.1
 
 MIN_CF_DURATION_S = 15.0  # skip if stable leader–follower overlap is shorter than this (s)
-MIN_LEADER_SPEED_MPS = 2.0
+MIN_LEADER_SPEED_MPS = 1.0
 LARGE_LENGTH_M = 6.0
 TIME_STEP_S = 0.1
 CONTIGUOUS_DT_MAX_S = 0.2
@@ -89,9 +99,17 @@ CONTIGUOUS_DT_MAX_S = 0.2
 T_RANGE = (0.5, 2.5)
 A_RANGE = (0.3, 3.0)
 B_RANGE = (0.5, 3.0)
-V0_RANGE = (2.0, 35.0)  # desired speed: 2–35 m/s (reference uses 5–35)
+V0_RANGE = (1.0, 35.0)  # desired speed: 2–35 m/s (reference uses 5–35)
 SO_RANGE = (1.0, 5.0)
 DELTA_RANGE = (3.8, 4.2)
+
+IDM_PARAM_RANGES = (T_RANGE, A_RANGE, B_RANGE, V0_RANGE, SO_RANGE, DELTA_RANGE)
+
+
+def clip_idm_params(params) -> list:
+    """Keep GA individuals within declared IDM parameter bounds."""
+    return [float(np.clip(p, lo, hi)) for p, (lo, hi) in zip(params, IDM_PARAM_RANGES)]
+
 
 IDM_PARAM_SUMMARY = [
     ("T", "T", T_RANGE),
@@ -111,7 +129,7 @@ FL_COMBO_ORDER = [
 ]
 
 # Simulation globals (set per event before GA, same pattern as IDM_CF_Calibration.py)
-pos = "arc-s"  # cumulative path length from raw center_x / center_y (m)
+pos = "lane-s"  # distance along reference lane polyline (m)
 T = a = b = v0 = so = delta = None
 most_leading_leader_id = None
 sdf = ldf = None
@@ -151,6 +169,107 @@ def parse_id_list(val) -> List[int]:
         return [int(out)]
     except (ValueError, SyntaxError, TypeError):
         return []
+
+
+def parse_lane_feature_id(val) -> Optional[int]:
+    """Parse map lane feature id from assigned_lane_feature_id (e.g. '272[121]' -> 272)."""
+    if pd.isna(val):
+        return None
+    m = re.match(r"^(\d+)", str(val).strip())
+    return int(m.group(1)) if m else None
+
+
+def reference_lane_feature_id(lane_assignments: pd.Series) -> Optional[int]:
+    """Most common lane feature id on a follower track segment."""
+    ids = [x for x in lane_assignments.map(parse_lane_feature_id) if x is not None]
+    if not ids:
+        return None
+    return int(pd.Series(ids, dtype=int).mode().iloc[0])
+
+
+def get_lane_geometry(
+    scenario_id: str, feature_id: int
+) -> Optional[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    """Lane polyline vertices and cumulative arc length (cached per scenario + feature)."""
+    key = (str(scenario_id), int(feature_id))
+    if key in _lane_geom_cache:
+        return _lane_geom_cache[key]
+
+    map_df = get_map_features_for_scenario(scenario_id)
+    if map_df.empty:
+        return None
+
+    rows = map_df[map_df["feature_id"] == int(feature_id)]
+    if rows.empty and "id" in map_df.columns:
+        rows = map_df[map_df["id"] == int(feature_id)]
+    if rows.empty:
+        return None
+
+    row = rows.iloc[0]
+    xs = np.asarray(parse_coord_list(row.get("lane_polyline_x")), dtype=float)
+    ys = np.asarray(parse_coord_list(row.get("lane_polyline_y")), dtype=float)
+    if len(xs) < 2 or len(xs) != len(ys):
+        return None
+
+    ds = np.hypot(np.diff(xs), np.diff(ys))
+    s_cum = np.concatenate([[0.0], np.cumsum(ds)])
+    geom = (xs, ys, s_cum)
+    _lane_geom_cache[key] = geom
+    return geom
+
+
+def project_xy_to_lane_s(px: float, py: float, xs: np.ndarray, ys: np.ndarray, s_cum: np.ndarray) -> float:
+    """Distance along lane polyline from its start to the closest point to (px, py)."""
+    best_s = 0.0
+    best_d2 = np.inf
+    for j in range(len(xs) - 1):
+        x0, y0, x1, y1 = xs[j], ys[j], xs[j + 1], ys[j + 1]
+        dx, dy = x1 - x0, y1 - y0
+        seg_len2 = dx * dx + dy * dy
+        if seg_len2 < 1e-12:
+            t = 0.0
+            seg_len = 0.0
+        else:
+            t = float(np.clip(((px - x0) * dx + (py - y0) * dy) / seg_len2, 0.0, 1.0))
+            seg_len = float(np.sqrt(seg_len2))
+        qx = x0 + t * dx
+        qy = y0 + t * dy
+        d2 = (px - qx) ** 2 + (py - qy) ** 2
+        if d2 < best_d2:
+            best_d2 = d2
+            best_s = float(s_cum[j] + t * seg_len)
+    return best_s
+
+
+def project_xy_array_to_lane_s(
+    center_x: np.ndarray, center_y: np.ndarray, xs: np.ndarray, ys: np.ndarray, s_cum: np.ndarray
+) -> np.ndarray:
+    return np.array(
+        [project_xy_to_lane_s(float(x), float(y), xs, ys, s_cum) for x, y in zip(center_x, center_y)],
+        dtype=float,
+    )
+
+
+def lane_s_to_xy(
+    lane_s: np.ndarray, xs: np.ndarray, ys: np.ndarray, s_cum: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Map distance-along-lane values back to x/y on the polyline."""
+    lane_s = np.asarray(lane_s, dtype=float)
+    sx = np.zeros(len(lane_s))
+    sy = np.zeros(len(lane_s))
+    max_s = float(s_cum[-1])
+    for i, s in enumerate(lane_s):
+        s = float(np.clip(s, 0.0, max_s))
+        j = int(np.searchsorted(s_cum, s, side="right") - 1)
+        j = min(max(j, 0), len(xs) - 2)
+        seg_len = float(s_cum[j + 1] - s_cum[j])
+        if seg_len < 1e-9:
+            t = 0.0
+        else:
+            t = (s - s_cum[j]) / seg_len
+        sx[i] = xs[j] + t * (xs[j + 1] - xs[j])
+        sy[i] = ys[j] + t * (ys[j + 1] - ys[j])
+    return sx, sy
 
 
 def arc_length_xy(center_x: np.ndarray, center_y: np.ndarray) -> np.ndarray:
@@ -419,17 +538,27 @@ def extract_subject_and_leader_data(
     follower_id: int,
     scenario_id: str,
     leader_id: Optional[int] = None,
-) -> Tuple[pd.DataFrame, pd.DataFrame, float, float]:
+) -> Tuple[pd.DataFrame, pd.DataFrame, float, float, Optional[LaneGeom]]:
     """
     Extract follower + leader on the longest mutual CF segment (>= MIN_CF_DURATION_S).
 
-    Longitudinal position is cumulative arc length from raw center_x / center_y (no projection).
+    Longitudinal position is distance along the follower's reference lane polyline
+    (mode assigned_lane_feature_id on the CF window, map CSV). Leader is projected
+    onto the same polyline so gap is meaningful on curves. Falls back to per-vehicle
+    path arc length when lane geometry is unavailable.
     """
     global most_leading_leader_id
+    _empty: Tuple[pd.DataFrame, pd.DataFrame, float, float, None] = (
+        pd.DataFrame(),
+        pd.DataFrame(),
+        0.0,
+        0.0,
+        None,
+    )
 
     sdf = df[(df["ID"] == follower_id) & (df["scenario_id"] == scenario_id)].copy()
     if sdf.empty:
-        return pd.DataFrame(), pd.DataFrame(), 0.0, 0.0
+        return _empty
     if leader_id is None:
         lids = sdf["leader_vehicle_id"].apply(parse_id_list)
         leader_id = lids.iloc[lids.apply(len).argmax()][0]
@@ -439,27 +568,47 @@ def extract_subject_and_leader_data(
 
     cf_times = mutual_cf_times(sdf["time"].values, ldf["time"].values)
     if not cf_times:
-        return pd.DataFrame(), pd.DataFrame(), 0.0, 0.0
+        return _empty
     if float(cf_times[-1] - cf_times[0]) < MIN_CF_DURATION_S:
-        return pd.DataFrame(), pd.DataFrame(), 0.0, 0.0
+        return _empty
 
     ldf = ldf[ldf["time"].isin(cf_times)].sort_values("time")
     sdf = sdf[sdf["time"].isin(cf_times)].sort_values("time")
     if sdf.empty or ldf.empty:
-        return pd.DataFrame(), pd.DataFrame(), 0.0, 0.0
+        return _empty
 
     merged = pd.merge(sdf, ldf, on="time", suffixes=("_f", "_l"), how="inner")
     if merged.empty:
-        return pd.DataFrame(), pd.DataFrame(), 0.0, 0.0
+        return _empty
 
     start_time = float(merged["time"].iloc[0])
-    arc_f = arc_length_xy(merged["center_x_f"].values, merged["center_y_f"].values)
-    arc_l = arc_length_xy(merged["center_x_l"].values, merged["center_y_l"].values)
+    sc_id = str(merged["scenario_id_f"].iloc[0])
+
+    lane_geom: Optional[LaneGeom] = None
+    ref_lane_id = reference_lane_feature_id(merged["assigned_lane_feature_id_f"])
+    if ref_lane_id is not None:
+        geom = get_lane_geometry(sc_id, ref_lane_id)
+        if geom is not None:
+            xs, ys, s_cum = geom
+            lane_f = project_xy_array_to_lane_s(
+                merged["center_x_f"].values, merged["center_y_f"].values, xs, ys, s_cum
+            )
+            lane_l = project_xy_array_to_lane_s(
+                merged["center_x_l"].values, merged["center_y_l"].values, xs, ys, s_cum
+            )
+            lane_geom = (ref_lane_id, xs, ys, s_cum)
+            pos_f, pos_l = lane_f, lane_l
+        else:
+            pos_f = arc_length_xy(merged["center_x_f"].values, merged["center_y_f"].values)
+            pos_l = arc_length_xy(merged["center_x_l"].values, merged["center_y_l"].values)
+    else:
+        pos_f = arc_length_xy(merged["center_x_f"].values, merged["center_y_f"].values)
+        pos_l = arc_length_xy(merged["center_x_l"].values, merged["center_y_l"].values)
 
     sdf_out = pd.DataFrame(
         {
             "time": merged["time"] - start_time,
-            "arc-s": arc_f,
+            pos: pos_f,
             "speed-kf": merged["speed-kf_f"],
             "center_x": merged["center_x_f"],
             "center_y": merged["center_y_f"],
@@ -467,12 +616,13 @@ def extract_subject_and_leader_data(
             "velocity_y": merged["velocity_y_f"],
             "scenario_id": merged["scenario_id_f"],
             "length": merged["length_f"],
+            "ref_lane_feature_id": ref_lane_id,
         }
     )
     ldf_out = pd.DataFrame(
         {
             "time": merged["time"] - start_time,
-            "arc-s": arc_l,
+            pos: pos_l,
             "speed-kf": merged["speed-kf_l"],
             "center_x": merged["center_x_l"],
             "center_y": merged["center_y_l"],
@@ -482,7 +632,7 @@ def extract_subject_and_leader_data(
         }
     )
     duration = float(sdf_out["time"].iloc[-1] - sdf_out["time"].iloc[0])
-    return sdf_out, ldf_out, duration, start_time
+    return sdf_out, ldf_out, duration, start_time, lane_geom
 
 
 # ---------------------------------------------------------------------------
@@ -491,23 +641,40 @@ def extract_subject_and_leader_data(
 def idm_acceleration(v, v_leader, s):
     max_v = 40.0
     max_s = 1000.0
+    v = max(float(v), 0.0)
+    v_leader = float(v_leader)
     s = max(float(s), 0.5)
-    s_star = so + max(0.0, (v * T + (v * (v - v_leader)) / (2.0 * np.sqrt(a * b))))
-    acceleration = a * (1.0 - (v / min(v0, max_v)) ** delta - (s_star / min(s, max_s)) ** 2)
-    if np.isnan(acceleration):
+    v_des = max(min(float(v0), max_v), 1e-3)
+    ab_prod = max(float(a) * float(b), 1e-12)
+    interaction = v * float(T) + (v * (v - v_leader)) / (2.0 * np.sqrt(ab_prod))
+    s_star = float(so) + max(0.0, interaction)
+    acceleration = float(a) * (
+        1.0 - (v / v_des) ** float(delta) - (s_star / min(s, max_s)) ** 2
+    )
+    if not np.isfinite(acceleration):
         acceleration = 0.0
     return float(acceleration)
 
 
 def simulate_car_following(params):
+    """
+    Closed-loop follower roll-out for one car-following event.
+
+    - Follower: IDM integrates position/speed forward from the observed IC at t=0 only.
+      State at step i uses sim position[i-1] and sim speed[i-1] — never reset to observed
+      follower position/speed after t=0.
+    - Leader: observed lane distance and speed at each step (open-loop exogenous input).
+    - Gap for IDM: leader_lane_s[i-1] - follower_sim_lane_s[i-1].
+    """
     global T, a, b, v0, so, delta
-    T, a, b, v0, so, delta = params
+    T, a, b, v0, so, delta = clip_idm_params(params)
 
     num_steps = len(target_position)
     position = np.zeros(num_steps)
     speed = np.zeros(num_steps)
     acl = np.zeros(num_steps)
 
+    # Initial conditions only — no per-step reset to observed follower state
     position[0] = float(sdf.iloc[0][pos])
     speed[0] = float(sdf.iloc[0]["speed-kf"])
     acl[0] = 0.0
@@ -518,7 +685,7 @@ def simulate_car_following(params):
         gap = leader_position[i - 1] - position[i - 1]
         acceleration = idm_acceleration(speed[i - 1], leader_v, gap)
         acl[i] = acceleration
-        speed[i] = speed[i - 1] + acceleration * dt
+        speed[i] = max(0.0, speed[i - 1] + acceleration * dt)
         position[i] = position[i - 1] + speed[i - 1] * dt + 0.5 * acceleration * (dt ** 2)
 
     return position, speed, acl
@@ -585,8 +752,8 @@ def fitness(params):
 
 def crossover(parent1, parent2):
     crossover_point = random.randint(0, len(parent1) - 1)
-    child1 = parent1[:crossover_point] + parent2[crossover_point:]
-    child2 = parent2[:crossover_point] + parent1[crossover_point:]
+    child1 = clip_idm_params(parent1[:crossover_point] + parent2[crossover_point:])
+    child2 = clip_idm_params(parent2[:crossover_point] + parent1[crossover_point:])
     return child1, child2
 
 
@@ -594,7 +761,7 @@ def mutate(child):
     for i in range(len(child)):
         if random.random() < mutation_rate:
             child[i] += random.uniform(-0.1, 0.1)
-    return child
+    return clip_idm_params(child)
 
 
 def genetic_algorithm():
@@ -629,7 +796,7 @@ def genetic_algorithm():
             children.extend([mutate(child1), mutate(child2)])
         population = parents + children[: population_size - len(parents)]
 
-    return best_individual, best_error, best_metrics
+    return clip_idm_params(best_individual), best_error, best_metrics
 
 
 def plot_simulation(
@@ -647,60 +814,111 @@ def plot_simulation(
     outname,
     sdf_obs: Optional[pd.DataFrame] = None,
     ldf_obs: Optional[pd.DataFrame] = None,
+    lane_geom: Optional[LaneGeom] = None,
 ):
-    """Position vs time, speed vs time, and x-y plan view (same layout as IDM_CF_Calibration + xy)."""
+    """
+    Validation plots after closed-loop follower roll-out.
+
+    Lane-distance and speed panels show the actual IDM state variable vs observed data.
+    X–Y / center_x / center_y for the simulated follower use the reference lane polyline
+    when available; otherwise headings-based arc reconstruction (visualization only).
+    """
     sc_tag = str(scenario_id)[:8]
-    fig = plt.figure(figsize=(10, 14))
+    title_suffix = f"FID: {follower_id}, LID: {leader_id}, scenario: {sc_tag}"
+    fig, axes = plt.subplots(2, 3, figsize=(16, 10))
+    ax_xy, ax_arc, ax_spd, ax_tx, ax_ty, ax_err = axes.ravel()
+    t = np.asarray(timex_)
+    sim_s = np.asarray(sim_position_)
+    obs_s = np.asarray(target_position_)
+    on_lane = lane_geom is not None
+    s_label = "lane distance (m)" if on_lane else "path arc length (m)"
+    s_title = "Lane distance vs time" if on_lane else "Arc length vs time"
+    err_title = "Follower lane-s error" if on_lane else "Follower arc error"
 
-    ax1 = fig.add_subplot(3, 1, 1)
-    ax1.plot(timex_, leader_position_, label="Leader")
-    ax1.plot(timex_, target_position_, label="Target")
-    ax1.plot(timex_, sim_position_, label="Simulated Follower")
-    ax1.set_xlabel("time (sec)")
-    ax1.set_ylabel("Position (m)")
-    ax1.set_title(
-        f"Position vs time, FID: {follower_id}, LID: {leader_id}, scenario: {sc_tag}"
-    )
-    ax1.legend()
-    ax1.grid(True)
+    ax_arc.plot(t, leader_position_, label="Leader (obs)")
+    ax_arc.plot(t, obs_s, label="Follower (obs)")
+    ax_arc.plot(t, sim_s, "--", label="Follower (sim, closed-loop)")
+    ax_arc.set_xlabel("time (s)")
+    ax_arc.set_ylabel(s_label)
+    ax_arc.set_title(f"{s_title} — {title_suffix}")
+    ax_arc.legend(fontsize=8)
+    ax_arc.grid(True)
 
-    ax2 = fig.add_subplot(3, 1, 2)
-    ax2.plot(timex_, leader_speed_, label="Leader")
-    ax2.plot(timex_, target_speed_, label="Target")
-    ax2.plot(timex_, sim_speed_, label="Simulated Follower")
-    ax2.set_xlabel("time (sec)")
-    ax2.set_ylabel("Speed (m/s)")
-    ax2.set_title(
-        f"Speed vs time, FID: {follower_id}, LID: {leader_id}, scenario: {sc_tag}"
-    )
-    ax2.legend()
-    ax2.grid(True)
+    ax_err.plot(t, sim_s - obs_s, color="C3", label="error (sim − obs)")
+    ax_err.axhline(0.0, color="k", lw=0.8, alpha=0.4)
+    ax_err.set_xlabel("time (s)")
+    ax_err.set_ylabel(f"{'lane-s' if on_lane else 'arc'} error (m)")
+    ax_err.set_title(f"{err_title} — {title_suffix}")
+    ax_err.legend(fontsize=8)
+    ax_err.grid(True)
 
-    ax3 = fig.add_subplot(3, 1, 3)
-    plot_map_on_ax(ax3, get_map_features_for_scenario(scenario_id))
     if sdf_obs is not None and ldf_obs is not None and not sdf_obs.empty and not ldf_obs.empty:
         obs_fx = sdf_obs["center_x"].to_numpy()
         obs_fy = sdf_obs["center_y"].to_numpy()
         obs_lx = ldf_obs["center_x"].to_numpy()
         obs_ly = ldf_obs["center_y"].to_numpy()
-        sim_fx, sim_fy = sim_xy_from_arc(
-            np.asarray(sim_position_),
-            obs_fx,
-            obs_fy,
-            sdf_obs["velocity_x"].to_numpy(),
-            sdf_obs["velocity_y"].to_numpy(),
-        )
-        ax3.plot(obs_lx, obs_ly, label="Leader", zorder=3, lw=2.0)
-        ax3.plot(obs_fx, obs_fy, label="Target", zorder=3, lw=2.0)
-        ax3.plot(sim_fx, sim_fy, "--", label="Simulated Follower", zorder=4, lw=2.0)
-    ax3.set_xlabel("center_x (m)")
-    ax3.set_ylabel("center_y (m)")
-    ax3.set_title(
-        f"X-Y plan view, FID: {follower_id}, LID: {leader_id}, scenario: {sc_tag}"
-    )
-    ax3.axis("equal")
-    ax3.legend()
-    ax3.grid(True)
+        if on_lane:
+            _ref_id, xs, ys, s_cum = lane_geom
+            sim_fx, sim_fy = lane_s_to_xy(sim_s, xs, ys, s_cum)
+            sim_label = "Follower (sim, on lane)"
+        else:
+            sim_fx, sim_fy = sim_xy_from_arc(
+                sim_s,
+                obs_fx,
+                obs_fy,
+                sdf_obs["velocity_x"].to_numpy(),
+                sdf_obs["velocity_y"].to_numpy(),
+            )
+            sim_label = "Follower (sim, from arc)"
+
+        plot_map_on_ax(ax_xy, get_map_features_for_scenario(scenario_id))
+        if on_lane:
+            ax_xy.plot(xs, ys, color="#ff9800", lw=2.5, alpha=0.85, zorder=2, label=f"Ref lane {_ref_id}")
+        ax_xy.plot(obs_lx, obs_ly, label="Leader (obs)", zorder=3, lw=2.0)
+        ax_xy.plot(obs_fx, obs_fy, label="Follower (obs)", zorder=3, lw=2.0)
+        ax_xy.plot(sim_fx, sim_fy, "--", label=sim_label, zorder=4, lw=2.0)
+        ax_xy.set_xlabel("center_x (m)")
+        ax_xy.set_ylabel("center_y (m)")
+        ax_xy.set_title(f"X–Y plan view — {title_suffix}")
+        ax_xy.axis("equal")
+        ax_xy.legend(fontsize=8)
+        ax_xy.grid(True)
+
+        ax_tx.plot(t, obs_lx, label="Leader (obs)")
+        ax_tx.plot(t, obs_fx, label="Follower (obs)")
+        ax_tx.plot(t, sim_fx, "--", label=sim_label)
+        ax_tx.set_xlabel("time (s)")
+        ax_tx.set_ylabel("center_x (m)")
+        ax_tx.set_title(f"center_x vs time — {title_suffix}")
+        ax_tx.margins(y=0.5)
+        ax_tx.legend(fontsize=8)
+        ax_tx.grid(True)
+
+        ax_ty.plot(t, obs_ly, label="Leader (obs)")
+        ax_ty.plot(t, obs_fy, label="Follower (obs)")
+        ax_ty.plot(t, sim_fy, "--", label=sim_label)
+        ax_ty.set_xlabel("time (s)")
+        ax_ty.set_ylabel("center_y (m)")
+        ax_ty.set_title(f"center_y vs time — {title_suffix}")
+        ax_ty.margins(y=0.5)
+        ax_ty.legend(fontsize=8)
+        ax_ty.grid(True)
+    else:
+        for ax, name in zip(
+            (ax_xy, ax_tx, ax_ty),
+            ("X–Y plan view", "center_x vs time", "center_y vs time"),
+        ):
+            ax.text(0.5, 0.5, "No center_x/center_y in observation data", ha="center", va="center")
+            ax.set_title(f"{name} — {title_suffix}")
+
+    ax_spd.plot(t, leader_speed_, label="Leader (obs)")
+    ax_spd.plot(t, target_speed_, label="Follower (obs)")
+    ax_spd.plot(t, sim_speed_, "--", label="Follower (sim, closed-loop)")
+    ax_spd.set_xlabel("time (s)")
+    ax_spd.set_ylabel("speed (m/s)")
+    ax_spd.set_title(f"Speed vs time — {title_suffix}")
+    ax_spd.legend(fontsize=8)
+    ax_spd.grid(True)
 
     plot_filename = os.path.join(
         save_dir,
@@ -865,7 +1083,7 @@ def run_extraction_diagnostics(
     save_dir: str = PLOTS_DIR,
     max_events_per_group: int = 5,
 ) -> None:
-    """Plot observed leader/follower x,y and arc-length kinematics without running GA."""
+    """Plot observed leader/follower x,y and lane-distance kinematics without running GA."""
     datasets = datasets or DATA_FILES
     os.makedirs(save_dir, exist_ok=True)
 
@@ -874,7 +1092,7 @@ def run_extraction_diagnostics(
 
     for group_name, event_keys in groups.items():
         for follower_id, scenario_id in event_keys[:max_events_per_group]:
-            sdf, ldf, duration, _start_time = extract_subject_and_leader_data(
+            sdf, ldf, duration, _start_time, lane_geom = extract_subject_and_leader_data(
                 combined_df, follower_id, scenario_id
             )
             leader_id = int(most_leading_leader_id) if most_leading_leader_id is not None else -1
@@ -901,6 +1119,7 @@ def run_extraction_diagnostics(
                 f"Diag_{group_name}",
                 sdf_obs=sdf,
                 ldf_obs=ldf,
+                lane_geom=lane_geom,
             )
             print(
                 f"Diagnostic plot: {group_name} FID={follower_id} "
@@ -963,7 +1182,7 @@ def run_calibration(
         best_metrics = None
 
         for follower_id, scenario_id in event_keys:
-            sdf, ldf, duration, start_time = extract_subject_and_leader_data(
+            sdf, ldf, duration, start_time, lane_geom = extract_subject_and_leader_data(
                 combined_df, follower_id, scenario_id
             )
             leader_id = int(most_leading_leader_id) if most_leading_leader_id is not None else -1
@@ -1031,6 +1250,7 @@ def run_calibration(
                     outname,
                     sdf_obs=sdf,
                     ldf_obs=ldf,
+                    lane_geom=lane_geom,
                 )
 
             sim_df = pd.DataFrame(
