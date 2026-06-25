@@ -3,6 +3,8 @@ Waymo Open Motion — IDM car-following calibration (GA).
 
 Mirrors the workflow in ../1.1.2 - Car-Following Parametric Analysis/IDM_CF_Calibration.py
 but reads pre-processed Waymo leader–follower CSVs from ``0 - Datasets/`` at the repo root.
+All ``March2023waymo_scenario_lane_leader_follower_assigned_*_data.csv`` files in that
+folder are loaded automatically (paired map CSVs used when present).
 
 Input columns (per file):
   scenario_id, time, vehicle_id, object_type, center_x/y, velocity_x/y, length,
@@ -15,14 +17,14 @@ Kinematics: speed from velocity components; 1D position = distance along the fol
 Simulation: closed-loop follower roll-out (IC at t=0 only; IDM integrates forward).
   Leader trajectory stays observed (open-loop).
 
-Vehicle groups (same S / L / A convention as freeway calibration):
-  Waymo_S — passenger-sized vehicles (length < LARGE_LENGTH_M)
-  Waymo_L — long vehicles (length >= LARGE_LENGTH_M)
-  Waymo_A — ego / SDC tracks (is_sdc == True)
+Vehicle groups (follower type only — leader type is recorded but not used for grouping):
+  Waymo_AV — autonomous / SDC follower (is_sdc == True)
+  Waymo_SV — small passenger follower (length < LARGE_LENGTH_M)
+  Waymo_HV — heavy follower (length >= LARGE_LENGTH_M)
 
 Outputs under ./Results/:
-  IDM_Params_Waymo_{S,L,A}.csv
-  IDM_Simulated_Waymo_{S,L,A}.csv
+  IDM_Params_Waymo_{AV,SV,HV}.csv
+  IDM_Simulated_Waymo_{AV,SV,HV}.csv
   plots/IDM_Waymo_*_FID_*_LID_*_sc_*.png  (x–y, time–x, time–y, time–speed)
 """
 
@@ -49,32 +51,27 @@ import sys
 _NGM_ROOT = os.path.abspath(os.path.join(THIS_DIR, "..", "..", ".."))
 if _NGM_ROOT not in sys.path:
     sys.path.insert(0, _NGM_ROOT)
-from ngm_paths import DATASETS_DIR, REPO_ROOT
+from ngm_paths import DATASETS_DIR, REPO_ROOT, discover_waymo_datasets
 
 RESULTS_DIR = os.path.join(THIS_DIR, "Results")
 PLOTS_DIR = os.path.join(RESULTS_DIR, "plots")
 
-DATA_FILES = {
-    "Waymo_196": os.path.join(
-        DATASETS_DIR, "March2023waymo_scenario_lane_leader_follower_assigned_196_data.csv"
-    ),
-    "Waymo_197": os.path.join(
-        DATASETS_DIR, "March2023waymo_scenario_lane_leader_follower_assigned_197_data.csv"
-    ),
-    "Waymo_198": os.path.join(
-        DATASETS_DIR, "March2023waymo_scenario_lane_leader_follower_assigned_198_data.csv"
-    ),
-    "Waymo_199": os.path.join(
-        DATASETS_DIR, "March2023waymo_scenario_lane_leader_follower_assigned_199_data.csv"
-    ),
-}
+DATA_FILES: Dict[str, str] = {}
+MAP_FILES: Dict[str, str] = {}
 
-MAP_FILES = {
-    "Waymo_196": os.path.join(DATASETS_DIR, "March2023waymo_map_features_196_data.csv"),
-    "Waymo_197": os.path.join(DATASETS_DIR, "March2023waymo_map_features_197_data.csv"),
-    "Waymo_198": os.path.join(DATASETS_DIR, "March2023waymo_map_features_198_data.csv"),
-    "Waymo_199": os.path.join(DATASETS_DIR, "March2023waymo_map_features_199_data.csv"),
-}
+
+def refresh_waymo_datasets(datasets_dir: Optional[str] = None) -> Dict[str, str]:
+    """Scan ``0 - Datasets/`` for Waymo CSVs and update module-level path maps."""
+    global DATA_FILES, MAP_FILES
+    DATA_FILES, MAP_FILES = discover_waymo_datasets(datasets_dir)
+    return DATA_FILES
+
+
+def _print_waymo_dataset_summary(datasets: Dict[str, str]) -> None:
+    print(f"Waymo trajectory files ({len(datasets)}) in {DATASETS_DIR}:")
+    for tag in sorted(datasets):
+        map_note = " + map" if tag in MAP_FILES else " (no map CSV)"
+        print(f"  {tag}: {os.path.basename(datasets[tag])}{map_note}")
 
 _scenario_source: Dict[str, str] = {}
 _map_scenario_cache: Dict[str, pd.DataFrame] = {}
@@ -119,14 +116,10 @@ IDM_PARAM_SUMMARY = [
     ("so", "s0", SO_RANGE),
     ("delta", "δ", DELTA_RANGE),
 ]
-GROUP_ORDER = ["Waymo_S", "Waymo_L", "Waymo_A"]
-SOURCE_TO_TYPE = {"Waymo_S": "S", "Waymo_L": "L", "Waymo_A": "A"}
-# Follower-leader type pairs (same layout as freeway IDM summary table)
-FL_COMBO_ORDER = [
-    "S-S", "S-L", "S-A",
-    "L-S", "L-L", "L-A",
-    "A-S", "A-L", "A-A",
-]
+GROUP_ORDER = ["Waymo_AV", "Waymo_SV", "Waymo_HV"]
+SOURCE_TO_FOLLOWER_TYPE = {"Waymo_AV": "AV", "Waymo_SV": "SV", "Waymo_HV": "HV"}
+FOLLOWER_TYPE_ORDER = ["AV", "SV", "HV"]
+_LEGACY_FOLLOWER_TYPE = {"A": "AV", "S": "SV", "L": "HV"}
 
 # Simulation globals (set per event before GA, same pattern as IDM_CF_Calibration.py)
 pos = "lane-s"  # distance along reference lane polyline (m)
@@ -422,16 +415,24 @@ def plot_map_on_ax(ax, map_df: pd.DataFrame) -> None:
 
 
 def classify_vehicle_type(length_median: float, is_sdc: bool) -> str:
-    """S = passenger-sized, L = long (>= LARGE_LENGTH_M), A = SDC / ego."""
+    """AV = SDC / ego, HV = long (>= LARGE_LENGTH_M), SV = passenger-sized."""
     if is_sdc:
-        return "A"
+        return "AV"
     if float(length_median) >= LARGE_LENGTH_M:
-        return "L"
-    return "S"
+        return "HV"
+    return "SV"
+
+
+def normalize_follower_type(val) -> str:
+    """Map follower type labels to AV / SV / HV (handles legacy S / L / A)."""
+    if pd.isna(val):
+        return ""
+    s = str(val).strip()
+    return _LEGACY_FOLLOWER_TYPE.get(s, s)
 
 
 def build_vehicle_type_lookup(df: pd.DataFrame) -> Dict[Tuple[str, int], str]:
-    """Map (scenario_id, vehicle_id) -> S / L / A."""
+    """Map (scenario_id, vehicle_id) -> AV / SV / HV."""
     meta = df.groupby(["scenario_id", "ID"], sort=False).agg(
         length_med=("length", "median"),
         is_sdc=("is_sdc", "any"),
@@ -506,15 +507,16 @@ def generate_waymo_vehicle_groups(
     datasets: Dict[str, str],
 ) -> Dict[str, List[Tuple[int, str]]]:
     """
-    Return Waymo_{S,L,A} lists of (follower_id, scenario_id).
+    Return Waymo_{AV,SV,HV} lists of (follower_id, scenario_id).
 
-    scenario_id is the stable key — run-index is only unique within a single CSV file and
-    must not be used when the four Waymo files are combined.
+    Grouping uses the **follower** type only (AV / SV / HV). scenario_id is the
+    stable key — run-index is only unique within a single CSV file and must not
+    be used when multiple Waymo files are combined.
     """
     groups: Dict[str, set] = {
-        "Waymo_S": set(),
-        "Waymo_L": set(),
-        "Waymo_A": set(),
+        "Waymo_AV": set(),
+        "Waymo_SV": set(),
+        "Waymo_HV": set(),
     }
     for _tag, path in datasets.items():
         if not os.path.isfile(path):
@@ -524,11 +526,11 @@ def generate_waymo_vehicle_groups(
         for ev in discover_car_following_events(df):
             key = (ev["follower_id"], ev["scenario_id"])
             if ev["is_sdc"]:
-                groups["Waymo_A"].add(key)
+                groups["Waymo_AV"].add(key)
             elif ev["length_median"] >= LARGE_LENGTH_M:
-                groups["Waymo_L"].add(key)
+                groups["Waymo_HV"].add(key)
             else:
-                groups["Waymo_S"].add(key)
+                groups["Waymo_SV"].add(key)
 
     return {k: sorted(v) for k, v in groups.items()}
 
@@ -944,47 +946,44 @@ def _enrich_params_types_from_trajectories(df: pd.DataFrame) -> pd.DataFrame:
     """Backfill follower/leader types from motion CSVs when missing (summary-only)."""
     if df.empty:
         return df
-    needs_follower = "follower_type" not in df.columns
-    needs_leader = "leader_type" not in df.columns
-    if not needs_follower and not needs_leader:
-        return df
-
-    combined, _, _ = build_combined_dataframe(DATA_FILES)
-    if combined.empty:
-        return df
-    lookup = build_vehicle_type_lookup(combined)
-
     out = df.copy()
-    if needs_follower and "Follower_ID" in out.columns and "scenario_id" in out.columns:
-        out["follower_type"] = out.apply(
-            lambda r: lookup.get((str(r["scenario_id"]), int(r["Follower_ID"])), np.nan),
-            axis=1,
-        )
-    elif needs_follower and "source" in out.columns:
-        out["follower_type"] = out["source"].map(SOURCE_TO_TYPE)
+    needs_follower = "follower_type" not in out.columns
+    needs_leader = "leader_type" not in out.columns
 
-    if needs_leader and "Leader_ID" in out.columns and "scenario_id" in out.columns:
-        out["leader_type"] = out.apply(
-            lambda r: lookup.get((str(r["scenario_id"]), int(r["Leader_ID"])), np.nan),
-            axis=1,
-        )
+    if needs_follower or needs_leader:
+        combined, _, _ = build_combined_dataframe(refresh_waymo_datasets())
+        lookup = build_vehicle_type_lookup(combined) if not combined.empty else {}
+        if needs_follower and "Follower_ID" in out.columns and "scenario_id" in out.columns:
+            out["follower_type"] = out.apply(
+                lambda r: lookup.get((str(r["scenario_id"]), int(r["Follower_ID"])), np.nan),
+                axis=1,
+            )
+        elif needs_follower and "source" in out.columns:
+            out["follower_type"] = out["source"].map(SOURCE_TO_FOLLOWER_TYPE)
+
+        if needs_leader and "Leader_ID" in out.columns and "scenario_id" in out.columns:
+            out["leader_type"] = out.apply(
+                lambda r: lookup.get((str(r["scenario_id"]), int(r["Leader_ID"])), np.nan),
+                axis=1,
+            )
+
+    if "follower_type" in out.columns:
+        out["follower_type"] = out["follower_type"].map(normalize_follower_type)
+    if "leader_type" in out.columns:
+        out["leader_type"] = out["leader_type"].map(normalize_follower_type)
     return out
 
 
 def _prepare_params_for_summary(all_params: pd.DataFrame) -> pd.DataFrame:
-    """Ensure follower_type, leader_type, fl_combo columns exist."""
+    """Ensure follower_type column exists (AV / SV / HV)."""
     df = _enrich_params_types_from_trajectories(all_params.copy())
-    if "fl_combo" not in df.columns:
-        if "follower_type" in df.columns and "leader_type" in df.columns:
-            valid = df["follower_type"].notna() & df["leader_type"].notna()
-            df["fl_combo"] = np.nan
-            df.loc[valid, "fl_combo"] = (
-                df.loc[valid, "follower_type"].astype(str)
-                + "-"
-                + df.loc[valid, "leader_type"].astype(str)
-            )
-        elif "follower_type" in df.columns:
-            df["fl_combo"] = np.nan
+    if "follower_type" in df.columns:
+        df["follower_type"] = df["follower_type"].map(normalize_follower_type)
+    elif "fl_combo" in df.columns:
+        # Legacy per-event files: use follower half of S-S style combos
+        df["follower_type"] = df["fl_combo"].astype(str).str.split("-").str[0].map(normalize_follower_type)
+    elif "source" in df.columns:
+        df["follower_type"] = df["source"].map(SOURCE_TO_FOLLOWER_TYPE)
     return df
 
 
@@ -996,10 +995,10 @@ def _summary_combo_value(subset: pd.DataFrame, param_col: str) -> object:
 
 def build_idm_summary_table(param_files: Optional[List[str]] = None) -> pd.DataFrame:
     """
-    Build IDM summary with mean parameters per follower-leader type pair (S-S, S-L, …)
+    Build IDM summary with mean parameters per follower type (AV, SV, HV)
     plus a pooled Vehicle-Vehicle column.
     """
-    summary_cols = ["Model", "Parameter", "Range"] + FL_COMBO_ORDER + ["Vehicle-Vehicle"]
+    summary_cols = ["Model", "Parameter", "Range"] + FOLLOWER_TYPE_ORDER + ["Vehicle-Vehicle"]
     all_params = _prepare_params_for_summary(_load_param_frames(param_files))
     if all_params.empty:
         return pd.DataFrame(columns=summary_cols)
@@ -1011,9 +1010,9 @@ def build_idm_summary_table(param_files: Optional[List[str]] = None) -> pd.DataF
             "Parameter": label,
             "Range": _format_range(rng),
         }
-        for combo in FL_COMBO_ORDER:
-            sub = all_params[all_params["fl_combo"] == combo]
-            row[combo] = _summary_combo_value(sub, col)
+        for ftype in FOLLOWER_TYPE_ORDER:
+            sub = all_params[all_params["follower_type"] == ftype]
+            row[ftype] = _summary_combo_value(sub, col)
         row["Vehicle-Vehicle"] = round(float(all_params[col].mean()), 2)
         rows.append(row)
 
@@ -1023,8 +1022,8 @@ def build_idm_summary_table(param_files: Optional[List[str]] = None) -> pd.DataF
         "Range": "-",
         "Vehicle-Vehicle": int(len(all_params)),
     }
-    for combo in FL_COMBO_ORDER:
-        count_row[combo] = int((all_params["fl_combo"] == combo).sum())
+    for ftype in FOLLOWER_TYPE_ORDER:
+        count_row[ftype] = int((all_params["follower_type"] == ftype).sum())
     rows.append(count_row)
     return pd.DataFrame(rows, columns=summary_cols)
 
@@ -1032,7 +1031,7 @@ def cap_events_total(
     groups: Dict[str, List[Tuple[int, str]]],
     max_total: int,
 ) -> Dict[str, List[Tuple[int, str]]]:
-    """Limit total calibration events across S / L / A groups."""
+    """Limit total calibration events across AV / SV / HV follower groups."""
     capped: Dict[str, List[Tuple[int, str]]] = {}
     remaining = int(max_total)
     for gname in GROUP_ORDER:
@@ -1084,7 +1083,11 @@ def run_extraction_diagnostics(
     max_events_per_group: int = 5,
 ) -> None:
     """Plot observed leader/follower x,y and lane-distance kinematics without running GA."""
-    datasets = datasets or DATA_FILES
+    datasets = datasets or refresh_waymo_datasets()
+    if not datasets:
+        print(f"No Waymo trajectory CSVs found in {DATASETS_DIR}")
+        return
+    _print_waymo_dataset_summary(datasets)
     os.makedirs(save_dir, exist_ok=True)
 
     combined_df, _scenario_src, _global_run = build_combined_dataframe(datasets)
@@ -1141,7 +1144,11 @@ def run_calibration(
     global sdf, ldf, total_time, time_step, timex
     global leader_position, leader_speed, target_position, target_speed
 
-    datasets = datasets or DATA_FILES
+    datasets = datasets or refresh_waymo_datasets()
+    if not datasets:
+        print(f"No Waymo trajectory CSVs found in {DATASETS_DIR}")
+        return
+    _print_waymo_dataset_summary(datasets)
     os.makedirs(save_dir, exist_ok=True)
     os.makedirs(PLOTS_DIR, exist_ok=True)
 
@@ -1213,9 +1220,8 @@ def run_calibration(
                 print("  -> GA failed; skip")
                 continue
 
-            follower_type = type_lookup.get((scenario_id, follower_id), "S")
-            leader_type = type_lookup.get((scenario_id, leader_id), "S")
-            fl_combo = f"{follower_type}-{leader_type}"
+            follower_type = type_lookup.get((scenario_id, follower_id), "SV")
+            leader_type = type_lookup.get((scenario_id, leader_id), "SV")
 
             params_list.append(
                 [
@@ -1226,7 +1232,6 @@ def run_calibration(
                     duration,
                     follower_type,
                     leader_type,
-                    fl_combo,
                 ]
                 + list(best_params)
                 + [best_error]
@@ -1279,7 +1284,6 @@ def run_calibration(
                     "Duration",
                     "follower_type",
                     "leader_type",
-                    "fl_combo",
                     "T",
                     "a",
                     "b",
@@ -1309,7 +1313,7 @@ def main():
         "--max-events",
         type=int,
         default=None,
-        help="Cap events per group (Waymo_S, Waymo_L, Waymo_A each)",
+        help="Cap events per follower-type group (Waymo_AV, Waymo_SV, Waymo_HV each)",
     )
     parser.add_argument(
         "--max-total",

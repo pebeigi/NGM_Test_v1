@@ -1,3 +1,6 @@
+# Waymo IDM calibration outputs (generated locally)
+1 - PARAMETRIC INPUT/1.1 - Car-Following/1.1.1.2 - Waymo Motion/Results/
+
 # Ignore large CSVs everywhere except simulator calibration libraries
 *.csv
 !2 - SIMULATION/models/model_params/

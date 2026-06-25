@@ -7,9 +7,10 @@ clone works after downloading data into ``0 - Datasets/``.
 
 from __future__ import annotations
 
+import glob
 import os
 import sys
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 import pandas as pd
 
@@ -79,6 +80,31 @@ def calibration_dataset_paths() -> Dict[str, str]:
 
 def lane_change_dataset_paths() -> Dict[str, str]:
     return {key: dataset_path(name) for key, name in TGSIM_LANE_CHANGE_DATASETS.items()}
+
+
+def discover_waymo_datasets(
+    datasets_dir: Optional[str] = None,
+) -> Tuple[Dict[str, str], Dict[str, str]]:
+    """
+    Discover Waymo leader–follower and map CSV pairs under ``0 - Datasets/``.
+
+    Scans ``March2023waymo_scenario_lane_leader_follower_assigned_*_data.csv`` and
+    pairs each file with ``March2023waymo_map_features_{suffix}_data.csv`` when present.
+    Trajectory files without a matching map are still included (lane projection falls
+    back to path arc length). Returns ``(trajectory_paths, map_paths)`` keyed by
+    ``Waymo_{suffix}``.
+    """
+    root = datasets_dir or DATASETS_DIR
+    data_files: Dict[str, str] = {}
+    map_files: Dict[str, str] = {}
+    for cf_path in sorted(glob.glob(os.path.join(root, WAYMO_CF_GLOB))):
+        suffix = cf_path.split("_assigned_")[-1].replace("_data.csv", "")
+        tag = f"Waymo_{suffix}"
+        data_files[tag] = cf_path
+        map_path = os.path.join(root, f"March2023waymo_map_features_{suffix}_data.csv")
+        if os.path.isfile(map_path):
+            map_files[tag] = map_path
+    return data_files, map_files
 
 
 def load_tgsim_csv(path: str, **read_csv_kwargs) -> pd.DataFrame:
