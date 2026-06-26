@@ -1,31 +1,25 @@
 """
-Waymo Open Motion — IDM car-following calibration (GA).
+Waymo Open Motion — Prospect Theory (PT) car-following calibration (GA).
 
-Mirrors the workflow in ../1.1.2 - Car-Following Parametric Analysis/IDM_CF_Calibration.py
-but reads pre-processed Waymo leader–follower CSVs from ``0 - Datasets/`` at the repo root.
+Mirrors ``Waymo_IDM_CF_Calibration.py`` but fits the PT acceleration model from
+``../1.1.2 - Car-Following Parametric Analysis/PT_CF_Calibration.py`` (Talebpour et al.
+formulation with Newton solve and Wiener noise).
+
+Reads pre-processed Waymo leader–follower CSVs from ``0 - Datasets/`` at the repo root.
 All ``March2023waymo_scenario_lane_leader_follower_assigned_*_data.csv`` files in that
 folder are loaded automatically (paired map CSVs used when present).
 
-Input columns (per file):
-  scenario_id, time, vehicle_id, object_type, center_x/y, velocity_x/y, length,
-  lane_changing, leader_vehicle_id, is_sdc, assigned_lane_feature_id
+Simulation: closed-loop follower roll-out (IC at t=0 only; PT integrates forward).
+  Leader trajectory stays observed (open-loop). Gap uses bumper-to-bumper lane spacing.
 
-Calibration: skip cases where stable leader–follower overlap lasts less than MIN_CF_DURATION_S.
-Kinematics: speed from velocity components; 1D position = distance along the follower's
-  assigned lane polyline (map CSV + assigned_lane_feature_id). Leader is projected onto
-  the same lane. Falls back to path arc length if map geometry is missing.
-Simulation: closed-loop follower roll-out (IC at t=0 only; IDM integrates forward).
-  Leader trajectory stays observed (open-loop).
-
-Vehicle groups (follower type only — leader type is recorded but not used for grouping):
-  Waymo_AV — autonomous / SDC follower (is_sdc == True)
-  Waymo_SV — small passenger follower (length < LARGE_LENGTH_M)
-  Waymo_HV — heavy follower (length >= LARGE_LENGTH_M)
+Vehicle groups (follower type only):
+  Waymo_AV / Waymo_SV / Waymo_HV
 
 Outputs under ./Results/:
-  IDM_Params_Waymo_{AV,SV,HV}.csv
-  IDM_Simulated_Waymo_{AV,SV,HV}.csv
-  plots/IDM_Waymo_*_FID_*_LID_*_sc_*.png  (x–y, time–x, time–y, time–speed)
+  PT_Params_Waymo_{AV,SV,HV}.csv
+  PT_Simulated_Waymo_{AV,SV,HV}.csv
+  PT_Summary_Waymo.csv
+  plots/PT_Params_Waymo_*_FID_*_LID_*_sc_*.png
 """
 
 from __future__ import annotations
@@ -33,6 +27,7 @@ from __future__ import annotations
 import argparse
 import ast
 import glob
+import math
 import os
 import random
 import re
@@ -92,40 +87,58 @@ LARGE_LENGTH_M = 6.0
 TIME_STEP_S = 0.1
 CONTIGUOUS_DT_MAX_S = 0.2
 
-# IDM GA parameter ranges (same as IDM_CF_Calibration.py, wider v0 lower bound)
-T_RANGE = (0.5, 4.0)
-A_RANGE = (0.3, 3.5)
-B_RANGE = (0.5, 4.0)
-V0_RANGE = (1.0, 35.0)  # desired speed: 2–35 m/s (reference uses 5–35)
-SO_RANGE = (1.0, 8.0)
-DELTA_RANGE = (3.8, 4.2)
+# PT GA parameter ranges (same as PT_CF_Calibration.py)
+TMAX_RANGE = (2.0, 8.0)
+ALPHA_RANGE = (0.0, 0.6)
+BETA_RANGE = (2.0, 8.0)
+WC_RANGE = (60000.0, 130000.0)
+GAMMA1_RANGE = (0.3, 2.0)
+GAMMA2_RANGE = (0.3, 2.0)
+WM_RANGE = (2.0, 8.0)
 
-IDM_PARAM_RANGES = (T_RANGE, A_RANGE, B_RANGE, V0_RANGE, SO_RANGE, DELTA_RANGE)
+PT_PARAM_RANGES = (
+    TMAX_RANGE,
+    ALPHA_RANGE,
+    BETA_RANGE,
+    WC_RANGE,
+    GAMMA1_RANGE,
+    GAMMA2_RANGE,
+    WM_RANGE,
+)
+
+# Fixed PT constants (PT_CF_Calibration.py)
+ACCL_MAX = 3.0
+V_DESIRED = 36.0
+TCORR = 20.0
+RT = 0.6
+SO_D = 3.0
 
 
-def clip_idm_params(params) -> list:
-    """Keep GA individuals within declared IDM parameter bounds."""
-    return [float(np.clip(p, lo, hi)) for p, (lo, hi) in zip(params, IDM_PARAM_RANGES)]
+def clip_pt_params(params) -> list:
+    """Keep GA individuals within declared PT parameter bounds."""
+    return [float(np.clip(p, lo, hi)) for p, (lo, hi) in zip(params, PT_PARAM_RANGES)]
 
 
-IDM_PARAM_SUMMARY = [
-    ("T", "T", T_RANGE),
-    ("a", "a", A_RANGE),
-    ("b", "b", B_RANGE),
-    ("v0", "v0", V0_RANGE),
-    ("so", "s0", SO_RANGE),
-    ("delta", "δ", DELTA_RANGE),
+PT_PARAM_SUMMARY = [
+    ("Tmax", "Tmax", TMAX_RANGE),
+    ("Alpha", "Alpha", ALPHA_RANGE),
+    ("Beta", "Beta", BETA_RANGE),
+    ("Wc", "Wc", WC_RANGE),
+    ("Gamma1", "Gamma1", GAMMA1_RANGE),
+    ("Gamma2", "Gamma2", GAMMA2_RANGE),
+    ("Wm", "Wm", WM_RANGE),
 ]
 GROUP_ORDER = ["Waymo_AV", "Waymo_SV", "Waymo_HV"]
 SOURCE_TO_FOLLOWER_TYPE = {"Waymo_AV": "AV", "Waymo_SV": "SV", "Waymo_HV": "HV"}
 FOLLOWER_TYPE_ORDER = ["AV", "SV", "HV"]
 _LEGACY_FOLLOWER_TYPE = {"A": "AV", "S": "SV", "L": "HV"}
 
-# Simulation globals (set per event before GA, same pattern as IDM_CF_Calibration.py)
+# Simulation globals (set per event before GA, same pattern as PT_CF_Calibration.py)
 pos = "lane-s"  # distance along reference lane polyline (m)
-T = a = b = v0 = so = delta = None
+Tmax = Alpha = Beta = Wc = Gamma1 = Gamma2 = Wm = None
 most_leading_leader_id = None
 sdf = ldf = None
+follower_id = None
 follower_length_m = leader_length_m = 4.5
 total_time = time_step = 0.0
 timex = leader_position = leader_speed = target_position = target_speed = None
@@ -639,57 +652,136 @@ def extract_subject_and_leader_data(
 
 
 # ---------------------------------------------------------------------------
-# IDM + GA (same structure as IDM_CF_Calibration.py)
+# PT + GA (same structure as PT_CF_Calibration.py)
 # ---------------------------------------------------------------------------
-def idm_acceleration(v, v_leader, gap):
-    """IDM acceleration; gap is bumper-to-bumper spacing (m), aligned with coop_models.idm_accel."""
-    max_v = 40.0
-    v = max(float(v), 0.0)
-    v_leader = float(v_leader)
-    gap = max(float(gap), 1e-3)
-    v_des = max(min(float(v0), max_v), 1e-3)
-    ab = max(float(a) * float(b), 1e-6)
-    dv = v - v_leader
-    s_star = float(so) + v * float(T) + v * dv / (2.0 * np.sqrt(ab))
-    acceleration = float(a) * (1.0 - (v / v_des) ** float(delta) - (s_star / gap) ** 2)
-    if not np.isfinite(acceleration):
-        acceleration = 0.0
-    return float(acceleration)
+def pt_acceleration(i, t, vehicle, accl_max, v_desired, Gamma1, Gamma2, Wm, Wc,
+                    Tmax_, Alpha, Beta, Tcorr, RT, prng):
+    """Prospect Theory car-following acceleration (Talebpour et al.; PT_CF_Calibration.py)."""
+    if (vehicle["gap"] - SO_D) > 0.1:
+        Seff = vehicle["gap"] - SO_D
+    else:
+        Seff = 0.1
+
+    if vehicle["deltav"] > (Seff / Tmax_):
+        Tau = Seff / vehicle["deltav"]
+    else:
+        Tau = Tmax_
+
+    deltav = vehicle["deltav"]
+    if deltav == 0:
+        deltav = 1e-7
+    Alpha_ = Alpha
+    if Alpha_ == 0:
+        Alpha_ = 1e-7
+
+    speed = max(float(vehicle["speed"]), 0.1)
+    Zprime = Tau / (2.0 * Alpha_ * speed)
+    Zdoubleprime = 0.0
+
+    if Wc * Zprime > 0:
+        a0 = 1.0
+        Zstar = -np.sqrt(2.0 * np.log(a0 * Wc * Zprime / np.sqrt(2.0 * np.pi)))
+    else:
+        Zstar = 0.0
+    Astar = (2.0 / Tau) * ((Seff / Tau) - deltav + (Alpha_ * speed * Zstar))
+
+    for _ in range(3):
+        X = Astar
+        if X >= 0:
+            if X == 0:
+                X = 1e-7
+            Uptprime = Gamma1 * math.pow(X, Gamma1 - 1)
+            Uptdoubleprime = Gamma1 * (Gamma1 - 1) * math.pow(X, Gamma1 - 2)
+        else:
+            Uptprime = Wm * math.pow(-X, Gamma2 - 1)
+            Uptdoubleprime = -Wm * Gamma2 * (Gamma2 - 1) * math.pow(-X, Gamma2 - 2)
+
+        Z = (deltav + (0.5 * X * Tau) - (Seff / Tau)) / (Alpha_ * deltav)
+        fn = (1.0 / np.sqrt(2.0 * np.pi)) * np.exp(-Z ** 2.0 / 2.0)
+        F = Uptprime - Wc * fn * Zprime
+        Fprime = Uptdoubleprime - Wc * fn * (Z * math.pow(Zprime, 2.0) + Zdoubleprime)
+        if Fprime == 0:
+            Fprime = 1e-12
+        Astar = Astar - (F / Fprime)
+
+    X = Astar
+    if X >= 0:
+        Uptprime = Gamma1 * (X ** max(Gamma1 - 1, 0))
+        Uptdoubleprime = Gamma1 * (Gamma1 - 1) * (X ** max(Gamma1 - 2, 0))
+    else:
+        Uptprime = Wm * Gamma2 * ((-X) ** max(Gamma2 - 1, 0))
+        Uptdoubleprime = -Wm * Gamma2 * (Gamma2 - 1) * ((-X) ** max(Gamma2 - 2, 0))
+
+    Z = (deltav + (0.5 * Astar * Tau) - (Seff / Tau)) / (Alpha_ * deltav)
+    fn = (1.0 / np.sqrt(2.0 * np.pi)) * np.exp(-Z ** 2.0 / 2.0)
+    Fprime = Uptdoubleprime - Wc * fn * (Z * math.pow(Zprime, 2.0) + Zdoubleprime)
+    if Fprime == 0:
+        Fprime = 1e-12
+
+    Var = -1.0 / (Beta * Fprime)
+    Random_Wiener = float(prng.random())
+    Yt = math.exp(-0.1 / Tau) + math.sqrt(24.0 * 0.1 / Tau) * Random_Wiener
+
+    accl_cf = Astar + Var * Yt
+    accl_ff = accl_max * (1.0 - speed / v_desired)
+    accl_ = float(np.minimum(accl_cf, accl_ff))
+    accl_ = float(np.clip(accl_, -8.0, 3.0))
+    return accl_, fn, Wc * fn
 
 
-def idm_bumper_gap(leader_s: float, follower_s: float) -> float:
+def pt_bumper_gap(leader_s: float, follower_s: float) -> float:
     """Net spacing between bumpers along the lane."""
     return float(leader_s) - float(follower_s) - 0.5 * (follower_length_m + leader_length_m)
 
 
 def simulate_car_following(params):
     """
-    Closed-loop follower roll-out for one car-following event.
+    Closed-loop follower roll-out for one car-following event (PT model).
 
-    - Follower: IDM integrates position/speed forward from the observed IC at t=0 only.
-      State at step i uses sim position[i-1] and sim speed[i-1] — never reset to observed
-      follower position/speed after t=0.
+    - Follower: PT integrates position/speed forward from the observed IC at t=0 only.
     - Leader: observed lane distance and speed at each step (open-loop exogenous input).
-    - Gap for IDM: bumper-to-bumper spacing from lane positions and vehicle lengths.
+    - Gap: bumper-to-bumper spacing from lane positions and vehicle lengths.
     """
-    global T, a, b, v0, so, delta
-    T, a, b, v0, so, delta = clip_idm_params(params)
+    global Tmax, Alpha, Beta, Wc, Gamma1, Gamma2, Wm
+    Tmax, Alpha, Beta, Wc, Gamma1, Gamma2, Wm = clip_pt_params(params)
 
     num_steps = len(target_position)
     position = np.zeros(num_steps)
     speed = np.zeros(num_steps)
     acl = np.zeros(num_steps)
+    prng = np.random.default_rng()
 
-    # Initial conditions only — no per-step reset to observed follower state
     position[0] = float(sdf.iloc[0][pos])
     speed[0] = float(sdf.iloc[0]["speed-kf"])
     acl[0] = 0.0
 
     for i in range(1, num_steps):
         dt = time_step
-        leader_v = leader_speed[i - 1]
-        gap = idm_bumper_gap(leader_position[i - 1], position[i - 1])
-        acceleration = idm_acceleration(speed[i - 1], leader_v, gap)
+        t_i = float(timex[i]) if timex is not None else i * dt
+        gap = pt_bumper_gap(leader_position[i - 1], position[i - 1])
+        vehicle = {
+            "gap": gap,
+            "deltav": leader_speed[i - 1] - speed[i - 1],
+            "speed": speed[i - 1],
+            "vehID": follower_id,
+        }
+        acceleration, _, _ = pt_acceleration(
+            i,
+            t_i,
+            vehicle,
+            ACCL_MAX,
+            V_DESIRED,
+            Gamma1,
+            Gamma2,
+            Wm,
+            Wc,
+            Tmax,
+            Alpha,
+            Beta,
+            TCORR,
+            RT,
+            prng,
+        )
         acl[i] = acceleration
         speed[i] = max(0.0, speed[i - 1] + acceleration * dt)
         position[i] = position[i - 1] + speed[i - 1] * dt + 0.5 * acceleration * (dt ** 2)
@@ -753,41 +845,34 @@ def fitness(params):
 
 def crossover(parent1, parent2):
     crossover_point = random.randint(0, len(parent1) - 1)
-    child1 = clip_idm_params(parent1[:crossover_point] + parent2[crossover_point:])
-    child2 = clip_idm_params(parent2[:crossover_point] + parent1[crossover_point:])
+    child1 = clip_pt_params(parent1[:crossover_point] + parent2[crossover_point:])
+    child2 = clip_pt_params(parent2[:crossover_point] + parent1[crossover_point:])
     return child1, child2
 
 
 def mutate(child):
-    for i, (lo, hi) in enumerate(IDM_PARAM_RANGES):
+    for i, (lo, hi) in enumerate(PT_PARAM_RANGES):
         if random.random() < mutation_rate:
             span = float(hi - lo)
             child[i] += random.uniform(-0.1, 0.1) * span
-    return clip_idm_params(child)
+    return clip_pt_params(child)
 
 
-def _seed_idm_population() -> List[list]:
-    """Literature-like seeds plus v0 informed by observed follower speed."""
+def _seed_pt_population() -> List[list]:
+    """Mid-range PT seeds (PT_CF_Calibration.py search ranges)."""
     seeds = [
-        [1.5, 1.5, 2.0, 15.0, 2.0, 4.0],
-        [1.0, 1.0, 1.5, 10.0, 2.0, 4.0],
-        [2.0, 2.0, 2.5, 20.0, 2.5, 4.0],
+        [5.0, 0.3, 5.0, 95000.0, 1.0, 1.0, 5.0],
+        [4.0, 0.2, 4.0, 80000.0, 0.8, 0.8, 4.0],
+        [6.0, 0.4, 6.0, 110000.0, 1.2, 1.2, 6.0],
     ]
-    if target_speed is not None and len(target_speed) > 1:
-        v_med = float(np.median(target_speed))
-        v_p90 = float(np.percentile(target_speed, 90))
-        seeds.append([1.3, 1.2, 2.0, np.clip(v_med, *V0_RANGE), 2.0, 4.0])
-        seeds.append([1.8, 1.8, 2.2, np.clip(v_p90, *V0_RANGE), 2.0, 4.0])
-    return [clip_idm_params(s) for s in seeds]
+    return [clip_pt_params(s) for s in seeds]
 
 
 def genetic_algorithm():
-    population = _seed_idm_population()
+    population = _seed_pt_population()
     while len(population) < population_size:
         population.append(
-            clip_idm_params(
-                [random.uniform(*r) for r in IDM_PARAM_RANGES]
-            )
+            clip_pt_params([random.uniform(*r) for r in PT_PARAM_RANGES])
         )
 
     best_error = float("inf")
@@ -813,7 +898,7 @@ def genetic_algorithm():
             children.extend([mutate(child1), mutate(child2)])
         population = parents + children[: population_size - len(parents)]
 
-    return clip_idm_params(best_individual), best_error, best_metrics
+    return clip_pt_params(best_individual), best_error, best_metrics
 
 
 def plot_simulation(
@@ -836,7 +921,7 @@ def plot_simulation(
     """
     Validation plots after closed-loop follower roll-out.
 
-    Lane-distance and speed panels show the actual IDM state variable vs observed data.
+    Lane-distance and speed panels show the PT roll-out vs observed data.
     X–Y / center_x / center_y for the simulated follower use the reference lane polyline
     when available; otherwise headings-based arc reconstruction (visualization only).
     """
@@ -950,7 +1035,7 @@ def plot_simulation(
 # ---------------------------------------------------------------------------
 def _load_param_frames(param_files: Optional[List[str]] = None) -> pd.DataFrame:
     if param_files is None:
-        pattern = os.path.join(RESULTS_DIR, "IDM_Params_Waymo_*.csv")
+        pattern = os.path.join(RESULTS_DIR, "PT_Params_Waymo_*.csv")
         param_files = sorted(glob.glob(pattern))
     frames = [pd.read_csv(p) for p in param_files if os.path.isfile(p)]
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
@@ -1007,9 +1092,9 @@ def _summary_combo_value(subset: pd.DataFrame, param_col: str) -> object:
     return round(float(subset[param_col].mean()), 2)
 
 
-def build_idm_summary_table(param_files: Optional[List[str]] = None) -> pd.DataFrame:
+def build_pt_summary_table(param_files: Optional[List[str]] = None) -> pd.DataFrame:
     """
-    Build IDM summary with mean parameters per follower type (AV, SV, HV)
+    Build PT summary with mean parameters per follower type (AV, SV, HV)
     plus a pooled Vehicle-Vehicle column.
     """
     summary_cols = ["Model", "Parameter", "Range"] + FOLLOWER_TYPE_ORDER + ["Vehicle-Vehicle"]
@@ -1018,9 +1103,9 @@ def build_idm_summary_table(param_files: Optional[List[str]] = None) -> pd.DataF
         return pd.DataFrame(columns=summary_cols)
 
     rows: List[dict] = []
-    for col, label, rng in IDM_PARAM_SUMMARY:
+    for col, label, rng in PT_PARAM_SUMMARY:
         row: dict = {
-            "Model": "IDM",
+            "Model": "PT",
             "Parameter": label,
             "Range": _format_range(rng),
         }
@@ -1031,7 +1116,7 @@ def build_idm_summary_table(param_files: Optional[List[str]] = None) -> pd.DataF
         rows.append(row)
 
     count_row: dict = {
-        "Model": "IDM",
+        "Model": "PT",
         "Parameter": "count",
         "Range": "-",
         "Vehicle-Vehicle": int(len(all_params)),
@@ -1140,17 +1225,17 @@ def _format_range(rng: Tuple[float, float]) -> str:
     return f"({lo}, {hi})"
 
 
-def write_idm_summary_table(
+def write_pt_summary_table(
     save_dir: str = RESULTS_DIR,
     param_files: Optional[List[str]] = None,
 ) -> pd.DataFrame:
-    """Save IDM_Summary_Waymo.csv and print the table."""
+    """Save PT_Summary_Waymo.csv and print the table."""
     if param_files is None:
-        pattern = os.path.join(save_dir, "IDM_Params_Waymo_*.csv")
+        pattern = os.path.join(save_dir, "PT_Params_Waymo_*.csv")
         param_files = sorted(glob.glob(pattern))
 
-    summary = build_idm_summary_table(param_files)
-    out_path = os.path.join(save_dir, "IDM_Summary_Waymo.csv")
+    summary = build_pt_summary_table(param_files)
+    out_path = os.path.join(save_dir, "PT_Summary_Waymo.csv")
     summary.to_csv(out_path, index=False, encoding="utf-8-sig")
     print(f"\nSaved summary table: {out_path}")
     if not summary.empty:
@@ -1162,11 +1247,11 @@ def write_idm_summary_table(
     return summary
 
 
-def plot_idm_param_distributions(
+def plot_pt_param_distributions(
     save_dir: str = RESULTS_DIR,
     param_files: Optional[List[str]] = None,
 ) -> Optional[str]:
-    """Histograms of calibrated IDM parameters (AV / SV / HV) from parameter CSVs."""
+    """Histograms of calibrated PT parameters (AV / SV / HV) from parameter CSVs."""
     all_params = _prepare_params_for_summary(_load_param_frames(param_files))
     if all_params.empty:
         print("No parameter data for distribution plots.")
@@ -1176,8 +1261,9 @@ def plot_idm_param_distributions(
     os.makedirs(plots_dir, exist_ok=True)
     colors = {"AV": "#e53935", "SV": "#1e88e5", "HV": "#43a047"}
 
-    fig, axes = plt.subplots(2, 3, figsize=(14, 8))
-    for ax, (col, label, _rng) in zip(axes.ravel(), IDM_PARAM_SUMMARY):
+    fig, axes = plt.subplots(2, 4, figsize=(16, 8))
+    axes_flat = axes.ravel()
+    for ax, (col, label, _rng) in zip(axes_flat, PT_PARAM_SUMMARY):
         any_data = False
         for ftype in FOLLOWER_TYPE_ORDER:
             sub = all_params.loc[all_params["follower_type"] == ftype, col].dropna()
@@ -1197,27 +1283,30 @@ def plot_idm_param_distributions(
             )
         ax.set_xlabel(label)
         ax.set_ylabel("density")
-        ax.set_title(f"IDM {label.replace('δ', 'delta')}")
+        ax.set_title(f"PT {label}")
         if any_data:
             ax.legend(fontsize=7)
         ax.grid(True, alpha=0.3)
 
-    fig.suptitle("Calibrated IDM parameter distributions by follower type", fontsize=12)
+    for ax in axes_flat[len(PT_PARAM_SUMMARY):]:
+        ax.set_visible(False)
+
+    fig.suptitle("Calibrated PT parameter distributions by follower type", fontsize=12)
     fig.tight_layout()
-    out_path = os.path.join(plots_dir, "IDM_Params_Waymo_distribution.png")
+    out_path = os.path.join(plots_dir, "PT_Params_Waymo_distribution.png")
     fig.savefig(out_path, dpi=120, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved parameter distribution plot: {out_path}")
     return out_path
 
 
-def write_idm_summary_and_plots(
+def write_pt_summary_and_plots(
     save_dir: str = RESULTS_DIR,
     param_files: Optional[List[str]] = None,
 ) -> Tuple[pd.DataFrame, Optional[str]]:
     """Rebuild summary CSV and parameter distribution figure."""
-    summary = write_idm_summary_table(save_dir=save_dir, param_files=param_files)
-    dist_path = plot_idm_param_distributions(save_dir=save_dir, param_files=param_files)
+    summary = write_pt_summary_table(save_dir=save_dir, param_files=param_files)
+    dist_path = plot_pt_param_distributions(save_dir=save_dir, param_files=param_files)
     return summary, dist_path
 
 
@@ -1291,7 +1380,7 @@ def run_calibration(
 ) -> None:
     global sdf, ldf, total_time, time_step, timex
     global leader_position, leader_speed, target_position, target_speed
-    global follower_length_m, leader_length_m
+    global follower_length_m, leader_length_m, follower_id
 
     datasets = datasets or refresh_waymo_datasets()
     if not datasets:
@@ -1345,7 +1434,7 @@ def run_calibration(
             print(f"[skip] {group_name}: no events")
             continue
 
-        outname = f"IDM_Params_{group_name}"
+        outname = f"PT_Params_{group_name}"
         output_csv_path = os.path.join(save_dir, f"{outname}.csv")
         if selected_events is None and skip_existing and os.path.exists(output_csv_path):
             print(f"[skip] {output_csv_path} already exists")
@@ -1369,6 +1458,7 @@ def run_calibration(
             )
             if leader_id is None:
                 leader_id = int(most_leading_leader_id) if most_leading_leader_id is not None else -1
+            follower_id = int(follower_id)
             run_index = int(global_run[scenario_id])
             print(
                 f"Processing {group_name} FID={follower_id} LID={leader_id} "
@@ -1462,12 +1552,13 @@ def run_calibration(
                     "Duration",
                     "follower_type",
                     "leader_type",
-                    "T",
-                    "a",
-                    "b",
-                    "v0",
-                    "so",
-                    "delta",
+                    "Tmax",
+                    "Alpha",
+                    "Beta",
+                    "Wc",
+                    "Gamma1",
+                    "Gamma2",
+                    "Wm",
                     "Error",
                 ]
                 + metrics_names
@@ -1485,7 +1576,7 @@ def run_calibration(
             print(f"Saved parameters: {output_csv_path}")
 
         if all_simulations_list:
-            sim_path = os.path.join(save_dir, f"IDM_Simulated_{group_name}.csv")
+            sim_path = os.path.join(save_dir, f"PT_Simulated_{group_name}.csv")
             sim_df = pd.concat(all_simulations_list, ignore_index=True)
             if selected_events is not None:
                 _merge_event_csv(
@@ -1497,11 +1588,11 @@ def run_calibration(
                 sim_df.to_csv(sim_path, index=False)
             print(f"Saved simulated trajectories: {sim_path}")
 
-    write_idm_summary_and_plots(save_dir=save_dir)
+    write_pt_summary_and_plots(save_dir=save_dir)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Waymo IDM car-following calibration")
+    parser = argparse.ArgumentParser(description="Waymo PT car-following calibration")
     parser.add_argument(
         "--max-events",
         type=int,
@@ -1547,7 +1638,7 @@ def main():
     parser.add_argument(
         "--summary-only",
         action="store_true",
-        help="Rebuild IDM_Summary_Waymo.csv from existing parameter CSVs",
+        help="Rebuild PT_Summary_Waymo.csv from existing parameter CSVs",
     )
     args = parser.parse_args()
 
@@ -1556,7 +1647,7 @@ def main():
         num_generations = int(args.generations)
 
     if args.summary_only:
-        write_idm_summary_and_plots()
+        write_pt_summary_and_plots()
     elif args.plot_only:
         run_extraction_diagnostics(max_events_per_group=args.max_events or 5)
     else:
