@@ -47,10 +47,10 @@ NGM_Test_v1/
 ├── 0 - Datasets/                 # Raw datasets — download links & layout (see readme)
 │
 ├── 1 - PARAMETRIC INPUT/         # Model calibration  →  see readme.md
-│   ├── 1.1 - Car-Following/      #   IDM / PT calibration (Waymo + TGSIM)
-│   ├── 1.2 - Lane Changing/      #   MOBIL + DDM calibration
-│   ├── 1.3 - Lateral Calibration/#   Curvilinear transform + lateral LC shape
-│   └── 1.4.2 - VRU Parametric Analysis/  # Social Force / PT VRU calibration
+│   ├── Car-Following/            #   IDM / PT calibration (Waymo + TGSIM)
+│   ├── Lane Changing/            #   MOBIL + DDM calibration
+│   ├── Lateral Calibration/      #   Curvilinear transform + lateral LC shape
+│   └── VRU Calibration/          #   Social Force / PT VRU calibration
 │
 └── 2 - SIMULATION/               # Production microsimulation tool  →  see README.md
     ├── GUI.py                    #   PyQt5 configuration wizard (main entry point)
@@ -67,13 +67,13 @@ NGM_Test_v1/
 
 Data preprocessing and behavioral-model calibration across four domains:
 
-- **[Car-following](1%20-%20PARAMETRIC%20INPUT/1.1%20-%20Car-Following/readme.md)** — IDM and Prospect
+- **[Car-following](1%20-%20PARAMETRIC%20INPUT/Car-Following/readme.md)** — IDM and Prospect
   Theory models fit to Waymo Open Motion and TGSIM trajectories with genetic algorithms.
-- **[Lane changing](1%20-%20PARAMETRIC%20INPUT/1.2%20-%20Lane%20Changing/readme.md)** — MOBIL politeness
+- **[Lane changing](1%20-%20PARAMETRIC%20INPUT/Lane%20Changing/readme.md)** — MOBIL politeness
   calibration and a Drift Diffusion Model for discrete lane-change decisions.
-- **[Lateral calibration](1%20-%20PARAMETRIC%20INPUT/1.3%20-%20Lateral%20Calibration/readme.md)** —
+- **[Lateral calibration](1%20-%20PARAMETRIC%20INPUT/Lateral%20Calibration/readme.md)** —
   curvilinear coordinate transforms and polynomial models of lateral lane-change shape.
-- **[VRU parametric analysis](1%20-%20PARAMETRIC%20INPUT/1.4.2%20-%20VRU%20Parametric%20Analysis/readme.md)** —
+- **[VRU calibration](1%20-%20PARAMETRIC%20INPUT/VRU%20Calibration/readme.md)** —
   Social Force and Prospect Theory models for pedestrians/bicycles.
 
 ### [2 — Simulation](2%20-%20SIMULATION/README.md)

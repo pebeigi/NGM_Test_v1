@@ -1,4 +1,4 @@
-# 1.3 — Lateral Calibration
+# Lateral Calibration
 
 Calibration of **lateral vehicle motion during lane changes**. Because some TGSIM corridors are not
 aligned to an axis, trajectories are first transformed into curvilinear (road-aligned) coordinates, then

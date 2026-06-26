@@ -38,7 +38,7 @@ After downloading, your folder should look like this (filenames match those expe
 ├── Third_Generation_Simulation_Data__TGSIM__I-294_L2_Trajectories.csv
 ├── Third_Generation_Simulation_Data__TGSIM__Foggy_Bottom_Trajectories.csv
 │
-├── all_lane_changes_output.csv          # optional: from 1.2.1 Data Processing (or download pre-built)
+├── all_lane_changes_output.csv          # optional: from Lane Changing/Data Processing.py (or download pre-built)
 ├── Dis-surrounding_info_with_event_id.csv
 ├── organized_data.pkl                   # for DDM fit_DDM_Lane_Change.py
 ```

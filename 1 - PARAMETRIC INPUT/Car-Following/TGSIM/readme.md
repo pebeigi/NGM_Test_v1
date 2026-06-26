@@ -1,4 +1,4 @@
-# 1.1.2 — Car-Following Parametric Analysis
+# TGSIM — Car-Following Parametric Analysis
 
 IDM and Prospect Theory (PT) car-following calibration on **TGSIM** freeway corridors
 (I-395, I-90/94 moving, I-294 lanes 1 & 2). Each script extracts the longest stable leader–follower

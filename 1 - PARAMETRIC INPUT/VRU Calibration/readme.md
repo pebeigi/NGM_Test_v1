@@ -1,4 +1,4 @@
-# 1.4.2 — VRU Parametric Analysis
+# VRU Calibration
 
 Calibration of **vulnerable-road-user (VRU)** behavior — pedestrians and bicycles — using a mixed
 **Social Force (SF)** model and a **Prospect Theory (PT)** model.

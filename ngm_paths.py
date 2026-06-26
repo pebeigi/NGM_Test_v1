@@ -129,7 +129,7 @@ def simulation_results_dir() -> str:
 
 
 def lateral_calibration_dir() -> str:
-    return os.path.join(REPO_ROOT, "1 - PARAMETRIC INPUT", "1.3 - Lateral Calibration")
+    return os.path.join(REPO_ROOT, "1 - PARAMETRIC INPUT", "Lateral Calibration")
 
 
 def lateral_processed_dir() -> str:

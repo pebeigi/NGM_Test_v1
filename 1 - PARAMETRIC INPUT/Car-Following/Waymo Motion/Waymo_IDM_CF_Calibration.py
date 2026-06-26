@@ -1,7 +1,7 @@
 """
 Waymo Open Motion — IDM car-following calibration (GA).
 
-Mirrors the workflow in ../1.1.2 - Car-Following Parametric Analysis/IDM_CF_Calibration.py
+Mirrors the workflow in ../TGSIM/IDM_CF_Calibration.py
 but reads pre-processed Waymo leader–follower CSVs from ``0 - Datasets/`` at the repo root.
 All ``March2023waymo_scenario_lane_leader_follower_assigned_*_data.csv`` files in that
 folder are loaded automatically (paired map CSVs used when present).

@@ -1,4 +1,4 @@
-# 1.2.2.2 — Drift Diffusion Model (DDM)
+# Drift Diffusion Model (DDM)
 
 Calibration of a **Drift Diffusion Model (DDM)** for discrete **left / right lane-change decisions**.
 

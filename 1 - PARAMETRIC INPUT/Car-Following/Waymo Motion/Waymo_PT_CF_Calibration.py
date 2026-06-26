@@ -2,7 +2,7 @@
 Waymo Open Motion — Prospect Theory (PT) car-following calibration (GA).
 
 Mirrors ``Waymo_IDM_CF_Calibration.py`` but fits the PT acceleration model from
-``../1.1.2 - Car-Following Parametric Analysis/PT_CF_Calibration.py`` (Talebpour et al.
+``../TGSIM/PT_CF_Calibration.py`` (Talebpour et al.
 formulation with Newton solve and Wiener noise).
 
 Reads pre-processed Waymo leader–follower CSVs from ``0 - Datasets/`` at the repo root.

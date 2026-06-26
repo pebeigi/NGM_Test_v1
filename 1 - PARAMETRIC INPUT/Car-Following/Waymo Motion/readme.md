@@ -1,4 +1,4 @@
-# 1.1.1.2 — Waymo Motion
+# Waymo Motion
 
 IDM and PT car-following calibration and scenario visualization using the **Waymo Open Motion Dataset**.
 
