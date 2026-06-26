@@ -11,6 +11,7 @@ folder are loaded automatically (paired map CSVs used when present).
 
 Simulation: closed-loop follower roll-out (IC at t=0 only; PT integrates forward).
   Leader trajectory stays observed (open-loop). Gap uses bumper-to-bumper lane spacing.
+Quality gate: exclude events with R² < MIN_R_SQUARED (no plot, params, sim, or summary).
 
 Vehicle groups (follower type only):
   Waymo_AV / Waymo_SV / Waymo_HV
@@ -81,11 +82,12 @@ population_size = 50
 num_generations = 100
 mutation_rate = 0.12
 
-MIN_CF_DURATION_S = 15.0  # skip if stable leader–follower overlap is shorter than this (s)
+MIN_CF_DURATION_S = 12.5  # skip if stable leader–follower overlap is shorter than this (s)
 MIN_LEADER_SPEED_MPS = 1.0
 LARGE_LENGTH_M = 6.0
 TIME_STEP_S = 0.1
 CONTIGUOUS_DT_MAX_S = 0.2
+MIN_R_SQUARED = 0.45  # exclude events below this from plots, CSVs, and summary
 
 # PT GA parameter ranges (same as PT_CF_Calibration.py)
 TMAX_RANGE = (2.0, 8.0)
@@ -1073,8 +1075,26 @@ def _enrich_params_types_from_trajectories(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def _event_r_squared(metrics: Optional[dict]) -> float:
+    if not metrics:
+        return float("nan")
+    return float(metrics.get("R-squared", float("nan")))
+
+
+def _passes_r2_threshold(metrics: Optional[dict], min_r2: float = MIN_R_SQUARED) -> bool:
+    r2 = _event_r_squared(metrics)
+    return np.isfinite(r2) and r2 >= min_r2
+
+
+def _filter_params_by_r2(df: pd.DataFrame, min_r2: float = MIN_R_SQUARED) -> pd.DataFrame:
+    if df.empty or "R-squared" not in df.columns:
+        return df
+    r2 = pd.to_numeric(df["R-squared"], errors="coerce")
+    return df.loc[r2 >= min_r2].copy()
+
+
 def _prepare_params_for_summary(all_params: pd.DataFrame) -> pd.DataFrame:
-    """Ensure follower_type column exists (AV / SV / HV)."""
+    """Ensure follower_type column exists (AV / SV / HV); drop low-R² events."""
     df = _enrich_params_types_from_trajectories(all_params.copy())
     if "follower_type" in df.columns:
         df["follower_type"] = df["follower_type"].map(normalize_follower_type)
@@ -1083,7 +1103,7 @@ def _prepare_params_for_summary(all_params: pd.DataFrame) -> pd.DataFrame:
         df["follower_type"] = df["fl_combo"].astype(str).str.split("-").str[0].map(normalize_follower_type)
     elif "source" in df.columns:
         df["follower_type"] = df["source"].map(SOURCE_TO_FOLLOWER_TYPE)
-    return df
+    return _filter_params_by_r2(df)
 
 
 def _summary_combo_value(subset: pd.DataFrame, param_col: str) -> object:
@@ -1200,6 +1220,63 @@ def _merge_event_csv(path: str, new_df: pd.DataFrame, key_cols: Tuple[str, ...])
     merged.to_csv(path, index=False)
 
 
+def _remove_event_from_csv(
+    path: str,
+    key_cols: Tuple[str, ...],
+    key_values: Tuple,
+) -> None:
+    """Drop one event row from a results CSV if present."""
+    if not os.path.isfile(path):
+        return
+    df = pd.read_csv(path)
+    mask = np.ones(len(df), dtype=bool)
+    for col, val in zip(key_cols, key_values):
+        mask &= df[col] == val
+    if not mask.any():
+        return
+    df = df.loc[~mask]
+    df.to_csv(path, index=False)
+
+
+def _remove_event_plot(
+    plot_dir: str,
+    outname: str,
+    follower_id: int,
+    leader_id: int,
+    scenario_id: str,
+) -> None:
+    sc_tag = str(scenario_id)[:8]
+    plot_path = os.path.join(
+        plot_dir,
+        f"{outname}_FID_{follower_id}_LID_{leader_id}_sc_{sc_tag}.png",
+    )
+    if os.path.isfile(plot_path):
+        os.remove(plot_path)
+
+
+def _purge_event_results(
+    save_dir: str,
+    group_name: str,
+    follower_id: int,
+    leader_id: int,
+    scenario_id: str,
+    params_outname: str,
+) -> None:
+    """Remove a low-quality event from params/sim CSVs and delete its plot."""
+    event_key = (follower_id, leader_id, scenario_id)
+    _remove_event_from_csv(
+        os.path.join(save_dir, f"{params_outname}.csv"),
+        ("Follower_ID", "Leader_ID", "scenario_id"),
+        event_key,
+    )
+    _remove_event_from_csv(
+        os.path.join(save_dir, f"PT_Simulated_{group_name}.csv"),
+        ("ID", "Leader_ID", "scenario_id"),
+        event_key,
+    )
+    _remove_event_plot(PLOTS_DIR, params_outname, follower_id, leader_id, scenario_id)
+
+
 def cap_events_total(
     groups: Dict[str, List[Tuple[int, str]]],
     max_total: int,
@@ -1300,11 +1377,49 @@ def plot_pt_param_distributions(
     return out_path
 
 
+def _scrub_saved_results(save_dir: str, model_prefix: str) -> None:
+    """Drop rows with R² < MIN_R_SQUARED from saved params/sim CSVs."""
+    for group in GROUP_ORDER:
+        params_path = os.path.join(save_dir, f"{model_prefix}_Params_{group}.csv")
+        if not os.path.isfile(params_path):
+            continue
+        params_df = pd.read_csv(params_path)
+        if "R-squared" not in params_df.columns:
+            continue
+        kept = _filter_params_by_r2(params_df)
+        if len(kept) < len(params_df):
+            kept.to_csv(params_path, index=False)
+            print(
+                f"Removed {len(params_df) - len(kept)} low-R² row(s) from "
+                f"{os.path.basename(params_path)}"
+            )
+
+        sim_path = os.path.join(save_dir, f"{model_prefix}_Simulated_{group}.csv")
+        if not os.path.isfile(sim_path):
+            continue
+        if kept.empty:
+            os.remove(sim_path)
+            continue
+        sim_df = pd.read_csv(sim_path)
+        valid_keys = {
+            (int(r.Follower_ID), int(r.Leader_ID), str(r.scenario_id))
+            for r in kept.itertuples(index=False)
+        }
+        sim_mask = sim_df.apply(
+            lambda r: (int(r["ID"]), int(r["Leader_ID"]), str(r["scenario_id"])) in valid_keys,
+            axis=1,
+        )
+        sim_kept = sim_df.loc[sim_mask]
+        if len(sim_kept) < len(sim_df):
+            sim_kept.to_csv(sim_path, index=False)
+
+
 def write_pt_summary_and_plots(
     save_dir: str = RESULTS_DIR,
     param_files: Optional[List[str]] = None,
 ) -> Tuple[pd.DataFrame, Optional[str]]:
     """Rebuild summary CSV and parameter distribution figure."""
+    _scrub_saved_results(save_dir, "PT")
     summary = write_pt_summary_table(save_dir=save_dir, param_files=param_files)
     dist_path = plot_pt_param_distributions(save_dir=save_dir, param_files=param_files)
     return summary, dist_path
@@ -1488,6 +1603,20 @@ def run_calibration(
                 print("  -> GA failed; skip")
                 continue
 
+            if not _passes_r2_threshold(best_metrics):
+                r2 = _event_r_squared(best_metrics)
+                print(f"  -> R²={r2:.3f} < {MIN_R_SQUARED}; exclude from results")
+                if selected_events is not None:
+                    _purge_event_results(
+                        save_dir,
+                        group_name,
+                        follower_id,
+                        leader_id,
+                        scenario_id,
+                        outname,
+                    )
+                continue
+
             follower_type = type_lookup.get((scenario_id, follower_id), "SV")
             leader_type = type_lookup.get((scenario_id, leader_id), "SV")
 
@@ -1564,7 +1693,11 @@ def run_calibration(
                 + metrics_names
             )
             params_df = pd.DataFrame(params_list, columns=columns)
+            params_df = _filter_params_by_r2(params_df)
             params_df["source"] = group_name
+            if params_df.empty:
+                print(f"[skip] {group_name}: no events passed R² >= {MIN_R_SQUARED}")
+                continue
             if selected_events is not None:
                 _merge_event_csv(
                     output_csv_path,
